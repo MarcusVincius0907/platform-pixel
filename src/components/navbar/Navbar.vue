@@ -14,7 +14,7 @@
           </router-link>          
         </div>
       </template>
-      <template v-slot:center>
+      <!-- <template v-slot:center>
         <span class="app-navbar__text">
           {{$t('navbar.messageUs')}}&nbsp;
           <a
@@ -34,7 +34,7 @@
             {{$t('navbar.repository')}}
           </va-button>
         </span>
-      </template>
+      </template> -->
       <template #right>
         <app-navbar-actions
           class="app-navbar__actions md5 lg4"

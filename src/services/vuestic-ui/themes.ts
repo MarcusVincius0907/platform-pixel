@@ -12,7 +12,7 @@ export const COLOR_THEMES = [
   {
     name: THEME_NAMES.LIGHT,
     colors: {
-      primary: '#01A78D',
+      primary: '#09DABC',
       secondary: '#767c88',
       background: '#f6f7f6',
       success: '#3d9209',
