@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class=" d-flex justify-center items-center">
     <img style="max-width:40px;" src="../../public/img/logo.png" alt="">
-    <span> L2M </span>
+    <span class=" text-th-blue font-bold text-2xl ml-3"> L2M </span>
   </div>
 </template>
 <script>

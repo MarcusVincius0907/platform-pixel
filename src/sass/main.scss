@@ -1,5 +1,12 @@
 @import "./vuestic-sass";
 @import "./icon-fonts";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+
+html, body{
+  font-family: 'Montserrat', sans-serif;
+  
+}
 
 // // Temporary colors fix for 2.1.
 // $vue-purple: #6c7fee;
@@ -122,3 +129,5 @@
 //     border-color: transparent transparent $vue-purple transparent;
 //   }
 // }
+
+
