@@ -21,6 +21,7 @@ export default {
   components: {
     MenuAccordion,
     MenuMinimized,
+    
   },
   props: {
     width: { type: String, default: '16rem' },

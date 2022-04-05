@@ -12,6 +12,13 @@ export default {
       },
     },
     {
+      name: 'pixel-compra',
+      displayName: 'Compra Pixel',
+      meta: {
+        icon: 'fa-solid fa-money-bill-wave',
+      },
+    },
+    {
       name: 'statistics',
       displayName: 'menu.statistics',
       meta: {
