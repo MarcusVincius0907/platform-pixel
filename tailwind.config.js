@@ -12,6 +12,7 @@ module.exports = {
         'th-dark-green': '#056052',
         'th-blue':'#0D2A4A'
       }
+      
     },
   },
   plugins: [],
