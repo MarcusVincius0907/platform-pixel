@@ -13,7 +13,7 @@ export default {
     },
     {
       name: 'pixel-compra',
-      displayName: 'Compra Pixel',
+      displayName: 'Comprar Pixel',
       meta: {
         icon: 'fa-solid fa-money-bill-wave',
       },

@@ -70,7 +70,7 @@
 
       </div>
       <div v-else class="tw-bg-white tw-w-full  tw-p-3 tw-py-5 tw-max-w-sm tw-rounded-md">
-        <h3 class="  tw-text-2xl tw-font-bold tw-text-center">Selecione um pixel!</h3>
+        <h3 class="  tw-text-2xl tw-font-bold tw-text-center">Selecione seus pixels!</h3>
         <div  class="tw-font-bold tw-text-md tw-pt-4">Você pode selecionar um pixel clicando em qualquer quadrado e definindo a cor do seu pixel.</div>
       </div>
     </div>
@@ -140,7 +140,7 @@ export default defineComponent({
     }
   },
   methods: {
-    openColorModal(id: any, piece: string){
+    openColorModal(id: string, piece: string){
       this.showModal = !this.showModal
       this.currentPixelSelected.id = id
       this.currentPixelSelected.piece = piece
@@ -157,7 +157,7 @@ export default defineComponent({
     },
 
     clearPixelSelection(pixel: Pixel){
-      this.pixels = this.pixels.filter((el: any) => { return el.id != pixel.id})
+      this.pixels = this.pixels.filter((el: Pixel) => { return el.id != pixel.id})
       this.currentPixelSelected.color = 'white'
       this.changePieceColor(this.currentPixelSelected)
     },

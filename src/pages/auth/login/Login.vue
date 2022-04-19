@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onsubmit">
+  <!-- <form @submit.prevent="login()">
     <va-input
       class="mb-3"
       v-model="email"
@@ -26,12 +26,17 @@
     <div class="d-flex justify--center mt-3">
       <va-button @click="onsubmit" class="my-0">{{ $t('auth.login') }}</va-button>
     </div>
-  </form>
+  </form> -->
+  <div>
+    login
+    <button @click="doLogin()">login</button>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'login',
+  
   data () {
     return {
       email: '',
@@ -41,12 +46,18 @@ export default {
       passwordErrors: [],
     }
   },
+  mounted(){
+    console.log('auth',this.$auth);
+  },
   computed: {
     formReady () {
       return !this.emailErrors.length && !this.passwordErrors.length
     },
   },
   methods: {
+    doLogin(){
+      this.$auth.loginWithRedirect();
+    },
     onsubmit () {
       this.emailErrors = this.email ? [] : ['Email is required']
       this.passwordErrors = this.password ? [] : ['Password is required']

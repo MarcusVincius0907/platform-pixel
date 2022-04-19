@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import AuthLayout from '@/layout/auth-layout.vue'
 import AppLayout from '@/layout/app-layout.vue'
 import Page404Layout from '@/layout/page-404-layout.vue'
+import Callback from '@/pages/callback/Callback.vue'
 
 import RouteViewComponent from './route-view.vue'
 import UIRoute from '@/pages/admin/ui/route'
@@ -211,6 +212,13 @@ const routes: Array<RouteRecordRaw> = [
         path: '/pages/not-found-large-text',
         component: () => import('@/pages/404-pages/VaPageNotFoundLargeText.vue'),
       },
+    ],
+  },
+  {
+    path: '/callback',
+    component: Callback,
+    children: [
+     
     ],
   },
   // {

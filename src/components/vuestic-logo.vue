@@ -1,7 +1,7 @@
 <template>
-  <div class=" d-flex justify-center items-center">
+  <div class=" tw-flex tw-justify-center tw-items-center">
     <img style="max-width:40px;" src="../../public/img/logo.png" alt="">
-    <span class=" text-th-blue font-bold text-2xl ml-3"> L2M </span>
+    <span class=" tw-text-th-blue tw-font-bold tw-text-2xl tw-ml-3"> L2M </span>
   </div>
 </template>
 <script>
