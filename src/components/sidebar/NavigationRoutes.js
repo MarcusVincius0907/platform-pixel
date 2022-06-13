@@ -19,6 +19,13 @@ export default {
       },
     },
     {
+      name: 'personal-info',
+      displayName: 'Informações Pessoais',
+      meta: {
+        icon: 'fa-solid fa-user',
+      },
+    },
+    {
       name: 'statistics',
       displayName: 'menu.statistics',
       meta: {

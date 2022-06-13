@@ -2,6 +2,32 @@
   <router-view/>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  /* setup() {
+    
+  }, */
+  mounted(){
+   /*  setTimeout(() => {
+      
+      console.log('app.vue',this.$auth);
+      if(this.$auth && this.$auth.isAuthenticated.value){
+        this.$router.push({name:'dashboard'})
+        this.$store.commit('setIsAuthenticated', true)
+      }else{
+        this.$router.push({name:'login'})
+        this.$store.commit('setIsAuthenticated', false)
+      }
+      
+    }, 3000); */
+    
+  }
+})
+</script>
+
+
 <style lang="scss">
 @import '~@/sass/main.scss';
 @import '~@/sass/output.scss';

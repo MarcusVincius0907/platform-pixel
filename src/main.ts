@@ -1,4 +1,4 @@
-import { VuesticPlugin, useGlobalConfig } from 'vuestic-ui';
+import { VuesticPlugin } from 'vuestic-ui';
 import { createApp } from 'vue'
 import { createGtm } from 'vue-gtm'
 import { createI18n } from 'vue-i18n'
@@ -37,7 +37,7 @@ app.use(createI18n(i18nConfig))
 app.use(VuesticPlugin, vuesticGlobalConfig)
 
 // Setup Auth0
-import { Auth0ClientOptions } from '@auth0/auth0-spa-js'
+/* import { Auth0ClientOptions } from '@auth0/auth0-spa-js' */
 import { setupAuth, Auth0Plugin } from './auth'
 import authConfig from '../auth_config.json'
 
@@ -67,6 +67,7 @@ setupAuth(authConfig, callbackRedirect).then((auth: any) => {
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $auth: Auth0Plugin;
+    $store: any;
   }
 }
 
