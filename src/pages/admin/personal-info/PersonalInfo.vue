@@ -14,6 +14,11 @@
         
         <ReceiveInfo />
       </div>
+
+      <div class="flex xs12">
+        
+        <PaymentInfo />
+      </div>
      
     </div>
   </div>
@@ -24,6 +29,7 @@
   import GeneralInfo from  './general-info/GeneralInfo.vue'
   import AddressInfo from  './address-info/AddressInfo.vue'
   import ReceiveInfo from  './receive-info/ReceiveInfo.vue'
+  import PaymentInfo from  './payment-info/PaymentInfo.vue'
 
   export default defineComponent({
 
@@ -31,6 +37,7 @@
       GeneralInfo,
       AddressInfo,
       ReceiveInfo,
+      PaymentInfo,
     },
 
     setup() {
