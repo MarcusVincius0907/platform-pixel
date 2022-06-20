@@ -3,29 +3,49 @@
     <va-card :title="$t('forms.inputs.title')">
       <va-card-content>
         <div class="mb-3 tw-font-bold">Informações Gerais</div>
-        <va-form>
+        <va-form
+          ref="form"
+          @validation="validation = $event"
+        >
           <div class="row">
             <div class="flex md4 sm6 xs12">
-              <va-input v-model="v$.email.$model" type="email" label="Email">
+              <va-input 
+                v-model="formData.email"
+                type="email"
+                label="Email"
+                :rules="[fieldsValidations.required, fieldsValidations.email]"
+              >
               </va-input>
             </div>
 
             <div class="flex md4 sm6 xs12">
               <va-input
-                v-model="v$.name.$model"
+                v-model="formData.name"
                 type="text"
                 label="Nome Completo"
+                :rules="fieldsValidations.required"
               >
               </va-input>
             </div>
 
             <div class="flex md4 sm6 xs12">
-              <va-input v-model="v$.cpf.$model" type="text" label="CPF">
+              <va-input 
+                v-model="formData.cpf"
+                :value = "hello"
+                type="text"
+                label="CPF"
+                :rules="[fieldsValidations.required, fieldsValidations.cpf, fieldsValidations.maxLength(11) ]"
+              >
               </va-input>
             </div>
 
             <div class="flex md4 sm6 xs12">
-              <va-input v-model="v$.cell.$model" type="text" label="Celular">
+              <va-input
+                v-model="formData.cell"
+                type="text" 
+                label="Celular"
+                :rules="[fieldsValidations.required,  fieldsValidations.maxLength(13), fieldsValidations.number]"
+              >
               </va-input>
             </div>
 
@@ -33,25 +53,19 @@
              
              
               <va-input
-                v-model="v$.birthDate.$model"
+                v-model="formData.birthDate"
                 type="text"
                 label="Data de Nascimento"
-                :rules="[value => (value && value.length > 0) || 'Field is required']"
+                :rules="fieldsValidations.required"
               >
               </va-input>
              
               
               
-              <div
-                v-for="(error, i) in v$.birthDate.$errors"
-                :key="i"
-              >
-                <div class="tw-text-red-500 tw-text-sm tw-mt-1">
-                  {{ error.$message }}
-                </div>
-              </div>
+             
             </div>
           </div>
+          
           <va-button class="mr-2 mb-2"> Salvar</va-button>
         </va-form>
       </va-card-content>
@@ -62,9 +76,9 @@
 <script lang="ts">
 
   import { defineComponent, Ref, ref } from 'vue';
+  import { regex } from '../../../../utils/regex';
+  //import  formatCPF from '../../../../utils/formatCPF'
 
-  import useVuelidate from '@vuelidate/core'
-  import { required, email, maxLength } from '@vuelidate/validators'
 
   interface FormData{
     email: string;
@@ -77,26 +91,30 @@
   export default defineComponent({
     setup() {
 
-      const validationRules = {
-        email: { required, email }, 
-        name: { required }, 
-        cpf: { required, maxLength: 11 },
-        cell: { required },
-        birthDate: { required }
-      }
 
       const formData: Ref<FormData> = ref({
         email: '',
         name: '',
         cpf: '',
         cell: '',
-        birthDate: ''
+        birthDate: '' 
       })
 
-      const v$ = useVuelidate(validationRules, formData)
+     
+
+      const fieldsValidations = {
+        required: [(value: string) => (!!value && value.length > 0) || 'Campo é requirido'],
+        email: [(value: string) => (regex.email.test(value)) || 'Email inválido'],
+        cpf: [(value: string) => (regex.cpf.test(value)) || 'CPF inválido'],
+        maxLength: (length: number) => [(value: string) => (value.length <= length) || `O limite é de ${length} caracteres`],
+        number: [(value: number) => (Number(value)) || 'Só é permitido números']
+        
+      }
+
       return{
-        v$,
-        formData
+        formData,
+        fieldsValidations,
+        validation: ref(null)
       }      
     },
 
