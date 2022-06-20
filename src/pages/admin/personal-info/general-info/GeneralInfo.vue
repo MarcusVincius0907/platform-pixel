@@ -52,13 +52,18 @@
             <div class="flex md4 sm6 xs12">
              
              
-              <va-input
+              <!--  <va-input
                 v-model="formData.birthDate"
                 type="text"
                 label="Data de Nascimento"
                 :rules="fieldsValidations.required"
               >
-              </va-input>
+              </va-input> -->
+              <va-date-input
+                v-model="formData.birthDate"
+                label="Data de Nascimento"
+                :rules="fieldsValidations.required"
+              />
              
               
               
@@ -66,7 +71,7 @@
             </div>
           </div>
           
-          <va-button class="mr-2 mb-2"> Salvar</va-button>
+          <va-button @click="saveFormData($refs.form.validate())" class="mr-2 mb-2"> Salvar</va-button>
         </va-form>
       </va-card-content>
     </va-card>
@@ -100,8 +105,6 @@
         birthDate: '' 
       })
 
-     
-
       const fieldsValidations = {
         required: [(value: string) => (!!value && value.length > 0) || 'Campo é requirido'],
         email: [(value: string) => (regex.email.test(value)) || 'Email inválido'],
@@ -117,6 +120,13 @@
         validation: ref(null)
       }      
     },
+
+    methods:{
+      saveFormData(validation: boolean){
+        console.log(this.formData);
+        console.log(this.validation);
+      }
+    }
 
    
   })
