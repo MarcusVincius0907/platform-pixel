@@ -7,7 +7,7 @@ import Callback from '@/pages/callback/Callback.vue'
 import RouteViewComponent from './route-view.vue'
 import UIRoute from '@/pages/admin/ui/route'
 /* import { Auth0Plugin } from '@/auth' */
-import { useStore } from 'vuex'
+import Store from '../store/index'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -34,6 +34,12 @@ const routes: Array<RouteRecordRaw> = [
         path: 'personal-info',
         component: () => import('@/pages/admin/personal-info/PersonalInfo.vue'),
       },
+      {
+        name: 'logout',
+        path: 'logout',
+        component: () => import('@/pages/admin/logout/Logout.vue'),
+      },
+
       {
         name: 'statistics',
         path: 'statistics',
@@ -179,20 +185,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'login',
         component: () => import('@/pages/auth/login/Login.vue'),
       },
-      {
-        name: 'signup',
-        path: 'signup',
-        component: () => import('@/pages/auth/signup/Signup.vue'),
-      },
-      {
-        name: 'recover-password',
-        path: 'recover-password',
-        component: () => import('@/pages/auth/recover-password/RecoverPassword.vue'),
-      },
-      {
-        path: '',
-        redirect: { name: 'login' },
-      },
+     
     ],
   },
   {
@@ -237,21 +230,21 @@ const router = createRouter({
   routes
 })
 
-/* const store = useStore();
 
 router.beforeEach((to, from, next) => {
 
-  console.log('store', store);
-  
+  console.log('to', to.name);
+  console.log('store', Store);
+
     
   if (
-    (to.name !== 'login' && to.name !== 'signup' && to.name !== 'recover-password') &&
-    !store?.state?.isAuthenticated
+    (to.name !== 'login' && to.path !== '/callback') &&
+    (Store?.state?.isAuthenticated === false)
   ){
     next({ name: 'login' })
   }
   next()
   
-}) */
+})
 
 export default router

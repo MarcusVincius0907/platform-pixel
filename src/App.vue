@@ -10,18 +10,18 @@ export default defineComponent({
     
   }, */
   mounted(){
-   /*  setTimeout(() => {
+
+    if(this.$auth){
+      console.log('logged user',this.$auth.user.value );
       
-      console.log('app.vue',this.$auth);
+      console.log(' this.$auth.isAuthenticated.value', this.$auth.isAuthenticated.value);
       if(this.$auth && this.$auth.isAuthenticated.value){
-        this.$router.push({name:'dashboard'})
         this.$store.commit('setIsAuthenticated', true)
       }else{
-        this.$router.push({name:'login'})
         this.$store.commit('setIsAuthenticated', false)
+        this.$router.push({name: 'login'})
       }
-      
-    }, 3000); */
+    }  
     
   }
 })

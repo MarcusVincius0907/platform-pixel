@@ -46,13 +46,13 @@ export default {
     options: {
       type: Array,
       default: () => [
-        {
+       /*  {
           name: 'profile',
           redirectTo: '',
-        },
+        }, */
         {
           name: 'logout',
-          redirectTo: 'login',
+          redirectTo: 'logout',
         },
       ],
     },

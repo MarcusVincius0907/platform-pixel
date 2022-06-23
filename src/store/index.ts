@@ -1,11 +1,11 @@
 import { createStore } from 'vuex'
 
-export default createStore({
+const store = createStore({
   strict: true, // process.env.NODE_ENV !== 'production',
   state: {
     isSidebarMinimized: false,
     userName: 'Vasili S',
-    isAuthenticated: false
+    isAuthenticated: undefined
   },
   mutations: {
     updateSidebarCollapsedState(state, isSidebarMinimized) {
@@ -19,3 +19,5 @@ export default createStore({
     }
   },
 })
+
+export default store;

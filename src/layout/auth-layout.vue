@@ -1,29 +1,19 @@
 <template>
   <div class="auth-layout row align-content--center">
     <div class="flex xs12 pa-3 flex-center">
-      <router-link class="py-5 flex-center" to="/">
-        <vuestic-logo height="32"/>
-      </router-link>
-    </div>
+      <div>
 
-    <div class="flex xs12 pa-3">
-      <div class="d-flex justify--center">
-        <va-card class="auth-layout__card">
-          <va-card-content>
-            <va-tabs v-model="tabIndex" center>
-              <template #tabs>
-                <va-tab name="login">{{ $t("auth.login") }}</va-tab>
-                <va-tab name="signup">{{ $t("auth.createNewAccount") }}</va-tab>
-              </template>
-            </va-tabs>
-
-            <va-separator />
-
-            <div class="pa-3">
-              <router-view />
-            </div>
-          </va-card-content>
-        </va-card>
+        <router-link class="py-5 flex-center" to="/">
+          <vuestic-logo height="64"/>
+        </router-link>
+        <div class="flex-center">
+          <spring-spinner
+            :animation-duration="2000"
+            :size="40"
+            :color="'#01A78D'"
+          />
+        </div>
+        <router-view></router-view>
       </div>
     </div>
   </div>
@@ -31,25 +21,12 @@
 
 <script>
 import VuesticLogo from "@/components/vuestic-logo";
+import { SpringSpinner } from 'epic-spinners';
 
 export default {
   name: "AuthLayout",
-  components: { VuesticLogo },
-  data() {
-    return {
-      selectedTabIndex: 0
-    };
-  },
-  computed: {
-    tabIndex: {
-      set(tabName) {
-        this.$router.push({ name: tabName });
-      },
-      get() {
-        return this.$route.name;
-      }
-    }
-  }
+  components: { VuesticLogo,  SpringSpinner },
+ 
 };
 </script>
 

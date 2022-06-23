@@ -26,6 +26,13 @@ export default {
       },
     },
     {
+      name: 'logout',
+      displayName: 'Logout',
+      meta: {
+        icon: 'fa-solid fa-arrow-right-from-bracket',
+      },
+    },
+    {
       name: 'statistics',
       displayName: 'menu.statistics',
       meta: {

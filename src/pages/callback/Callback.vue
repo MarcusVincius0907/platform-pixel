@@ -8,7 +8,8 @@ export default {
  
 
   mounted(){
-    console.log('auth',this.$auth);
+    console.log('callback',this.$route.fullPath);
+    this.$router.push({name: 'dashboard'})
   },
   
 }

@@ -45,7 +45,7 @@ function callbackRedirect(appState: any) {
     router.push(
         appState && appState.targetUrl
         ? appState.targetUrl
-        : '/'
+        : '/dashboard'
     );
 }
 
@@ -60,9 +60,7 @@ authConfig.redirect_uri = `http://localhost:8080/callback`
 //   case 'production': authConfig.redirect_uri = 'https://rem-frontend.vercel.app/callback'; break;
 // }
 
-setupAuth(authConfig, callbackRedirect).then((auth: any) => {
-    app.use(auth)
-})
+
 
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
@@ -71,7 +69,16 @@ declare module "@vue/runtime-core" {
   }
 }
 
-app.mount('#app')
+
+
+setupAuth(authConfig, callbackRedirect).then((auth: any) => {
+
+  app.use(auth)
+  app.mount('#app')
+})
 
 app.provide('auth', app.config.globalProperties.$auth);
+
+
+
 
