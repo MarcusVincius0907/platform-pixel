@@ -492,12 +492,28 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 0.75rem;
 }
 
+.tw-mb-3 {
+  margin-bottom: 0.75rem;
+}
+
+.tw-mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.tw-mb-5 {
+  margin-bottom: 1.25rem;
+}
+
 .tw-flex {
   display: flex;
 }
 
 .tw-table {
   display: table;
+}
+
+.tw-grid {
+  display: grid;
 }
 
 .tw-list-item {
@@ -516,6 +532,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 2rem;
 }
 
+.tw-min-h-\[124px\] {
+  min-height: 124px;
+}
+
+.tw-min-h-\[100px\] {
+  min-height: 100px;
+}
+
 .tw-w-full {
   width: 100%;
 }
@@ -524,8 +548,24 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 2rem;
 }
 
+.tw-w-2\/3 {
+  width: 66.666667%;
+}
+
+.tw-w-1\/3 {
+  width: 33.333333%;
+}
+
+.tw-w-1\/2 {
+  width: 50%;
+}
+
 .tw-min-w-\[780px\] {
   min-width: 780px;
+}
+
+.tw-max-w-2xl {
+  max-width: 42rem;
 }
 
 .tw-max-w-\[780px\] {
@@ -548,8 +588,24 @@ Ensure the default browser behavior of the `hidden` attribute.
   max-width: 24rem;
 }
 
+.tw-max-w-xl {
+  max-width: 36rem;
+}
+
 .tw-cursor-pointer {
   cursor: pointer;
+}
+
+.tw-grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tw-grid-rows-2 {
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.tw-flex-row {
+  flex-direction: row;
 }
 
 .tw-flex-col {
@@ -564,12 +620,20 @@ Ensure the default browser behavior of the `hidden` attribute.
   align-items: center;
 }
 
+.tw-justify-start {
+  justify-content: flex-start;
+}
+
 .tw-justify-center {
   justify-content: center;
 }
 
 .tw-justify-between {
   justify-content: space-between;
+}
+
+.tw-gap-2 {
+  gap: 0.5rem;
 }
 
 .tw-overflow-x-auto {
@@ -637,14 +701,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 2rem;
 }
 
-.tw-text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-}
-
 .tw-text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
+}
+
+.tw-text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .tw-font-bold {
@@ -656,6 +720,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(13 42 74 / var(--tw-text-opacity));
 }
 
+.tw-text-th-dark-green {
+  --tw-text-opacity: 1;
+  color: rgb(5 96 82 / var(--tw-text-opacity));
+}
+
 .tw-shadow-2xl {
   --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
@@ -664,4 +733,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .hover\:tw-opacity-80:hover {
   opacity: 0.8;
+}
+
+@media (min-width: 768px) {
+  .md\:tw-w-1\/2 {
+    width: 50%;
+  }
+
+  .md\:tw-flex-row {
+    flex-direction: row;
+  }
+
+  .md\:tw-flex-col {
+    flex-direction: column;
+  }
 }

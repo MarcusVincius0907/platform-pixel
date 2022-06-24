@@ -18,7 +18,7 @@
                 >
                 </va-input>
               </div>
-              <div class=" tw-w-1/3 d-flex tw-justify-center tw-items-center">
+              <div class=" tw-w-1/3 tw-flex tw-justify-start tw-items-center">
                 <va-button class="" size="small"> Buscar</va-button>
               </div>
             </div>

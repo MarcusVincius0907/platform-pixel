@@ -17,6 +17,7 @@ export default defineComponent({
       console.log(' this.$auth.isAuthenticated.value', this.$auth.isAuthenticated.value);
       if(this.$auth && this.$auth.isAuthenticated.value){
         this.$store.commit('setIsAuthenticated', true)
+        this.$store.commit('setUser',  this.$auth.user)
       }else{
         this.$store.commit('setIsAuthenticated', false)
         this.$router.push({name: 'login'})
