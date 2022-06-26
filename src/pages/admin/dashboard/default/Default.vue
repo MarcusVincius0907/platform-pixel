@@ -126,6 +126,9 @@ export default defineComponent({
         
       ]
     }
+  },
+  async mounted(){
+    console.log(await this.$auth.getTokenSilently());
   }
 })
 </script>
