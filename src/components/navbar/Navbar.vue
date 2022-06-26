@@ -65,7 +65,7 @@ export default {
       set: (value) => store.commit('updateSidebarCollapsedState', value)
     })
 
-    const userName = computed(() => store.state.user?.name)
+    const userName = computed(() => store.state.user?.name.split(' ')[0] )
     return {
       colors,
       isSidebarMinimized,

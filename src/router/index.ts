@@ -25,9 +25,9 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/pages/admin/dashboard/Dashboard.vue'),
       },
       {
-        name: 'pixel-compra',
-        path: 'pixel-compra',
-        component: () => import('@/pages/admin/pixel-compra/PixelCompra.vue'),
+        name: 'pixel',
+        path: 'pixel',
+        component: () => import('@/pages/admin/pixel/PixelCompra.vue'),
       },
       {
         name: 'personal-info',

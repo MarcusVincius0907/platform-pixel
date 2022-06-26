@@ -12,7 +12,7 @@ export default {
       },
     },
     {
-      name: 'pixel-compra',
+      name: 'pixel',
       displayName: 'Comprar Pixel',
       meta: {
         icon: 'fa-solid fa-money-bill-wave',
@@ -25,7 +25,7 @@ export default {
         icon: 'fa-solid fa-user',
       },
     },
-    {
+   /*  {
       name: 'logout',
       displayName: 'Logout',
       meta: {
@@ -240,6 +240,6 @@ export default {
           displayName: 'menu.faq',
         },
       ],
-    },
+    }, */
   ],
 }

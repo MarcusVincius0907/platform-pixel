@@ -6,7 +6,7 @@
         
         <div class="row">
           <div class="flex xs12">
-            <div class="table-wrapper">
+            <div class="table-wrapper tw-overflow-y-auto">
               <table class="va-table va-table--striped va-table--hoverable">
                 <thead>
                   <tr>
