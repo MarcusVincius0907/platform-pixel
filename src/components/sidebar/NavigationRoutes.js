@@ -25,6 +25,13 @@ export default {
         icon: 'fa-solid fa-user',
       },
     },
+    {
+      name: 'sortition',
+      displayName: 'Sorteios',
+      meta: {
+        icon: 'fa-duotone fa-chart-bar',
+      },
+    },
    /*  {
       name: 'logout',
       displayName: 'Logout',

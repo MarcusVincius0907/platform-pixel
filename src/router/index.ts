@@ -35,6 +35,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/pages/admin/personal-info/PersonalInfo.vue'),
       },
       {
+        name: 'sortition',
+        path: 'sortition',
+        component: () => import('@/pages/admin/sortition/Sortition.vue'),
+      },
+      {
         name: 'logout',
         path: 'logout',
         component: () => import('@/pages/admin/logout/Logout.vue'),
