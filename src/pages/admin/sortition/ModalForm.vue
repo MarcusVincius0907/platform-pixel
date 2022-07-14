@@ -82,7 +82,7 @@
                 <va-input 
                   v-model="formData.idNFT"
                   type="text"
-                  label="Cidade"
+                  label="id NFT"
                   :rules="fieldsValidations.required"
                 >
                 </va-input>
@@ -159,7 +159,7 @@
     },
     watch:{
       showModal(newValue, oldValue){
-        this.showModalToggle = newValue;
+        this.showModalToggle = true;
       },
       sortition(newValue, oldValue){
         if(newValue) {this.formData = newValue;}

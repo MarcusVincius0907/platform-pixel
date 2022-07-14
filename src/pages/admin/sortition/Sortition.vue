@@ -21,12 +21,12 @@
         </div>
         <div class=" tw-grid tw-justify-center tw-grid-cols-1 tw-grid-rows-1 md:tw-grid-cols-2 md:tw-grid-rows-2 tw-gap-2">
 
-          <div v-for="(sorteio, index) in sorteios" :key="index" class="tw-max-w-sm tw-w-full tw-m-auto">
+          <div v-for="(sorteio, index) in sorteios" :key="index" class="tw-max-w-sm tw-w-full tw-m-auto tw-cursor-pointer">
             <va-card @click="openEditModal(sorteio)">
               <va-card-content>
                 <div class="">
                   <div class="   ">
-                    <h1 class=" tw-text-xl tw-mb-5 tw-font-bold tw-text-center"> {{sorteio.date}} </h1>
+                    <h1 class=" tw-text-xl tw-mb-5 tw-font-bold tw-text-center"> {{moment(sorteio.date).format('DD/MM/yyyy')}} </h1>
                     <div class="tw-flex tw-mb-3 tw-justify-center">
                       <div class=" tw-w-1/2 tw-flex tw-flex-col tw-items-center">
                         <div class=" tw-font-bold">Pixels</div>
@@ -58,6 +58,7 @@ import { ActionType } from '@/utils/enums';
 import { defineComponent, ref } from 'vue';
 import ModalForm from './ModalForm.vue';
 import Sortition from '@/types/Sortition';
+import moment from 'moment';
 
 
 export default defineComponent({
@@ -67,14 +68,15 @@ export default defineComponent({
   },
    setup(){
     return{
+      moment: moment,
       formData: ref(),
       actionType: ref(ActionType.CREATE),
       showModalForm: ref(false),
-      sorteios: [
+      sorteios: ref([
         {
           id:0,
           name: 'Sorteio de verão',
-          date: new Date('24/06/2022'),
+          date: new Date('2022-06-20'),
           idNFT: (Math.random()).toString(),
           pixelsAvailable: 1000,
           reward: 'R$ 1000.00 + NFT',
@@ -84,7 +86,7 @@ export default defineComponent({
         {
           id:1,
           name: 'Sorteio de verão',
-          date: new Date('24/07/2022'),
+          date: new Date('2022-07-20'),
           idNFT:  (Math.random()).toString(),
           pixelsAvailable: 1000,
           reward: 'R$ 1000.00 + NFT',
@@ -93,7 +95,7 @@ export default defineComponent({
         {
           id:2,
           name: 'Sorteio de verão',
-          date: new Date('24/08/2022'),
+          date: new Date('2022-08-20'),
           idNFT:  (Math.random()).toString(),
           pixelsAvailable: 1000,
           reward: 'R$ 1000.00 + NFT',
@@ -102,7 +104,7 @@ export default defineComponent({
         {
           id:3,
           name: 'Sorteio de verão',
-          date: new Date('24/08/2022'),
+          date: new Date('2022-09-20'),
           idNFT:  (Math.random()).toString(),
           pixelsAvailable: 1000,
           reward: 'R$ 1000.00 + NFT',
@@ -110,13 +112,18 @@ export default defineComponent({
         },
         
         
-      ] as Sortition[]
+      ]) 
     }
+  },
+  mounted(){
+    console.log(this.sorteios);
+     
   },
   methods:{
     openModalCreate(){
       this.changeActionType(ActionType.CREATE);
       this.showModalForm = !this.showModalForm;
+      this.formData = {};
     },
     openEditModal(sortition: Sortition){
       this.formData = sortition;

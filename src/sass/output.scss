@@ -481,24 +481,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 0.25rem;
 }
 
-.tw-mt-4 {
-  margin-top: 1rem;
-}
-
-.tw-mb-2 {
-  margin-bottom: 0.5rem;
-}
-
-.tw-mb-3 {
-  margin-bottom: 0.75rem;
+.tw-ml-3 {
+  margin-left: 0.75rem;
 }
 
 .tw-mb-5 {
   margin-bottom: 1.25rem;
-}
-
-.tw-ml-3 {
-  margin-left: 0.75rem;
 }
 
 .tw-mt-5 {
@@ -509,8 +497,20 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 0.5rem;
 }
 
+.tw-mt-4 {
+  margin-top: 1rem;
+}
+
 .tw-mt-3 {
   margin-top: 0.75rem;
+}
+
+.tw-mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.tw-mb-3 {
+  margin-bottom: 0.75rem;
 }
 
 .tw-flex {
@@ -549,12 +549,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 100%;
 }
 
-.tw-w-1\/2 {
-  width: 50%;
-}
-
 .tw-w-8 {
   width: 2rem;
+}
+
+.tw-w-1\/2 {
+  width: 50%;
 }
 
 .tw-w-2\/3 {
@@ -567,14 +567,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .tw-min-w-\[780px\] {
   min-width: 780px;
-}
-
-.tw-max-w-2xl {
-  max-width: 42rem;
-}
-
-.tw-max-w-sm {
-  max-width: 24rem;
 }
 
 .tw-max-w-\[780px\] {
@@ -591,6 +583,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .tw-max-w-\[280px\] {
   max-width: 280px;
+}
+
+.tw-max-w-2xl {
+  max-width: 42rem;
+}
+
+.tw-max-w-sm {
+  max-width: 24rem;
 }
 
 .tw-max-w-xl {
@@ -697,14 +697,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   text-align: center;
 }
 
-.tw-text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-}
-
 .tw-text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
+}
+
+.tw-text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .tw-text-3xl {
