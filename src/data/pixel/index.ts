@@ -15,24 +15,16 @@ export default class PixelMock {
     }
 
 
-    for(let i=0; i < 150; i++){
+    for(let i=0; i < 144; i++){
       const color =  'white'
       piece1.push({id:(generateId()), color, piece: 'piece1'})
-      piece4.push({id:(generateId()), color, piece: 'piece4'})
-      piece6.push({id:(generateId()), color, piece: 'piece6'})
-    }
-
-    for(let i=0; i < 140; i++){
-      const color =  'white'
-      piece3.push({id:(generateId()), color, piece: 'piece3'})
-      piece5.push({id:(generateId()), color, piece: 'piece5'})
-      piece8.push({id:(generateId()), color, piece: 'piece8'})
-    }
-
-    for(let i=0; i < 100; i++){
-      const color =  'white'
       piece2.push({id:(generateId()), color, piece: 'piece2'})
+      piece3.push({id:(generateId()), color, piece: 'piece3'})
+      piece4.push({id:(generateId()), color, piece: 'piece4'})
+      piece5.push({id:(generateId()), color, piece: 'piece5'})
+      piece6.push({id:(generateId()), color, piece: 'piece6'})
       piece7.push({id:(generateId()), color, piece: 'piece7'})
+      piece8.push({id:(generateId()), color, piece: 'piece8'})
     }
 
     this[PixelsKey.piece1] = piece1

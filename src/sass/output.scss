@@ -533,8 +533,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 100%;
 }
 
-.tw-h-\[200px\] {
-  height: 200px;
+.tw-h-\[240px\] {
+  height: 240px;
 }
 
 .tw-h-8 {
@@ -547,6 +547,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .tw-w-full {
   width: 100%;
+}
+
+.tw-w-\[240px\] {
+  width: 240px;
 }
 
 .tw-w-8 {
@@ -565,24 +569,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 33.333333%;
 }
 
-.tw-min-w-\[780px\] {
-  min-width: 780px;
+.tw-min-w-\[720px\] {
+  min-width: 720px;
 }
 
-.tw-max-w-\[780px\] {
-  max-width: 780px;
-}
-
-.tw-max-w-\[300px\] {
-  max-width: 300px;
-}
-
-.tw-max-w-\[200px\] {
-  max-width: 200px;
-}
-
-.tw-max-w-\[280px\] {
-  max-width: 280px;
+.tw-max-w-\[720px\] {
+  max-width: 720px;
 }
 
 .tw-max-w-2xl {

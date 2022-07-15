@@ -1,6 +1,6 @@
 <template>
   <div class="tw-w-full tw-h-full ">
-    <div class="tw-max-w-[780px] tw-mb-5">
+    <div class="tw-max-w-[720px] tw-mb-5">
       <va-card>
         <va-card-content>
           <div class=" tw-text-xl">NFT referente ao sorteio de <strong>24/06/2022</strong></div>
@@ -8,37 +8,37 @@
       </va-card>
     </div>
     <div class=" tw-flex tw-flex-col md:tw-flex-row">
-      <div class="tw-overflow-x-auto tw-max-w-[780px]">
-        <div class=" tw-min-w-[780px] tw-bg-gray-200 tw-m-auto tw-flex tw-flex-wrap tw-shadow-2xl ">
+      <div class="tw-overflow-x-auto tw-max-w-[720px]">
+        <div class=" tw-min-w-[720px] tw-bg-gray-200 tw-m-auto tw-flex tw-flex-wrap tw-shadow-2xl ">
 
-          <div class="tw-flex tw-max-w-[300px] tw-flex-wrap">
+          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
             <div v-for="(s,i) in piece1" @click="openColorModal(s.id, 'piece1')" :key="i" :style="`background-color: ${s.color};`" class="square" ></div>
           </div>
-          <div class="tw-flex tw-max-w-[200px] tw-flex-wrap">
+          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
             <div v-for="(s,i) in piece2" @click="openColorModal(s.id, 'piece2')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
           </div>
-          <div class="tw-flex tw-max-w-[280px] tw-flex-wrap">
+          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
             <div v-for="(s,i) in piece3" @click="openColorModal(s.id, 'piece3')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
           </div>
-          <div class="tw-flex tw-max-w-[300px] tw-flex-wrap">
+          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
             <div v-for="(s,i) in piece4" @click="openColorModal(s.id, 'piece4')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
           </div>
-          <div class="tw-w-fultw-l  tw-max-w-[200px] tw-h-[200px] ">
+          <div class="tw-w-[240px] tw-h-[240px] ">
             <div class="tw-w-full tw-h-full tw-flex tw-p-5 image-pixel">
 
               <img src="../../../../public/img/logo.png" alt="">
             </div>
           </div>
-          <div class="tw-flex tw-max-w-[280px] tw-flex-wrap">
+          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
             <div v-for="(s,i) in piece5" @click="openColorModal(s.id, 'piece5')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
           </div>
-          <div class="tw-flex tw-max-w-[300px] tw-flex-wrap">
+          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
             <div v-for="(s,i) in piece6" @click="openColorModal(s.id, 'piece6')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
           </div>
-          <div class="tw-flex tw-max-w-[200px] tw-flex-wrap">
+          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
             <div v-for="(s,i) in piece7" @click="openColorModal(s.id, 'piece7')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
           </div>
-          <div class="tw-flex tw-max-w-[280px] tw-flex-wrap ">
+          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap ">
             <div v-for="(s,i) in piece8" @click="openColorModal(s.id, 'piece8')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
           </div>
           
