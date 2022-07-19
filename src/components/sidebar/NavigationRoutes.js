@@ -32,6 +32,13 @@ export default {
         icon: 'fa-duotone fa-chart-bar',
       },
     },
+    {
+      name: 'NFT',
+      displayName: 'NFTs',
+      meta: {
+        icon: 'fa-solid fa-cubes',
+      },
+    },
    /*  {
       name: 'logout',
       displayName: 'Logout',

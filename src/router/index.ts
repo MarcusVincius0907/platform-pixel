@@ -40,6 +40,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/pages/admin/sortition/Sortition.vue'),
       },
       {
+        name: 'NFT',
+        path: 'NFT',
+        component: () => import('@/pages/admin/NFT/NFT.vue'),
+      },
+      {
         name: 'logout',
         path: 'logout',
         component: () => import('@/pages/admin/logout/Logout.vue'),
