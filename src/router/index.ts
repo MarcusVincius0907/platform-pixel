@@ -42,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         name: 'NFT',
         path: 'NFT',
-        component: () => import('@/pages/admin/NFT/NFT.vue'),
+        component: () => import('@/pages/admin/manage-NFT/ManageNFT.vue'),
       },
       {
         name: 'logout',

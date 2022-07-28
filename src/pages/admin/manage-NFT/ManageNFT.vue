@@ -4,7 +4,7 @@
         
       <div class="section">
         
-        <div class=" tw-w-full tw-flex tw-justify-start tw-items-center tw-mb-3">
+        <div class=" tw-w-full tw-flex tw-justify-start tw-items-center tw-mb-3 tw-ml-5">
           <va-button class=" tw-w-52 " size="large" @click="openModalCreate()">Criar novo NFT</va-button>
         </div>
         <div class=" tw-flex tw-justify-start tw-flex-wrap tw-m-auto">
@@ -15,7 +15,7 @@
                 <div class=" tw-w-full">
                   <div class=" tw-text-xl tw-font-bold tw-text-center">{{nft.name}}</div>
                   <div>NFT</div>
-                  <div class=" tw-flex tw-justify-between tw-w-full">
+                  <div class=" tw-flex tw-justify-between tw-w-full tw-flex-wrap tw-m-auto tw-max-w-[200px]">
 
                     <div v-for="(theme, index) in nft.themes" :key="index" >
                       <div :style="`background-color: #${theme};`" class="tw-h-8 tw-w-8 tw-m-1 tw-mt-2"></div>
@@ -43,7 +43,7 @@ import { arrayToString } from '@/utils/themesUtil'
 
 
 export default defineComponent({
-  name: 'NFT',
+  name: 'ManageNFT',
   components:{
     ModalForm
   },

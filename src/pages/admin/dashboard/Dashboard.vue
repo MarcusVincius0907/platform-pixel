@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <FirstLogin v-if="false" />
+    <FirstLogin v-if="true" />
     <Default v-else />
   </div>
 </template>
