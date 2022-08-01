@@ -94,6 +94,9 @@
   }
 
   export default defineComponent({
+
+    emits: ['save'],
+
     setup() {
 
 
@@ -125,6 +128,8 @@
       saveFormData(validation: boolean){
         console.log(this.formData);
         console.log(this.validation);
+        //TODO: passar formulario aqui
+        this.$emit('save', validation)
       }
     }
 

@@ -6,13 +6,13 @@ export default class BaseService {
     public http: AxiosInstance
     constructor() { 
         this.http = axios.create({
-            baseURL: process.env.API_URL_DEV
+            baseURL: process.env.VUE_APP_API_URL_DEV
         })    
     }
 
     public async getHeaderAuth(auth: Auth0Plugin) {
       const token: string = (auth != null ? await auth.getTokenSilently() : null)
-      return { headers: { Authorization: `Bearer ${token}` } }
+      return { headers: { authorization: `Bearer ${token}` } }
     }
 
     public apiErrorTreatment(exception: any): ResponseDefault {

@@ -3,18 +3,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import UserService from './services/userService';
 
 export default defineComponent({
-  /* setup() {
-    
-  }, */
+  setup() {
+    return {
+      userService: ref()
+    }
+  },
   mounted(){
+
+    
+    
+    this.userService = new UserService(this.$auth);
 
     if(this.$auth){
       console.log('logged user',this.$auth.user.value );
       
       console.log(' this.$auth.isAuthenticated.value', this.$auth.isAuthenticated.value);
+
+      this.getUser();
+      
+      console.log('AUTH0 ', this.$auth);
+
       if(this.$auth && this.$auth.isAuthenticated.value){
         this.$store.commit('setIsAuthenticated', true)
         this.$store.commit('setUser',  this.$auth.user)
@@ -24,6 +36,14 @@ export default defineComponent({
       }
     }  
     
+  },
+
+  methods:{
+    async getUser(){
+      const resp = await this.userService.getUser();
+      console.log(resp);
+      
+    }
   }
 })
 </script>

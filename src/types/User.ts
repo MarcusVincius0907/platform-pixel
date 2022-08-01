@@ -8,7 +8,7 @@ export default interface User{
   saldo?: number;
   paymentInfo?: PaymentInfo;
   receiveInfo?: ReceiveInfo;
-  addressInfo: AddressInfo;
+  addressInfo?: AddressInfo;
 }
 
 export interface PaymentInfo{

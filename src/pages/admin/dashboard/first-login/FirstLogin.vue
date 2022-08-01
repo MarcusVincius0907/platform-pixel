@@ -15,18 +15,8 @@
         </va-card>
       </div>
 
-      <GeneralInfo class=" tw-mb-5"/>
+      <GeneralInfo @save="createUser" class=" tw-mb-5"/>
       <AddressInfo class=" tw-mb-5"/>
-
-      <div>
-        <va-card>
-          <va-card-content>
-            <div class=" tw-flex tw-justify-center">
-              <va-button size="large" class="mr-2 mb-2"> Finalizar</va-button>
-            </div>
-          </va-card-content>
-        </va-card>
-      </div>
 
     </div>
   </div>
@@ -44,6 +34,11 @@ export default defineComponent({
     GeneralInfo,
     AddressInfo,
   },
+  methods:{
+    createUser(value){
+      console.log('createUser', value);
+    }
+  }
   
 })
 </script>
