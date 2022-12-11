@@ -40,13 +40,14 @@
               
               </div>
               <div class="tw-w-1/2 tw-mx-1">
-                <va-input 
-                  v-model="formData.pixelsQuantity"
-                  type="text"
+                
+                <va-select
                   label="Quantidade de pixels"
-                  :rules="fieldsValidations.required"
-                >
-                </va-input>
+                  v-model="formData.pixelsQuantity"
+                  textBy="description"
+                  track-by="id"
+                  :options="pixelsQuantity"
+                />
               </div>
             </div>
             <div class="line tw-flex tw-w-full tw-mb-2">
@@ -87,6 +88,12 @@
   import Sortition  from '@/types/Sortition';
   import NFT, { FormData } from '@/types/NFT';
 
+  const PIXELS_QUANTITY = [
+    '800',
+    '1152',
+    '1568'
+  ]
+
   export default defineComponent({
     name: 'modal-create',
     props: {
@@ -121,7 +128,8 @@
         fieldsValidations,
         validation: ref(null),
         showModalToggle: ref(false),
-        Type: Type
+        Type: Type,
+        pixelsQuantity: PIXELS_QUANTITY
       }
     },
     watch:{
