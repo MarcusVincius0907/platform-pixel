@@ -6,7 +6,8 @@ const store = createStore({
     isSidebarMinimized: false,
     user: null,
     isAuthenticated: undefined,
-    isNewUser: false
+    isNewUser: false,
+    customLoader: false
   },
   mutations: {
     updateSidebarCollapsedState(state, isSidebarMinimized) {
@@ -20,6 +21,10 @@ const store = createStore({
     },
     setIsNewUser(state, value){
       state.isNewUser = value
+    },
+
+    setCustomLoader(state, value){
+      state.customLoader = value;
     }
   },
 })

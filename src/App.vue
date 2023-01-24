@@ -1,15 +1,21 @@
 <template>
+  <CustomLoader v-if="isLoading"/>
   <router-view/>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import UserService from './services/userService';
+import CustomLoader from './components/loader/customLoader.vue'
 
 export default defineComponent({
+  components:{
+    CustomLoader
+  },
+
   setup() {
     return {
-      userService: ref<UserService>()
+      userService: ref<UserService>(),
     }
   },
 
@@ -20,7 +26,9 @@ export default defineComponent({
     if(this.$auth){
       console.log('logged user',this.$auth.user.value );
 
+      this.$store.commit('setCustomLoader', true);
       const userExists = await this.getUserByEmail(this.$auth.user.value.email);
+      this.$store.commit('setCustomLoader', false);
 
       if(userExists){
         this.$store.commit('setIsNewUser', true)
@@ -47,7 +55,14 @@ export default defineComponent({
         return null;
       }
     }
+  },
+
+  computed:{
+    isLoading(){
+      return this.$store.state.customLoader;
+    }
   }
+
 })
 </script>
 
