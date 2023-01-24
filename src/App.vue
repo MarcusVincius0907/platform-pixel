@@ -9,23 +9,22 @@ import UserService from './services/userService';
 export default defineComponent({
   setup() {
     return {
-      userService: ref()
+      userService: ref<UserService>()
     }
   },
-  mounted(){
 
-    
+  async mounted(){
     
     this.userService = new UserService(this.$auth);
 
     if(this.$auth){
       console.log('logged user',this.$auth.user.value );
-      
-      console.log(' this.$auth.isAuthenticated.value', this.$auth.isAuthenticated.value);
 
-      this.getUser();
-      
-      console.log('AUTH0 ', this.$auth);
+      const userExists = await this.getUserByEmail(this.$auth.user.value.email);
+
+      if(userExists){
+        this.$store.commit('setIsNewUser', true)
+      }
 
       if(this.$auth && this.$auth.isAuthenticated.value){
         this.$store.commit('setIsAuthenticated', true)
@@ -34,15 +33,19 @@ export default defineComponent({
         this.$store.commit('setIsAuthenticated', false)
         this.$router.push({name: 'login'})
       }
+
     }  
     
   },
 
   methods:{
-    async getUser(){
-      const resp = await this.userService.getUser();
-      console.log(resp);
-      
+    async getUserByEmail(email: string){
+      try{
+        return await this.userService?.getUserByEmail(email);
+      }catch(ex){
+        console.log(ex);
+        return null;
+      }
     }
   }
 })

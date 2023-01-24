@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <FirstLogin v-if="true" />
+    <FirstLogin v-if="isFirstLogin" />
     <Default v-else />
   </div>
 </template>
@@ -18,6 +18,13 @@ export default defineComponent({
     Default
    
   },
+
+
+  computed:{
+    isFirstLogin(){
+      return this.$store.state.isNewUser;
+    }
+  }
  
 })
 </script>

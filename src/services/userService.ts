@@ -5,13 +5,13 @@ import BaseService from "./baseService";
 
 export default class UserService{
 
-  private _baseService: BaseService = new BaseService();
+   private _baseService: BaseService = new BaseService();
 
-  constructor(private auth: Auth0Plugin = {} as Auth0Plugin) {}
+   constructor(private auth: Auth0Plugin = {} as Auth0Plugin) {}
 
-  async getUser(): Promise<ResponseDefault> {
+   async getUserByEmail(email: string): Promise<ResponseDefault> {
 		try {
-			const req = await this._baseService.http.get<ResponseDefault>('/user', await this._baseService.getHeaderAuth(this.auth))
+			const req = await this._baseService.http.put<ResponseDefault>('/user/email', { email }, await this._baseService.getHeaderAuth(this.auth))
 			return req.data;
 		}
 		catch (ex) {
