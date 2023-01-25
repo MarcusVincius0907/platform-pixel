@@ -23,7 +23,9 @@ export default defineComponent({
     
     this.userService = new UserService(this.$auth);
 
-    if(this.$auth){
+    console.log('logged user',this.$auth );
+
+    if(this.$auth && this.$auth.user.value){
       console.log('logged user',this.$auth.user.value );
 
       this.$store.commit('setCustomLoader', true);

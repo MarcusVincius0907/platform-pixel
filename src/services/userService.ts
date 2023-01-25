@@ -11,7 +11,7 @@ export default class UserService{
 
    async getUserByEmail(email: string): Promise<ResponseDefault> {
 		try {
-			const req = await this._baseService.http.put<ResponseDefault>('/user/email', { email }, await this._baseService.getHeaderAuth(this.auth))
+			const req = await this._baseService.http.put<ResponseDefault>('/user/email', { email })
 			return req.data;
 		}
 		catch (ex) {
@@ -21,7 +21,17 @@ export default class UserService{
 
 	async createUser(user: User): Promise<ResponseDefault>{
 		try {
-			const req = await this._baseService.http.post<ResponseDefault>('/user/create', user , await this._baseService.getHeaderAuth(this.auth))
+			const req = await this._baseService.http.post<ResponseDefault>('/user/create', user )
+			return req.data;
+		}
+		catch (ex) {
+			return this._baseService.apiErrorTreatment(ex)
+		}
+	}
+
+	async getAddressByZipcode(zipcode: string){
+		try {
+			const req = await this._baseService.http.get<ResponseDefault>(`/zipcode/${zipcode}`)
 			return req.data;
 		}
 		catch (ex) {

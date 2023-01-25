@@ -71,7 +71,7 @@
             </div>
           </div>
           
-          <va-button @click="saveFormData($refs.form.validate())" class="mr-2 mb-2"> Salvar</va-button>
+          <va-button v-if="!hideSaveButton" @click="saveFormData($refs.form.validate())" class="mr-2 mb-2"> Salvar</va-button>
         </va-form>
       </va-card-content>
     </va-card>
@@ -80,27 +80,23 @@
 
 <script lang="ts">
 
+  import { GeneralInfo } from '@/types/User';
   import { defineComponent, Ref, ref } from 'vue';
   import { regex } from '../../../../utils/regex';
-  //import  formatCPF from '../../../../utils/formatCPF'
-
-
-  interface FormData{
-    email: string;
-    name: string;
-    cpf: string;
-    cell: string;
-    birthDate: string;
-  }
+  
 
   export default defineComponent({
 
-    emits: ['save'],
+    props:{
+      hideSaveButton: {
+        type: Boolean,
+        default: false
+      }
+    },
 
     setup() {
 
-
-      const formData: Ref<FormData> = ref({
+      const formData: Ref<GeneralInfo> = ref({
         email: '',
         name: '',
         cpf: '',
@@ -126,10 +122,10 @@
 
     methods:{
       saveFormData(validation: boolean){
-        console.log(this.formData);
-        console.log(this.validation);
-        //TODO: passar formulario aqui
-        this.$emit('save', validation)
+        console.log(this.$store.state);
+        if(validation){
+          this.$store.commit('setFormGeneralInfo', this.formData)
+        }
       }
     }
 

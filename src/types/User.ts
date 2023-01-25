@@ -1,10 +1,5 @@
 
-export default interface User{
-  name: string;
-  email: string;
-  cpf: string;
-  cell: string;
-  birthDate: string;
+export default interface User extends GeneralInfo{
   saldo?: number;
   paymentInfo?: PaymentInfo;
   receiveInfo?: ReceiveInfo;
@@ -41,4 +36,12 @@ export interface AddressInfo{
   city: string;
   estate: string;
   complement: string;
+}
+
+export interface GeneralInfo{
+  name: string;
+  email: string;
+  cpf: string;
+  cell: string;
+  birthDate: string;
 }

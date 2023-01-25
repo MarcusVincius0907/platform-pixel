@@ -72,7 +72,6 @@ declare module "@vue/runtime-core" {
 
 
 setupAuth(authConfig, callbackRedirect).then((auth: any) => {
-
   app.use(auth)
   app.mount('#app')
 })

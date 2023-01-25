@@ -15,8 +15,12 @@
         </va-card>
       </div>
 
-      <GeneralInfo @save="createUser" class=" tw-mb-5"/>
-      <AddressInfo class=" tw-mb-5"/>
+      <GeneralInfo :hideSaveButton="true" class=" tw-mb-5"/>
+      <AddressInfo :hideSaveButton="true" class=" tw-mb-5"/>
+
+      <div>
+        <va-button class="mr-2 mb-2"> Salvar</va-button>
+      </div>
 
     </div>
   </div>
@@ -26,7 +30,8 @@
 
 import GeneralInfo from  '../../personal-info/general-info/GeneralInfo.vue'
 import AddressInfo from  '../../personal-info/address-info/AddressInfo.vue'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import UserService from '@/services/userService'
 
 export default defineComponent({
   name: 'first-login',
@@ -34,6 +39,13 @@ export default defineComponent({
     GeneralInfo,
     AddressInfo,
   },
+
+  setup(){
+    return{
+      userService: ref<UserService>(new UserService),
+    }
+  },
+  
   methods:{
     createUser(value){
       console.log('createUser', value);

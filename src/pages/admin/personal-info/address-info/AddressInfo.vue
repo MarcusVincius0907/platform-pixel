@@ -81,7 +81,7 @@
 
             
           </div>
-          <va-button @click="saveFormData($refs.formAddress.validate())" class="mr-2 mb-2"> Salvar</va-button>
+          <va-button v-if="!hideSaveButton" @click="saveFormData($refs.formAddress.validate())" class="mr-2 mb-2"> Salvar</va-button>
         </va-form>
       </va-card-content>
     </va-card>
@@ -91,8 +91,9 @@
 
 <script lang="ts">
 
-  import { AddressInfo } from '@/types/User';
-  import { defineComponent, Ref, ref } from 'vue';
+  import UserService from '@/services/userService';
+import { AddressInfo } from '@/types/User';
+  import { computed, defineComponent, Ref, ref } from 'vue';
   import { regex } from '../../../../utils/regex';
   //import  formatCPF from '../../../../utils/formatCPF'
 
@@ -101,6 +102,11 @@
   }
 
   export default defineComponent({
+
+    props:{
+      hideSaveButton: Boolean
+    },
+
     setup() {
 
 
@@ -127,16 +133,19 @@
         formData,
         fieldsValidations,
         validation: ref(null),
+        userService: ref<UserService>(),
       }      
     },
 
     methods:{
       saveFormData(validation: boolean){
-        console.log(validation);
-        console.log(this.formData);
-        console.log(this.validation);
+        
+        if(validation){
+          this.$store.commit('setFormAddressInfo', this.formData)
+        }
+
       }
-    }
+    },
 
    
   })
