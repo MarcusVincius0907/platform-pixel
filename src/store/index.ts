@@ -1,7 +1,13 @@
 import { createStore } from 'vuex'
+import PersonalInformationModule from './modules/PersonalInfo'
 
 const store = createStore({
   strict: true, // process.env.NODE_ENV !== 'production',
+
+  modules:{
+    PersonalInfo: PersonalInformationModule
+  },
+
   state: {
     isSidebarMinimized: false,
     user: null,
@@ -9,6 +15,7 @@ const store = createStore({
     isNewUser: false,
     customLoader: false
   },
+
   mutations: {
     updateSidebarCollapsedState(state, isSidebarMinimized) {
       state.isSidebarMinimized = isSidebarMinimized

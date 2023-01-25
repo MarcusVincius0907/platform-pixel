@@ -70,14 +70,13 @@
             </div>
 
             <div class="flex md4 sm6 xs12">
-              <va-select
+              <va-input 
                 label="Estado"
                 v-model="formData.estate"
-                searchable
-                textBy="description"
+                type="text"
                 :rules="fieldsValidations.required"
-                :options="estates"
-              />
+              >
+              </va-input>
             </div>
 
             
@@ -92,20 +91,10 @@
 
 <script lang="ts">
 
+  import { AddressInfo } from '@/types/User';
   import { defineComponent, Ref, ref } from 'vue';
   import { regex } from '../../../../utils/regex';
   //import  formatCPF from '../../../../utils/formatCPF'
-
-
-  interface FormData{
-    zipcode: string;
-    streeet: string;
-    number: string;
-    district: string;
-    city: string;
-    estate: string;
-    complement: string;
-  }
 
   interface Form{
     validate: Function;
@@ -115,9 +104,9 @@
     setup() {
 
 
-      const formData: Ref<FormData> = ref({
+      const formData: Ref<AddressInfo> = ref({
         zipcode: '',
-        streeet: '',
+        street: '',
         number: '',
         district: '',
         city: '',
@@ -138,7 +127,6 @@
         formData,
         fieldsValidations,
         validation: ref(null),
-        estates: ['SP', 'RJ', 'MG', 'ES']
       }      
     },
 
