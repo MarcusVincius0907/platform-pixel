@@ -80,7 +80,8 @@
 
 <script lang="ts">
 
-  import { GeneralInfo } from '@/types/User';
+  import { MutationsType } from '@/store/modules/PersonalInfo';
+import { GeneralInfo } from '@/types/User';
   import { defineComponent, Ref, ref } from 'vue';
   import { regex } from '../../../../utils/regex';
   
@@ -124,7 +125,7 @@
       saveFormData(validation: boolean){
         console.log(this.$store.state);
         if(validation){
-          this.$store.commit('setFormGeneralInfo', this.formData)
+          this.$store.commit(MutationsType.SET_FORM_GENERAL_INFO, this.formData)
         }
       }
     }

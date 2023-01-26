@@ -1,7 +1,27 @@
-import { createStore } from 'vuex'
-import PersonalInformationModule from './modules/PersonalInfo'
+import { createStore, Store } from 'vuex'
+import { InjectionKey } from 'vue'
+import PersonalInformationModule,{ PersonalInfoModuleModel } from './modules/PersonalInfo'
 
-const store = createStore({
+export interface State {
+  isSidebarMinimized: boolean;
+  user: any;
+  isAuthenticated: any;
+  isNewUser: boolean;
+  customLoader: boolean;
+  PersonalInfo: PersonalInfoModuleModel;
+}
+
+export enum MutationsType{
+  UPDATE_SIDEBAR_COLLPASED_STATE = 'UPDATE_SIDEBAR_COLLPASED_STATE',
+  SET_USER = 'SET_USER',
+  SET_IS_AUTHENTICATED = 'SET_IS_AUTHENTICATED',
+  SET_IS_NEW_USER = 'SET_IS_NEW_USER',
+  SET_CUSTOM_LOADER = 'SET_CUSTOM_LOADER'
+} 
+
+export const key: InjectionKey<Store<State>> = Symbol()
+
+const store = createStore<State>({
   strict: true, // process.env.NODE_ENV !== 'production',
 
   modules:{
@@ -14,23 +34,27 @@ const store = createStore({
     isAuthenticated: undefined,
     isNewUser: false,
     customLoader: false
-  },
+  } as State,
 
   mutations: {
-    updateSidebarCollapsedState(state, isSidebarMinimized) {
+
+    [MutationsType.UPDATE_SIDEBAR_COLLPASED_STATE](state, isSidebarMinimized) {
       state.isSidebarMinimized = isSidebarMinimized
     },
-    setUser(state, user) {
+
+    [MutationsType.SET_USER](state, user) {
       state.user = user
     },
-    setIsAuthenticated(state, value){
+
+    [MutationsType.SET_IS_AUTHENTICATED](state, value){
       state.isAuthenticated = value
     },
-    setIsNewUser(state, value){
+
+    [MutationsType.SET_IS_NEW_USER](state, value){
       state.isNewUser = value
     },
 
-    setCustomLoader(state, value){
+    [MutationsType.SET_CUSTOM_LOADER](state, value){
       state.customLoader = value;
     }
   },

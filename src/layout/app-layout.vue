@@ -33,6 +33,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import Sidebar from '@/components/sidebar/Sidebar';
 import Navbar from '@/components/navbar/Navbar.vue';
+import { MutationsType } from '@/store';
 
 
 export default {
@@ -57,7 +58,7 @@ export default {
     const checkIsMobile = () => window.innerWidth <= mobileBreakPointPX
 
     const onResize = () => {
-      store.commit('updateSidebarCollapsedState', checkIsTablet())
+      store.commit(MutationsType.UPDATE_SIDEBAR_COLLPASED_STATE, checkIsTablet())
 
       isMobile.value = checkIsMobile()
       isTablet.value = checkIsTablet()
@@ -76,7 +77,7 @@ export default {
     onBeforeRouteUpdate(() => {
       if (checkIsTablet()) {
         // Collapse sidebar after route change for Mobile
-        store.commit('updateSidebarCollapsedState', true)
+        store.commit(MutationsType.UPDATE_SIDEBAR_COLLPASED_STATE, true)
       }
     })
 
@@ -85,7 +86,7 @@ export default {
     const isFullScreenSidebar = computed(() => isTablet.value && !isSidebarMinimized.value)
 
     const onCloseSidebarButtonClick = () => {
-      store.commit('updateSidebarCollapsedState', true)
+      store.commit(MutationsType.UPDATE_SIDEBAR_COLLPASED_STATE, true)
     }
 
     return {

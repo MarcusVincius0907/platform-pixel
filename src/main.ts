@@ -5,10 +5,11 @@ import { createI18n } from 'vue-i18n'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
-import store from './store'
+import store, { key, State } from './store'
 import vuesticGlobalConfig from './services/vuestic-ui/global-config'
 import { Auth0Plugin } from './auth';
 import { initAuth } from './auth/config';
+import { Store } from 'vuex';
 
 
 
@@ -25,6 +26,7 @@ const i18nConfig = {
 }
 
 const app = createApp(App)
+//app.use(store, key) -> useStore not work if we use it
 app.use(store)
 app.use(router)
 if (process.env.VUE_APP_GTM_ENABLED === 'true') {
@@ -41,7 +43,7 @@ app.use(VuesticPlugin, vuesticGlobalConfig)
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $auth: Auth0Plugin;
-    $store: any;
+    $store: Store<State>;
   }
 }
 

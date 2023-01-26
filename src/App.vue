@@ -7,6 +7,7 @@
 import { defineComponent, ref } from 'vue'
 import UserService from './services/userService';
 import CustomLoader from './components/loader/customLoader.vue'
+import { MutationsType } from './store';
 
 export default defineComponent({
   components:{
@@ -21,26 +22,24 @@ export default defineComponent({
 
   async mounted(){
     
-    this.userService = new UserService(this.$auth);
-
-    console.log('logged user',this.$auth );
+    this.userService = new UserService();
 
     if(this.$auth && this.$auth.user.value){
       console.log('logged user',this.$auth.user.value );
 
-      this.$store.commit('setCustomLoader', true);
+      this.$store.commit(MutationsType.SET_CUSTOM_LOADER, true);
       const userExists = await this.getUserByEmail(this.$auth.user.value.email);
-      this.$store.commit('setCustomLoader', false);
+      this.$store.commit(MutationsType.SET_CUSTOM_LOADER, false);
 
       if(userExists){
-        this.$store.commit('setIsNewUser', true)
+        this.$store.commit(MutationsType.SET_IS_NEW_USER, true)
       }
 
       if(this.$auth && this.$auth.isAuthenticated.value){
-        this.$store.commit('setIsAuthenticated', true)
-        this.$store.commit('setUser',  this.$auth.user)
+        this.$store.commit(MutationsType.SET_IS_AUTHENTICATED, true)
+        this.$store.commit(MutationsType.SET_USER,  this.$auth.user)
       }else{
-        this.$store.commit('setIsAuthenticated', false)
+        this.$store.commit(MutationsType.SET_IS_AUTHENTICATED, false)
         this.$router.push({name: 'login'})
       }
 

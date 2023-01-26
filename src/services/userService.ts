@@ -7,8 +7,6 @@ export default class UserService{
 
    private _baseService: BaseService = new BaseService();
 
-   constructor(private auth: Auth0Plugin = {} as Auth0Plugin) {}
-
    async getUserByEmail(email: string): Promise<ResponseDefault> {
 		try {
 			const req = await this._baseService.http.put<ResponseDefault>('/user/email', { email })

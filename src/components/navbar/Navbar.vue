@@ -52,6 +52,7 @@ import { computed } from 'vue'
 import VuesticLogo from '@/components/vuestic-logo'
 import VaIconMenuCollapsed from '@/components/icons/VaIconMenuCollapsed'
 import AppNavbarActions from './components/AppNavbarActions'
+import { MutationsType } from '@/store/index'
 
 export default {
   components: { VuesticLogo, AppNavbarActions, VaIconMenuCollapsed },
@@ -62,7 +63,7 @@ export default {
 
     const isSidebarMinimized = computed({
       get: () => store.state.isSidebarMinimized,
-      set: (value) => store.commit('updateSidebarCollapsedState', value)
+      set: (value) => store.commit(MutationsType.UPDATE_SIDEBAR_COLLPASED_STATE, value)
     })
 
     const userName = computed(() => store.state.user?.name.split(' ')[0] )

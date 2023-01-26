@@ -92,6 +92,7 @@
 <script lang="ts">
 
   import UserService from '@/services/userService';
+import { MutationsType } from '@/store/modules/PersonalInfo';
 import { AddressInfo } from '@/types/User';
   import { computed, defineComponent, Ref, ref } from 'vue';
   import { regex } from '../../../../utils/regex';
@@ -141,7 +142,7 @@ import { AddressInfo } from '@/types/User';
       saveFormData(validation: boolean){
         
         if(validation){
-          this.$store.commit('setFormAddressInfo', this.formData)
+          this.$store.commit(MutationsType.SET_FORM_ADDRESS_INFO, this.formData)
         }
 
       }

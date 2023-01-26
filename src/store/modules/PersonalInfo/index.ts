@@ -1,8 +1,13 @@
 import { AddressInfo, GeneralInfo } from "@/types/User";
 
-interface PersonalInfoModuleModel {
+export interface PersonalInfoModuleModel {
    formAddressInfo: AddressInfo | null;
    formGeneralInfo: GeneralInfo | null;
+}
+
+export enum MutationsType{
+    SET_FORM_ADDRESS_INFO = 'SET_FORM_ADDRESS_INFO',
+    SET_FORM_GENERAL_INFO = 'SET_FORM_GENERAL_INFO'
 }
   
 const PersonalInformationModule = {
@@ -11,11 +16,11 @@ const PersonalInformationModule = {
         formGeneralInfo: null
     }),
     mutations: { 
-        setFormAddressInfo(state: PersonalInfoModuleModel , value: AddressInfo){
+        [MutationsType.SET_FORM_ADDRESS_INFO](state: PersonalInfoModuleModel , value: AddressInfo){
             state.formAddressInfo = value;
         },
 
-        setFormGeneralInfo(state: PersonalInfoModuleModel , value: GeneralInfo){
+        [MutationsType.SET_FORM_GENERAL_INFO](state: PersonalInfoModuleModel , value: GeneralInfo){
             state.formGeneralInfo = value;
         }
     },
