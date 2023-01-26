@@ -1,5 +1,6 @@
+import MainAction from "./actions";
 import PersonalInformationModule from "./modules/PersonalInfo";
-import MainMutations from "./mutations";
+import MainMutation from "./mutations";
 import MainState, { State } from "./state";
 
 export default class MainStore {
@@ -7,11 +8,14 @@ export default class MainStore {
     constructor(){
       this.strict = true;
       this.state = new MainState()
-      this.mutations = new MainMutations();
+      this.mutations = new MainMutation();
+      
   
       this.modules = {
         PersonalInfo: PersonalInformationModule
       }
+
+      this.actions = new MainAction();
   
     }
   

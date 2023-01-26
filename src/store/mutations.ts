@@ -8,7 +8,7 @@ export enum MutationsType{
     SET_CUSTOM_LOADER = 'SET_CUSTOM_LOADER'
 } 
 
-export default class MainMutations {
+export default class MainMutation {
 
     [MutationsType.UPDATE_SIDEBAR_COLLPASED_STATE](state: State, value) {
         state.isSidebarMinimized = value

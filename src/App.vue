@@ -5,8 +5,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import UserService from './services/userService';
 import CustomLoader from './components/loader/customLoader.vue'
+import { ActionTypes } from './store/actions';
 import { MutationsType } from './store/mutations';
 
 export default defineComponent({
@@ -14,26 +14,12 @@ export default defineComponent({
     CustomLoader
   },
 
-  setup() {
-    return {
-      userService: ref<UserService>(),
-    }
-  },
-
   async mounted(){
-    
-    this.userService = new UserService();
 
     if(this.$auth && this.$auth.user.value){
       console.log('logged user',this.$auth.user.value );
 
-      this.$store.commit(MutationsType.SET_CUSTOM_LOADER, true);
-      const userExists = await this.getUserByEmail(this.$auth.user.value.email);
-      this.$store.commit(MutationsType.SET_CUSTOM_LOADER, false);
-
-      if(userExists){
-        this.$store.commit(MutationsType.SET_IS_NEW_USER, true)
-      }
+      this.$store.dispatch(ActionTypes.CHECK_USER_EXISTS)
 
       if(this.$auth && this.$auth.isAuthenticated.value){
         this.$store.commit(MutationsType.SET_IS_AUTHENTICATED, true)
@@ -45,17 +31,6 @@ export default defineComponent({
 
     }  
     
-  },
-
-  methods:{
-    async getUserByEmail(email: string){
-      try{
-        return await this.userService?.getUserByEmail(email);
-      }catch(ex){
-        console.log(ex);
-        return null;
-      }
-    }
   },
 
   computed:{
