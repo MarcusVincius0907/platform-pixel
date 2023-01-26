@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { MutationsType } from '@/store/index';
+import { MutationsType } from '@/store/mutations';
 import { CustomLoader } from '../../components/loader/customLoader.vue'
 export default {
   name: 'callback',

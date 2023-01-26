@@ -33,7 +33,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import Sidebar from '@/components/sidebar/Sidebar';
 import Navbar from '@/components/navbar/Navbar.vue';
-import { MutationsType } from '@/store';
+import { MutationsType } from '@/store/mutations';
 
 
 export default {

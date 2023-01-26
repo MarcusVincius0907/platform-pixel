@@ -52,7 +52,7 @@ import { computed } from 'vue'
 import VuesticLogo from '@/components/vuestic-logo'
 import VaIconMenuCollapsed from '@/components/icons/VaIconMenuCollapsed'
 import AppNavbarActions from './components/AppNavbarActions'
-import { MutationsType } from '@/store/index'
+import { MutationsType } from '@/store/mutations'
 
 export default {
   components: { VuesticLogo, AppNavbarActions, VaIconMenuCollapsed },

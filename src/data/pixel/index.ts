@@ -1,14 +1,21 @@
 import Pixel, {PixelsKey} from '@/types/Pixel';
+
+interface PieceItem {
+  id: string;
+  color: string;
+  piece: string;
+}
+
 export default class PixelMock {
   constructor(){
-    const piece1 = []
-    const piece2 = []
-    const piece3 = []
-    const piece4 = []
-    const piece5 = []
-    const piece6 = []
-    const piece7 = []
-    const piece8 = []
+    const piece1 = [] as PieceItem[]
+    const piece2 = [] as PieceItem[]
+    const piece3 = [] as PieceItem[]
+    const piece4 = [] as PieceItem[]
+    const piece5 = [] as PieceItem[]
+    const piece6 = [] as PieceItem[]
+    const piece7 = [] as PieceItem[]
+    const piece8 = [] as PieceItem[]
 
     const generateId = () => {
       return (Math.random() * 100000).toFixed(0)

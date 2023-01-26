@@ -5,11 +5,12 @@ import { createI18n } from 'vue-i18n'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
-import store, { key, State } from './store'
+import store from './store'
 import vuesticGlobalConfig from './services/vuestic-ui/global-config'
 import { Auth0Plugin } from './auth';
 import { initAuth } from './auth/config';
 import { Store } from 'vuex';
+import { State } from './store/state';
 
 
 

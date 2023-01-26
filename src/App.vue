@@ -7,7 +7,7 @@
 import { defineComponent, ref } from 'vue'
 import UserService from './services/userService';
 import CustomLoader from './components/loader/customLoader.vue'
-import { MutationsType } from './store';
+import { MutationsType } from './store/mutations';
 
 export default defineComponent({
   components:{
