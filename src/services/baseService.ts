@@ -1,24 +1,13 @@
 import axios, { AxiosInstance } from "axios"
 import ResponseDefault from "@/types/ResponseDefault"
-import { Auth0Plugin } from "@/auth"
-
-import createAuth0Client, { Auth0Client } from '@auth0/auth0-spa-js';
+import createAuth0Client from '@auth0/auth0-spa-js';
 import authConfig from '../../auth_config.json'
-
-
-
-async function getAuthToken(){
-  return createAuth0Client(authConfig).then(async (res) => {
-   return  await res.getTokenSilently();
-  }).catch(er => {
-    console.log(er);
-  })
-}
-
-
+import { useAuth as auth } from "@/auth/config";
 
 export default class BaseService {
+
     public http: AxiosInstance;
+
     constructor() { 
 
       this.http = axios.create({
@@ -26,17 +15,14 @@ export default class BaseService {
       })  
 
       this.http.interceptors.request.use(async (config) => {
-        const token = await getAuthToken();
+        const token = await auth.getTokenSilently();
         config.headers['authorization'] = `Bearer ${token}`
         return config;
       }, (error) => {
         return Promise.reject(error);
       });
-
-      
         
     }
-
 
     public apiErrorTreatment(exception: any): ResponseDefault {
       console.log(exception);

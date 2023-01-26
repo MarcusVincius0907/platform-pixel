@@ -7,6 +7,8 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import vuesticGlobalConfig from './services/vuestic-ui/global-config'
+import { Auth0Plugin } from './auth';
+import { initAuth } from './auth/config';
 
 
 
@@ -36,32 +38,6 @@ if (process.env.VUE_APP_GTM_ENABLED === 'true') {
 app.use(createI18n(i18nConfig))
 app.use(VuesticPlugin, vuesticGlobalConfig)
 
-// Setup Auth0
-/* import { Auth0ClientOptions } from '@auth0/auth0-spa-js' */
-import { setupAuth, Auth0Plugin } from './auth'
-import authConfig from '../auth_config.json'
-
-function callbackRedirect(appState: any) {
-    router.push(
-        appState && appState.targetUrl
-        ? appState.targetUrl
-        : '/dashboard'
-    );
-}
-
-
-// SETUP AUTH URL
-authConfig.redirect_uri = `http://localhost:8080/callback`
-
-// switch(import.meta.env.MODE)
-// {
-//   case 'development': default: authConfig.redirect_uri = 'http://localhost:3000/callback'; break;
-//   case 'staging': case 'production': authConfig.redirect_uri = 'https://rem-frontend-dev.vercel.app/callback'; break;
-//   case 'production': authConfig.redirect_uri = 'https://rem-frontend.vercel.app/callback'; break;
-// }
-
-
-
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $auth: Auth0Plugin;
@@ -69,14 +45,14 @@ declare module "@vue/runtime-core" {
   }
 }
 
+app.provide('auth', app.config.globalProperties.$auth);
 
-
-setupAuth(authConfig, callbackRedirect).then((auth: any) => {
-  app.use(auth)
+initAuth().then((res: any) => {
+  app.use(res)
   app.mount('#app')
 })
 
-app.provide('auth', app.config.globalProperties.$auth);
+export default app;
 
 
 
