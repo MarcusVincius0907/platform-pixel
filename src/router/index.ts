@@ -242,10 +242,6 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-
-  console.log('to', to.name);
-  console.log('store', Store);
-
     
   if (
     (to.name !== 'login' && to.path !== '/callback') &&

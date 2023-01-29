@@ -40,16 +40,6 @@
       PaymentInfo,
     },
 
-    setup() {
-      console.log('hello');
-      
-    },
-    /* data () {
-     
-    },
-    methods: {
-      
-    }, */
   })
 </script>
 

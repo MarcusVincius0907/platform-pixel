@@ -45,6 +45,7 @@ declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $auth: Auth0Plugin;
     $store: Store<State>;
+    $vaToast: any;
   }
 }
 

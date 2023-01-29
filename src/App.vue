@@ -8,6 +8,7 @@ import { defineComponent, ref } from 'vue'
 import CustomLoader from './components/loader/customLoader.vue'
 import { ActionTypes } from './store/actions';
 import { MutationsType } from './store/mutations';
+import Notification from '@/types/Notification'
 
 export default defineComponent({
   components:{
@@ -17,27 +18,44 @@ export default defineComponent({
   async mounted(){
 
     if(this.$auth && this.$auth.user.value){
-      console.log('logged user',this.$auth.user.value );
+      console.log('logged user from $auth',this.$auth.user.value );
 
       this.$store.dispatch(ActionTypes.CHECK_USER_EXISTS)
 
       if(this.$auth && this.$auth.isAuthenticated.value){
         this.$store.commit(MutationsType.SET_IS_AUTHENTICATED, true)
-        this.$store.commit(MutationsType.SET_USER,  this.$auth.user)
+        this.$store.commit(MutationsType.SET_AUTH_USER,  this.$auth.user)
       }else{
         this.$store.commit(MutationsType.SET_IS_AUTHENTICATED, false)
         this.$router.push({name: 'login'})
       }
 
     }  
+
+    this.$store.subscribe( (mutation) => {
+      if(mutation.type === MutationsType.SET_NOTIFICATION){
+        this.launchNotification(mutation.payload)
+      }
+    })
     
   },
 
   computed:{
     isLoading(){
       return this.$store.state.customLoader;
-    }
-  }
+    },
+   
+  },
+
+  methods: {
+    launchNotification ({title, message, color}: Notification) {
+      this.$vaToast.init({
+        title,
+        message,
+        color
+      })
+    },
+  },
 
 })
 </script>

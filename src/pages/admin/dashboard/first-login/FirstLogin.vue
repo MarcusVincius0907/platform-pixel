@@ -15,23 +15,25 @@
         </va-card>
       </div>
 
-      <GeneralInfo :hideSaveButton="true" class=" tw-mb-5"/>
-      <AddressInfo :hideSaveButton="true" class=" tw-mb-5"/>
+      <GeneralInfo :hideSaveButton="true"  ref="generalInfoRef" class=" tw-mb-5"/>
+      <AddressInfo :hideSaveButton="true"  ref="addressInfoRef"  class=" tw-mb-5"/>
 
       <div>
-        <va-button class="mr-2 mb-2"> Salvar</va-button>
+        <va-button class="mr-2 mb-2" @click="createUser()"> Salvar</va-button>
       </div>
 
     </div>
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 
 import GeneralInfo from  '../../personal-info/general-info/GeneralInfo.vue'
 import AddressInfo from  '../../personal-info/address-info/AddressInfo.vue'
-import { defineComponent, ref } from 'vue'
-import UserService from '@/services/userService'
+import { defineComponent } from 'vue'
+import { ActionTypes } from '@/store/actions'
+import User from '@/types/User'
+import { MutationsType as MainMutationsType} from '@/store/mutations'
 
 export default defineComponent({
   name: 'first-login',
@@ -40,15 +42,37 @@ export default defineComponent({
     AddressInfo,
   },
 
-  setup(){
-    return{
-      userService: ref<UserService>(new UserService),
-    }
-  },
   
   methods:{
-    createUser(value){
-      console.log('createUser', value);
+    createUser(){
+  
+      const generalInfo = this.$store.state.PersonalInfo.formGeneralInfo;
+      const addressInfo = this.$store.state.PersonalInfo.formAddressInfo;
+      const isAddressInfoValid = this.$refs?.addressInfoRef?.validate();
+      const isGeneralInfoValid = this.$refs?.generalInfoRef?.validate();
+      
+      let newUser: User;
+
+      if( (isAddressInfoValid &&  isGeneralInfoValid) && (generalInfo && addressInfo)){
+
+        newUser = {
+          ...generalInfo,
+          addressInfo: addressInfo,
+          paymentInfo: null,
+          receiveInfo: null
+        }
+
+        this.$store.dispatch(ActionTypes.CREATE_USER, newUser);
+        return;
+      }
+
+      this.$store.commit(MainMutationsType.SET_NOTIFICATION, {
+        title: 'Atenção',
+        message: 'Todos os campos devem ser preenchidos antes de enviar.',
+        color: 'warning'
+      })
+      
+      
     }
   }
   

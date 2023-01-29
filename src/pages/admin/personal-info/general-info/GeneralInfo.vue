@@ -4,7 +4,7 @@
       <va-card-content>
         <div class="mb-3 tw-font-bold">Informações Gerais</div>
         <va-form
-          ref="form"
+          ref="formAddress"
           @validation="validation = $event"
         >
           <div class="row">
@@ -80,8 +80,8 @@
 
 <script lang="ts">
 
-  import { MutationsType } from '@/store/modules/PersonalInfo';
-import { GeneralInfo } from '@/types/User';
+  import { MutationsType } from '@/store/modules/PersonalInfo/mutations';
+  import { GeneralInfo } from '@/types/User';
   import { defineComponent, Ref, ref } from 'vue';
   import { regex } from '../../../../utils/regex';
   
@@ -117,16 +117,37 @@ import { GeneralInfo } from '@/types/User';
       return{
         formData,
         fieldsValidations,
-        validation: ref(null)
+        validation: ref(null),
+        timeout: ref(0)
       }      
     },
 
     methods:{
       saveFormData(validation: boolean){
-        console.log(this.$store.state);
         if(validation){
           this.$store.commit(MutationsType.SET_FORM_GENERAL_INFO, this.formData)
         }
+      },
+
+      validate(){
+        return this.$refs.formAddress.validate()
+      }
+    },
+
+    watch:{
+
+      formData: {
+        handler(nValue, oValue) {
+
+          if(this.timeout)
+            {clearTimeout(this.timeout)}
+
+          this.timeout = setTimeout(() => {
+            this.$store.commit(MutationsType.SET_FORM_GENERAL_INFO, nValue)
+          }, 300);
+
+        },
+        deep: true
       }
     }
 

@@ -19,7 +19,7 @@
                 </va-input>
               </div>
               <div class=" tw-w-1/3 tw-flex tw-justify-start tw-items-center">
-                <va-button class="" size="small"> Buscar</va-button>
+                <va-button class="" size="small" @click="getAddressByZipcode()"> Buscar</va-button>
               </div>
             </div>
           </div>
@@ -92,9 +92,10 @@
 <script lang="ts">
 
   import UserService from '@/services/userService';
-import { MutationsType } from '@/store/modules/PersonalInfo';
-import { AddressInfo } from '@/types/User';
-  import { computed, defineComponent, Ref, ref } from 'vue';
+  import { MutationsType } from '@/store/modules/PersonalInfo/mutations';
+  import { ActionTypes } from '@/store/modules/PersonalInfo/actions';
+  import { AddressInfo } from '@/types/User';
+  import {defineComponent, Ref, ref } from 'vue';
   import { regex } from '../../../../utils/regex';
   //import  formatCPF from '../../../../utils/formatCPF'
 
@@ -135,18 +136,47 @@ import { AddressInfo } from '@/types/User';
         fieldsValidations,
         validation: ref(null),
         userService: ref<UserService>(),
+        timeout: ref(0)
       }      
     },
 
-    methods:{
-      saveFormData(validation: boolean){
-        
-        if(validation){
-          this.$store.commit(MutationsType.SET_FORM_ADDRESS_INFO, this.formData)
-        }
-
+    computed: {
+      formAddressInfo(){
+        return this.$store.state.PersonalInfo.formAddressInfo
       }
     },
+
+    methods:{
+      getAddressByZipcode(){
+        if(this.formData && this.formData.zipcode)
+          {this.$store.dispatch(ActionTypes.REQUEST_ADDRESS_BY_ZIPCODE, this.formData.zipcode)}
+      },
+
+      validate(){
+        return this.$refs.formAddress.validate()
+      }
+    },
+
+    watch:{
+      formAddressInfo(nValue, oValue){
+        console.log('form has changed', nValue);
+        this.formData = nValue
+      },
+
+      formData: {
+        handler(nValue, oValue) {
+
+          if(this.timeout)
+            {clearTimeout(this.timeout)}
+
+          this.timeout = setTimeout(() => {
+            this.$store.commit(MutationsType.SET_FORM_ADDRESS_INFO, nValue)
+          }, 300);
+
+        },
+        deep: true
+      }
+    }
 
    
   })

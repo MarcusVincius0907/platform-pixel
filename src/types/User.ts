@@ -1,9 +1,9 @@
 
 export default interface User extends GeneralInfo{
   saldo?: number;
-  paymentInfo?: PaymentInfo;
-  receiveInfo?: ReceiveInfo;
-  addressInfo?: AddressInfo;
+  paymentInfo: PaymentInfo | null;
+  receiveInfo: ReceiveInfo | null;
+  addressInfo: AddressInfo | null;
 }
 
 export interface PaymentInfo{
