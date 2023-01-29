@@ -48,8 +48,8 @@ export default defineComponent({
   
       const generalInfo = this.$store.state.PersonalInfo.formGeneralInfo;
       const addressInfo = this.$store.state.PersonalInfo.formAddressInfo;
-      const isAddressInfoValid = this.$refs?.addressInfoRef?.validate();
-      const isGeneralInfoValid = this.$refs?.generalInfoRef?.validate();
+      const isAddressInfoValid = (this.$refs?.addressInfoRef as any)?.validate();
+      const isGeneralInfoValid = (this.$refs?.generalInfoRef as any)?.validate();
       
       let newUser: User;
 

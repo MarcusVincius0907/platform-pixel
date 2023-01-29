@@ -153,7 +153,8 @@
       },
 
       validate(){
-        return this.$refs.formAddress.validate()
+        const formAddress = this.$refs.formAddress as any
+        return formAddress.validate()
       }
     },
 
