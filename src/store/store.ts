@@ -2,21 +2,18 @@ import { mainAction } from "./actions";
 import PersonalInformationModule from "./modules/PersonalInfo/store";
 import { mainMutations, MutationsType } from "./mutations";
 import { mainState, State } from "./state";
-import { MutationTree } from 'vuex'
-
+import { MutationTree } from "vuex";
 
 export default class MainStore {
-
-  constructor(){
-    this.strict = true;
+  constructor() {
+    this.strict = false;
     this.state = mainState;
     this.mutations = mainMutations;
     this.actions = mainAction;
 
     this.modules = {
-      PersonalInfo: PersonalInformationModule
-    }
-
+      PersonalInfo: PersonalInformationModule,
+    };
   }
 
   strict!: boolean;
@@ -25,5 +22,4 @@ export default class MainStore {
   mutations: any;
   actions: any;
   getters: any;
-  
 }

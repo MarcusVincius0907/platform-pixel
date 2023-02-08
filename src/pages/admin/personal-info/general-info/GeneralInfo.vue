@@ -3,17 +3,14 @@
     <va-card :title="$t('forms.inputs.title')">
       <va-card-content>
         <div class="mb-3 tw-font-bold">Informações Gerais</div>
-        <va-form
-          ref="formAddress"
-          @validation="validation = $event"
-        >
+        <va-form ref="formAddress" @validation="validation = $event">
           <div class="row">
             <div class="flex md4 sm6 xs12">
-              <va-input 
+              <va-input
                 v-model="formData.email"
                 type="email"
                 label="Email"
-                :rules="[fieldsValidations.required, fieldsValidations.email]"
+                disabled
               >
               </va-input>
             </div>
@@ -29,12 +26,16 @@
             </div>
 
             <div class="flex md4 sm6 xs12">
-              <va-input 
+              <va-input
                 v-model="formData.cpf"
-                :value = "hello"
+                :value="hello"
                 type="text"
                 label="CPF"
-                :rules="[fieldsValidations.required, fieldsValidations.cpf, fieldsValidations.maxLength(11) ]"
+                :rules="[
+                  fieldsValidations.required,
+                  fieldsValidations.cpf,
+                  fieldsValidations.maxLength(11),
+                ]"
               >
               </va-input>
             </div>
@@ -42,16 +43,18 @@
             <div class="flex md4 sm6 xs12">
               <va-input
                 v-model="formData.cell"
-                type="text" 
+                type="text"
                 label="Celular"
-                :rules="[fieldsValidations.required,  fieldsValidations.maxLength(13), fieldsValidations.number]"
+                :rules="[
+                  fieldsValidations.required,
+                  fieldsValidations.maxLength(13),
+                  fieldsValidations.number,
+                ]"
               >
               </va-input>
             </div>
 
             <div class="flex md4 sm6 xs12">
-             
-             
               <!--  <va-input
                 v-model="formData.birthDate"
                 type="text"
@@ -64,14 +67,16 @@
                 label="Data de Nascimento"
                 :rules="fieldsValidations.required"
               />
-             
-              
-              
-             
             </div>
           </div>
-          
-          <va-button v-if="!hideSaveButton" @click="saveFormData($refs.form.validate())" class="mr-2 mb-2"> Salvar</va-button>
+
+          <va-button
+            v-if="!hideSaveButton"
+            @click="saveFormData($refs.form.validate())"
+            class="mr-2 mb-2"
+          >
+            Salvar</va-button
+          >
         </va-form>
       </va-card-content>
     </va-card>
@@ -79,79 +84,99 @@
 </template>
 
 <script lang="ts">
+import { MutationsType } from "@/store/modules/PersonalInfo/mutations";
+import { GeneralInfo } from "@/types/User";
+import { defineComponent, Ref, ref } from "vue";
+import { regex } from "../../../../utils/regex";
 
-  import { MutationsType } from '@/store/modules/PersonalInfo/mutations';
-  import { GeneralInfo } from '@/types/User';
-  import { defineComponent, Ref, ref } from 'vue';
-  import { regex } from '../../../../utils/regex';
-  
+export default defineComponent({
+  props: {
+    hideSaveButton: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
-  export default defineComponent({
+  setup() {
+    const formData: Ref<GeneralInfo> = ref({
+      email: "",
+      name: "",
+      cpf: "",
+      cell: "",
+      birthDate: "",
+    });
 
-    props:{
-      hideSaveButton: {
-        type: Boolean,
-        default: false
+    const fieldsValidations = {
+      required: [
+        (value: string) => (!!value && value.length > 0) || "Campo é requirido",
+      ],
+      email: [(value: string) => regex.email.test(value) || "Email inválido"],
+      cpf: [(value: string) => regex.cpf.test(value) || "CPF inválido"],
+      maxLength: (length: number) => [
+        (value: string) =>
+          value.length <= length || `O limite é de ${length} caracteres`,
+      ],
+      number: [(value: number) => Number(value) || "Só é permitido números"],
+    };
+
+    return {
+      formData,
+      fieldsValidations,
+      validation: ref(null),
+      timeout: ref(0),
+    };
+  },
+
+  computed: {
+    generalInfo() {
+      return {
+        email: this.$store.state.user?.email ?? "",
+        name: this.$store.state.user?.name ?? "",
+        cpf: this.$store.state.user?.cpf ?? "",
+        cell: this.$store.state.user?.cell ?? "",
+        birthDate: this.$store.state.user?.birthDate ?? "",
+      };
+    },
+
+    auth0Email() {
+      return this.$store.state.auth0User?.email;
+    },
+  },
+
+  methods: {
+    saveFormData(validation: boolean) {
+      if (validation) {
+        this.$store.commit(MutationsType.SET_FORM_GENERAL_INFO, this.formData);
       }
     },
 
-    setup() {
+    validate() {
+      const formAddress = this.$refs.formAddress as any;
+      return formAddress.validate();
+    },
+  },
 
-      const formData: Ref<GeneralInfo> = ref({
-        email: '',
-        name: '',
-        cpf: '',
-        cell: '',
-        birthDate: '' 
-      })
-
-      const fieldsValidations = {
-        required: [(value: string) => (!!value && value.length > 0) || 'Campo é requirido'],
-        email: [(value: string) => (regex.email.test(value)) || 'Email inválido'],
-        cpf: [(value: string) => (regex.cpf.test(value)) || 'CPF inválido'],
-        maxLength: (length: number) => [(value: string) => (value.length <= length) || `O limite é de ${length} caracteres`],
-        number: [(value: number) => (Number(value)) || 'Só é permitido números']
-        
-      }
-
-      return{
-        formData,
-        fieldsValidations,
-        validation: ref(null),
-        timeout: ref(0)
-      }      
+  watch: {
+    generalInfo(nValue) {
+      this.formData = nValue;
     },
 
-    methods:{
-      saveFormData(validation: boolean){
-        if(validation){
-          this.$store.commit(MutationsType.SET_FORM_GENERAL_INFO, this.formData)
+    formData: {
+      handler(nValue, oValue) {
+        if (this.timeout) {
+          clearTimeout(this.timeout);
         }
-      },
 
-      validate(){
-        const formAddress = this.$refs.formAddress as any
-        return formAddress.validate()
-      }
+        this.timeout = setTimeout(() => {
+          this.$store.commit(MutationsType.SET_FORM_GENERAL_INFO, nValue);
+        }, 300);
+      },
+      deep: true,
     },
 
-    watch:{
-
-      formData: {
-        handler(nValue, oValue) {
-
-          if(this.timeout)
-            {clearTimeout(this.timeout)}
-
-          this.timeout = setTimeout(() => {
-            this.$store.commit(MutationsType.SET_FORM_GENERAL_INFO, nValue)
-          }, 300);
-
-        },
-        deep: true
-      }
-    }
-
-   
-  })
+    auth0Email(nValue) {
+      this.formData.email = nValue;
+    },
+  },
+});
 </script>
