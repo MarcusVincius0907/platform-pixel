@@ -130,16 +130,13 @@ export default defineComponent({
   computed: {
     generalInfo() {
       return {
-        email: this.$store.state.user?.email ?? "",
-        name: this.$store.state.user?.name ?? "",
-        cpf: this.$store.state.user?.cpf ?? "",
-        cell: this.$store.state.user?.cell ?? "",
-        birthDate: this.$store.state.user?.birthDate ?? "",
+        email: this.$store.state.user?.email ?? this.formData.email ?? "",
+        name: this.$store.state.user?.name ?? this.formData.name ?? "",
+        cpf: this.$store.state.user?.cpf ?? this.formData.cpf ?? "",
+        cell: this.$store.state.user?.cell ?? this.formData.cell ?? "",
+        birthDate:
+          this.$store.state.user?.birthDate ?? this.formData.birthDate ?? "",
       };
-    },
-
-    auth0Email() {
-      return this.$store.state.auth0User?.email;
     },
   },
 
@@ -162,7 +159,7 @@ export default defineComponent({
     },
 
     formData: {
-      handler(nValue, oValue) {
+      handler(nValue) {
         if (this.timeout) {
           clearTimeout(this.timeout);
         }
@@ -172,10 +169,6 @@ export default defineComponent({
         }, 300);
       },
       deep: true,
-    },
-
-    auth0Email(nValue) {
-      this.formData.email = nValue;
     },
   },
 });

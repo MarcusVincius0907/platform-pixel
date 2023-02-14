@@ -16,17 +16,19 @@ export default defineComponent({
   },
 
   async mounted() {
-    if (this.$auth && this.$auth.user.value) {
+    if (this.$auth && this.$auth.isAuthenticated.value) {
       console.log("logged user from $auth", this.$auth.user.value);
-
-      if (this.$auth && this.$auth.isAuthenticated.value) {
-        this.$store.commit(MutationsType.SET_IS_AUTHENTICATED, true);
-        this.$store.commit(MutationsType.SET_AUTH_USER, this.$auth.user);
-        this.$store.dispatch(ActionTypes.CHECK_USER_EXISTS);
-      } else {
-        this.$store.commit(MutationsType.SET_IS_AUTHENTICATED, false);
-        this.$router.push({ name: "login" });
-      }
+      this.$store.commit(MutationsType.SET_IS_AUTHENTICATED, true);
+      this.$store.commit(MutationsType.SET_AUTH_USER, this.$auth.user);
+      const user = this.$store.state.user;
+      this.$store.commit(MutationsType.SET_USER, {
+        ...user,
+        email: this.$auth.user.value.email,
+      });
+      this.$store.dispatch(ActionTypes.CHECK_USER_EXISTS);
+    } else {
+      this.$store.commit(MutationsType.SET_IS_AUTHENTICATED, false);
+      this.$router.push({ name: "login" });
     }
 
     this.$store.subscribe((mutation) => {

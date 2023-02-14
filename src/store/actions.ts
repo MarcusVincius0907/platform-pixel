@@ -1,7 +1,7 @@
 import Notification from "@/types/Notification";
 import { ResponseStatus } from "@/types/ResponseDefault";
 import User from "@/types/User";
-import { Store } from "vuex";
+import { ActionContext, Store } from "vuex";
 import { MutationsType } from "./mutations";
 import { State } from "./state";
 
@@ -11,7 +11,7 @@ export enum ActionTypes {
 }
 
 export const mainAction = {
-  async [ActionTypes.CHECK_USER_EXISTS](context: Store<State>) {
+  async [ActionTypes.CHECK_USER_EXISTS](context: ActionContext<State, State>) {
     if (context.state.auth0User && context.state.auth0User.email) {
       context.commit(MutationsType.SET_CUSTOM_LOADER, true);
 
@@ -40,7 +40,10 @@ export const mainAction = {
     }
   },
 
-  async [ActionTypes.CREATE_USER](context: Store<State>, value: User) {
+  async [ActionTypes.CREATE_USER](
+    context: ActionContext<State, State>,
+    value: User
+  ) {
     context.commit(MutationsType.SET_CUSTOM_LOADER, true);
 
     const UserService = await import("@/services/userService");

@@ -78,7 +78,7 @@
             <div class="flex md4 sm6 xs12">
               <va-input
                 label="Estado"
-                v-model="formData.estate"
+                v-model="formData.state"
                 type="text"
                 :rules="fieldsValidations.required"
               >
@@ -124,7 +124,7 @@ export default defineComponent({
       number: "",
       district: "",
       city: "",
-      estate: "",
+      state: "",
       complement: "",
     });
 

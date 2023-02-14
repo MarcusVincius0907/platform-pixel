@@ -2,7 +2,6 @@ import { mainAction } from "./actions";
 import PersonalInformationModule from "./modules/PersonalInfo/store";
 import { mainMutations, MutationsType } from "./mutations";
 import { mainState, State } from "./state";
-import { MutationTree } from "vuex";
 
 export default class MainStore {
   constructor() {

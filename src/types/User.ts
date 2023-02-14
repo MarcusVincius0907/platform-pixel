@@ -1,44 +1,42 @@
-
-export default interface User extends GeneralInfo{
+export default interface User extends GeneralInfo {
   saldo?: number;
   paymentInfo: PaymentInfo | null;
   receiveInfo: ReceiveInfo | null;
   addressInfo: AddressInfo | null;
 }
 
-export interface PaymentInfo{
+export interface PaymentInfo {
   cards: Array<Card>;
 }
 
-interface Card{
+interface Card {
   cardNumber: string;
   cardName: string;
   expirationDate: string;
 }
 
-export interface ReceiveInfo{
+export interface ReceiveInfo {
   nickname: string;
   bankInfo?: BankInfo;
   pixKey?: string;
-
 }
-interface BankInfo{
+interface BankInfo {
   bankName: string;
   agency: string;
   account: string;
 }
 
-export interface AddressInfo{
+export interface AddressInfo {
   zipcode: string;
   street: string;
   number: string;
   district: string;
   city: string;
-  estate: string;
+  state: string;
   complement: string;
 }
 
-export interface GeneralInfo{
+export interface GeneralInfo {
   name: string;
   email: string;
   cpf: string;

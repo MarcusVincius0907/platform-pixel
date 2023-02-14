@@ -3,15 +3,15 @@
     <va-navbar>
       <template v-slot:left>
         <div class="left">
-          <va-icon-menu-collapsed 
+          <va-icon-menu-collapsed
             @click="isSidebarMinimized = !isSidebarMinimized"
             :class="{ 'x-flip': isSidebarMinimized }"
             class="va-navbar__item"
             :color="colors.primary"
           />
           <router-link to="/">
-            <vuestic-logo class="logo"/>
-          </router-link>          
+            <vuestic-logo class="logo" />
+          </router-link>
         </div>
       </template>
       <!-- <template v-slot:center>
@@ -46,84 +46,85 @@
 </template>
 
 <script>
-import { useColors } from 'vuestic-ui'
-import { useStore } from 'vuex'
-import { computed } from 'vue'
-import VuesticLogo from '@/components/vuestic-logo'
-import VaIconMenuCollapsed from '@/components/icons/VaIconMenuCollapsed'
-import AppNavbarActions from './components/AppNavbarActions'
-import { MutationsType } from '@/store/mutations'
+import { useColors } from "vuestic-ui";
+import { useStore } from "vuex";
+import { computed } from "vue";
+import VuesticLogo from "@/components/vuestic-logo";
+import VaIconMenuCollapsed from "@/components/icons/VaIconMenuCollapsed";
+import AppNavbarActions from "./components/AppNavbarActions";
+import { MutationsType } from "@/store/mutations";
 
 export default {
   components: { VuesticLogo, AppNavbarActions, VaIconMenuCollapsed },
   setup() {
-    const { getColors } = useColors()
-    const colors = computed(() => getColors() )
-    const store = useStore()
+    const { getColors } = useColors();
+    const colors = computed(() => getColors());
+    const store = useStore();
 
     const isSidebarMinimized = computed({
       get: () => store.state.isSidebarMinimized,
-      set: (value) => store.commit(MutationsType.UPDATE_SIDEBAR_COLLPASED_STATE, value)
-    })
+      set: (value) =>
+        store.commit(MutationsType.UPDATE_SIDEBAR_COLLPASED_STATE, value),
+    });
 
-    const userName = computed(() => store.state.user?.name.split(' ')[0] )
+    const userName = computed(() => store.state?.auth0User?.name.split(" ")[0]);
     return {
       colors,
       isSidebarMinimized,
-      userName
-    }
+      userName,
+    };
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
-  .va-navbar {
-    box-shadow: var(--va-box-shadow);
-    z-index: 2;
-    &__center {
-      @media screen and (max-width: 1200px) {
-        .app-navbar__github-button {
-          display: none;
-        }
-      }
-      @media screen and (max-width: 950px) {
-        .app-navbar__text {
-          display: none;
-        }
+.va-navbar {
+  box-shadow: var(--va-box-shadow);
+  z-index: 2;
+  &__center {
+    @media screen and (max-width: 1200px) {
+      .app-navbar__github-button {
+        display: none;
       }
     }
-
     @media screen and (max-width: 950px) {
-      .left {
-        width: 100%;
-      }
-      .app-navbar__actions {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
+      .app-navbar__text {
+        display: none;
       }
     }
   }
 
-  .left {
-    display: flex;
-    align-items: center;
-    & > * {
-      margin-right: 1.5rem;
+  @media screen and (max-width: 950px) {
+    .left {
+      width: 100%;
     }
-    & > *:last-child {
-      margin-right: 0;
+    .app-navbar__actions {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
     }
   }
+}
 
-  .x-flip {
-    transform: scaleX(-100%);
+.left {
+  display: flex;
+  align-items: center;
+  & > * {
+    margin-right: 1.5rem;
   }
+  & > *:last-child {
+    margin-right: 0;
+  }
+}
 
-  .app-navbar__text > * {
-    margin-right: 0.5rem;
-    &:last-child {
-      margin-right: 0;
-    }
+.x-flip {
+  transform: scaleX(-100%);
+}
+
+.app-navbar__text > * {
+  margin-right: 0.5rem;
+  &:last-child {
+    margin-right: 0;
   }
+}
 </style>

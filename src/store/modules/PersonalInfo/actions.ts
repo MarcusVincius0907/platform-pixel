@@ -2,9 +2,9 @@ import { MutationsType as MainMutationsType } from "@/store/mutations";
 import { State } from "@/store/state";
 import Notification from "@/types/Notification";
 import { ResponseStatus } from "@/types/ResponseDefault";
-import { Store } from "vuex";
-import { MutationsType } from "./mutations";
+import { ActionContext } from "vuex";
 import { MutationsType as MainMutations } from "../../mutations";
+import { PersonalInfoModuleState } from "./state";
 
 export enum ActionTypes {
   REQUEST_ADDRESS_BY_ZIPCODE = "REQUEST_ADDRESS_BY_ZIPCODE",
@@ -12,7 +12,7 @@ export enum ActionTypes {
 
 export const PersonalInfoAction = {
   async [ActionTypes.REQUEST_ADDRESS_BY_ZIPCODE](
-    context: Store<State>,
+    context: ActionContext<PersonalInfoModuleState, State>,
     value: string
   ) {
     context.commit(MainMutationsType.SET_CUSTOM_LOADER, true);
@@ -30,7 +30,11 @@ export const PersonalInfoAction = {
         color: "primary",
       } as Notification);
 
-      context.commit(MainMutations.SET_USER, { addressInfo: resp.payload });
+      const user = context.rootState.user;
+      context.commit(MainMutations.SET_USER, {
+        ...user,
+        addressInfo: resp.payload,
+      });
     }
 
     context.commit(MainMutationsType.SET_CUSTOM_LOADER, false);
