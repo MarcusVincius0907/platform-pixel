@@ -6,12 +6,7 @@
         <va-form ref="formAddress" @validation="validation = $event">
           <div class="row">
             <div class="flex md4 sm6 xs12">
-              <va-input
-                v-model="formData.email"
-                type="email"
-                label="Email"
-                disabled
-              >
+              <va-input v-model="email" type="email" label="Email" disabled>
               </va-input>
             </div>
 
@@ -129,7 +124,7 @@ export default defineComponent({
 
   computed: {
     generalInfo() {
-      return {
+      const newObj = {
         email: this.$store.state.user?.email ?? this.formData.email ?? "",
         name: this.$store.state.user?.name ?? this.formData.name ?? "",
         cpf: this.$store.state.user?.cpf ?? this.formData.cpf ?? "",
@@ -137,6 +132,12 @@ export default defineComponent({
         birthDate:
           this.$store.state.user?.birthDate ?? this.formData.birthDate ?? "",
       };
+
+      return newObj;
+    },
+
+    email() {
+      return this.$store.state.user?.email;
     },
   },
 
@@ -154,8 +155,12 @@ export default defineComponent({
   },
 
   watch: {
-    generalInfo(nValue) {
-      this.formData = nValue;
+    generalInfo: {
+      handler(nValue) {
+        this.formData = nValue;
+      },
+
+      deep: true,
     },
 
     formData: {
