@@ -157,6 +157,13 @@ export default defineComponent({
   },
 
   methods: {
+    saveFormData(validation: boolean) {
+      if (validation) {
+        this.$store.commit(MutationsType.SET_FORM_ADDRESS_INFO, this.formData);
+        this.$store.dispatch(ActionTypes.UPDATE_ADDRESS_INFO);
+      }
+    },
+
     getAddressByZipcode() {
       if (this.formData && this.formData.zipcode) {
         this.$store.dispatch(

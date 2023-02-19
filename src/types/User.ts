@@ -1,4 +1,5 @@
 export default interface User extends GeneralInfo {
+  _id?: string;
   saldo?: number;
   paymentInfo: PaymentInfo | null;
   receiveInfo: ReceiveInfo | null;
@@ -41,5 +42,5 @@ export interface GeneralInfo {
   email: string;
   cpf: string;
   cell: string;
-  birthDate: string;
+  birthDate: string | Date;
 }

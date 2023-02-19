@@ -5,9 +5,14 @@ import { ResponseStatus } from "@/types/ResponseDefault";
 import { ActionContext } from "vuex";
 import { MutationsType as MainMutations } from "../../mutations";
 import { PersonalInfoModuleState } from "./state";
+import { ActionTypes as MainActionTypes } from "../../actions";
 
 export enum ActionTypes {
   REQUEST_ADDRESS_BY_ZIPCODE = "REQUEST_ADDRESS_BY_ZIPCODE",
+  UPDATE_GENERA_INFO = "UPDATE_GENERA_INFO",
+  UPDATE_ADDRESS_INFO = "UPDATE_ADDRESS_INFO",
+  UPDATE_RECEIVE_INFO = "UPDATE_RECEIVE_INFO",
+  UPDATE_PAYMENT_INFO = "UPDATE_PAYMENT_INFO",
 }
 
 export const PersonalInfoAction = {
@@ -38,5 +43,53 @@ export const PersonalInfoAction = {
     }
 
     context.commit(MainMutationsType.SET_CUSTOM_LOADER, false);
+  },
+
+  async [ActionTypes.UPDATE_GENERA_INFO](
+    context: ActionContext<PersonalInfoModuleState, State>
+  ) {
+    const user = {
+      ...context.rootState.user,
+      ...context.state.formGeneralInfo,
+    };
+
+    context.commit(MainMutationsType.SET_USER, user);
+    context.dispatch(MainActionTypes.UPDATE_USER);
+  },
+
+  async [ActionTypes.UPDATE_ADDRESS_INFO](
+    context: ActionContext<PersonalInfoModuleState, State>
+  ) {
+    const user = {
+      ...context.rootState.user,
+      addressInfo: context.state.formAddressInfo,
+    };
+
+    context.commit(MainMutationsType.SET_USER, user);
+    context.dispatch(MainActionTypes.UPDATE_USER);
+  },
+
+  async [ActionTypes.UPDATE_RECEIVE_INFO](
+    context: ActionContext<PersonalInfoModuleState, State>
+  ) {
+    const user = {
+      ...context.rootState.user,
+      receiveInfo: context.state.formReceiveInfo,
+    };
+
+    context.commit(MainMutationsType.SET_USER, user);
+    context.dispatch(MainActionTypes.UPDATE_USER);
+  },
+
+  async [ActionTypes.UPDATE_PAYMENT_INFO](
+    context: ActionContext<PersonalInfoModuleState, State>
+  ) {
+    const user = {
+      ...context.rootState.user,
+      paymentInfo: context.state.formPaymentInfo,
+    };
+
+    context.commit(MainMutationsType.SET_USER, user);
+    context.dispatch(MainActionTypes.UPDATE_USER);
   },
 };

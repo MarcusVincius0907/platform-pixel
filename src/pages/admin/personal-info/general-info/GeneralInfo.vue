@@ -3,7 +3,7 @@
     <va-card :title="$t('forms.inputs.title')">
       <va-card-content>
         <div class="mb-3 tw-font-bold">Informações Gerais</div>
-        <va-form ref="formAddress" @validation="validation = $event">
+        <va-form ref="formGeneralInfo" @validation="validation = $event">
           <div class="row">
             <div class="flex md4 sm6 xs12">
               <va-input v-model="email" type="email" label="Email" disabled>
@@ -67,7 +67,7 @@
 
           <va-button
             v-if="!hideSaveButton"
-            @click="saveFormData($refs.form.validate())"
+            @click="saveFormData($refs.formGeneralInfo.validate())"
             class="mr-2 mb-2"
           >
             Salvar</va-button
@@ -79,6 +79,7 @@
 </template>
 
 <script lang="ts">
+import { ActionTypes } from "@/store/modules/PersonalInfo/actions";
 import { MutationsType } from "@/store/modules/PersonalInfo/mutations";
 import { GeneralInfo } from "@/types/User";
 import { defineComponent, Ref, ref } from "vue";
@@ -124,16 +125,7 @@ export default defineComponent({
 
   computed: {
     generalInfo() {
-      const newObj = {
-        email: this.$store.state.user?.email ?? this.formData.email ?? "",
-        name: this.$store.state.user?.name ?? this.formData.name ?? "",
-        cpf: this.$store.state.user?.cpf ?? this.formData.cpf ?? "",
-        cell: this.$store.state.user?.cell ?? this.formData.cell ?? "",
-        birthDate:
-          this.$store.state.user?.birthDate ?? this.formData.birthDate ?? "",
-      };
-
-      return newObj;
+      return this.$store.state.user;
     },
 
     email() {
@@ -145,6 +137,7 @@ export default defineComponent({
     saveFormData(validation: boolean) {
       if (validation) {
         this.$store.commit(MutationsType.SET_FORM_GENERAL_INFO, this.formData);
+        this.$store.dispatch(ActionTypes.UPDATE_GENERA_INFO);
       }
     },
 
@@ -152,12 +145,25 @@ export default defineComponent({
       const formAddress = this.$refs.formAddress as any;
       return formAddress.validate();
     },
+
+    formatDate(date: any) {
+      return new Date(date);
+    },
   },
 
   watch: {
     generalInfo: {
       handler(nValue) {
-        this.formData = nValue;
+        const newObj = {
+          email: nValue?.email ?? this.formData.email ?? "",
+          name: nValue?.name ?? this.formData.name ?? "",
+          cpf: nValue?.cpf ?? this.formData.cpf ?? "",
+          cell: nValue?.cell ?? this.formData.cell ?? "",
+          birthDate: this.formatDate(
+            nValue?.birthDate ?? this.formData.birthDate ?? ""
+          ),
+        };
+        this.formData = newObj;
       },
 
       deep: true,
