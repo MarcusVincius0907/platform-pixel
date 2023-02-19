@@ -20,11 +20,22 @@ export interface ReceiveInfo {
   nickname: string;
   bankInfo?: BankInfo;
   pixKey?: string;
+  type: ReceiveInfoType;
+}
+
+export enum ReceiveInfoType {
+  BANK_TYPE = "BANK_TYPE",
+  PIX_TYPE = "PIX_TYPE",
 }
 interface BankInfo {
   bankName: string;
   agency: string;
   account: string;
+}
+
+export interface ReceiveInfoItem {
+  nickname: string;
+  description?: string;
 }
 
 export interface AddressInfo {

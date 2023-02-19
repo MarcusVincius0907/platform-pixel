@@ -104,8 +104,7 @@ import { MutationsType } from "@/store/modules/PersonalInfo/mutations";
 import { ActionTypes } from "@/store/modules/PersonalInfo/actions";
 import { AddressInfo } from "@/types/User";
 import { defineComponent, Ref, ref } from "vue";
-import { regex } from "../../../../utils/regex";
-import User from "@/types/User";
+import { fieldValidations } from "@/utils/fieldValidations";
 //import  formatCPF from '../../../../utils/formatCPF'
 
 interface Form {
@@ -128,22 +127,9 @@ export default defineComponent({
       complement: "",
     });
 
-    const fieldsValidations = {
-      required: [
-        (value: string) => (!!value && value.length > 0) || "Campo é requirido",
-      ],
-      email: [(value: string) => regex.email.test(value) || "Email inválido"],
-      cpf: [(value: string) => regex.cpf.test(value) || "CPF inválido"],
-      maxLength: (length: number) => [
-        (value: string) =>
-          value.length <= length || `O limite é de ${length} caracteres`,
-      ],
-      number: [(value: number) => Number(value) || "Só é permitido números"],
-    };
-
     return {
       formData,
-      fieldsValidations,
+      fieldsValidations: fieldValidations,
       validation: ref(null),
       userService: ref<UserService>(),
       timeout: ref(0),
