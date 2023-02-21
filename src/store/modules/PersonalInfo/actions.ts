@@ -14,6 +14,7 @@ export enum ActionTypes {
   UPDATE_RECEIVE_INFO = "UPDATE_RECEIVE_INFO",
   UPDATE_PAYMENT_INFO = "UPDATE_PAYMENT_INFO",
   DELETE_RECEIVE_INFO = "DELETE_RECEIVE_INFO",
+  DELETE_PAYMENT_INFO = "DELETE_PAYMENT_INFO" 
 }
 
 export const PersonalInfoAction = {
@@ -100,6 +101,18 @@ export const PersonalInfoAction = {
     const user = {
       ...context.rootState.user,
       paymentInfo: context.state.formPaymentInfo,
+    };
+
+    context.commit(MainMutationsType.SET_USER, user);
+    context.dispatch(MainActionTypes.UPDATE_USER);
+  },
+
+  async [ActionTypes.DELETE_PAYMENT_INFO](
+    context: ActionContext<PersonalInfoModuleState, State>
+  ) {
+    const user = {
+      ...context.rootState.user,
+      paymentInfo: null,
     };
 
     context.commit(MainMutationsType.SET_USER, user);

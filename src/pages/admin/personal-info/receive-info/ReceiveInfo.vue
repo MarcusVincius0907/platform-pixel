@@ -187,7 +187,7 @@ export default defineComponent({
         this.$store.commit(MutationsType.SET_FORM_RECEIVE_INFO, this.formData);
         this.$store.dispatch(ActionTypes.UPDATE_RECEIVE_INFO);
       }
-      console.log(this.validation, this.formData);
+      
     },
 
     changeType() {

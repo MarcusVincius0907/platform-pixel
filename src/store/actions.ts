@@ -128,11 +128,13 @@ export const mainAction = {
       } else if (resp.status === ResponseStatus.OK) {
         context.commit(MutationsType.SET_NOTIFICATION, {
           title: "Sucesso",
-          message: "Usuário atualizado!",
+          message: "Dados atualizado!",
           color: "success",
         } as Notification);
-        context.dispatch(ActionTypes.GET_USER);
+        
       }
+
+      context.dispatch(ActionTypes.GET_USER);
 
       context.commit(MutationsType.SET_CUSTOM_LOADER, false);
     } else {

@@ -10,7 +10,7 @@ export interface PaymentInfo {
   cards: Array<Card>;
 }
 
-interface Card {
+export interface Card {
   cardNumber: string;
   cardName: string;
   expirationDate: string;

@@ -6,22 +6,25 @@
         
         <div class="row">
           <div class="flex xs12">
-            <div class="table-wrapper tw-overflow-y-auto">
+            <div v-if="cards && cards.length > 0" class="table-wrapper tw-overflow-y-auto">
+              <!-- <span class=" tw-mb-2 tw-text-sm tw-text-gray-400">Click em uma linha para edita-la</span> -->
               <table class="va-table va-table--striped va-table--hoverable">
                 <thead>
                   <tr>
-                    <th>Apelido</th>
-                    <th>Dados</th>
+                    <th>Titular</th>
+                    <th>Número</th>
+                    <th>Expiração</th>
                     <th>Deletar</th>
                     
                   </tr>
                 </thead>
 
                 <tbody>
-                  <tr v-for="user in users" :key="user.id">
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td><va-button class="mr-2 mb-2" color="danger" size="small"> <i class="fa-solid fa-trash"></i></va-button></td>
+                  <tr v-for="(card, i) in cards" :key="i" >
+                    <td>{{ card.cardName }}</td>
+                    <td>{{ card.cardNumber }}</td>
+                    <td>{{ card.expirationDate  }}</td>
+                    <td><va-button @click="deleteItem(card.cardNumber)" class="mr-2 mb-2" color="danger" size="small"> <i class="fa-solid fa-trash"></i></va-button></td>
                   </tr>
                 </tbody>
               </table>
@@ -34,26 +37,18 @@
           
           <div class="flex xs12">
             <va-form
-              ref="formBank"
+              ref="form"
               @validation="validation = $event"
             >
               <div class="row">
-                <div class="flex md4 sm6 xs12">
-                  <va-input
-                    v-model="formData.nickname"
-                    type="text"
-                    label="Apelido"
-                    :rules="fieldsValidations.required"
-                  >
-                  </va-input>
-                </div>
 
                 <div class="flex md4 sm6 xs12">
                   <va-input 
                     v-model="formData.cardName" 
                     type="text" 
-                    label="Agência"
-                    :rules="fieldsValidations.required"  
+                    label="Nome do titular do cartão"
+                    :rules="fieldValidations.required"  
+                    
                   >
                   </va-input>
                 </div>
@@ -62,26 +57,27 @@
                   <va-input
                     v-model="formData.cardNumber"
                     type="text"
-                    label="Banco"
-                    :rules="[fieldsValidations.required, fieldsValidations.number]"
+                    label="Número do cartão"
+                    mask="creditCard"
+                    :rules="[fieldValidations.required, fieldValidations.number]"
                   >
                   </va-input>
                 </div>
 
-                
-
                 <div class="flex md4 sm6 xs12">
                  
-                  <va-date-input
+                  <va-input
                     v-model="formData.expirationDate"
                     label="Data de expiração"
-                    :rules="fieldsValidations.required"
-                  />
+                    :rules="[fieldValidations.required]"
+                    :maxLength="5"
+                    @keydown="formatExpDate"
+                  ></va-input>
                 </div>
 
                
               </div>
-              <va-button @click="saveFormData($refs.formBank.validate())" class="mr-2 mb-2"> Adicionar</va-button>
+              <va-button @click="saveFormData($refs.form.validate())" class="mr-2 mb-2"> Salvar</va-button>
             </va-form>
           </div>
         </div>
@@ -92,53 +88,84 @@
 </template>
 
 <script lang="ts">
-  import data from "@/data/tables/markup-table/data.json";
-  import { defineComponent, Ref, ref } from 'vue';
-  import { regex } from '../../../../utils/regex';
+import { ActionTypes } from "@/store/modules/PersonalInfo/actions";
+import { MutationsType } from "@/store/modules/PersonalInfo/mutations";
+import { Card } from "@/types/User";
+import { fieldValidations } from "@/utils/fieldValidations";
+import { defineComponent, Ref, ref } from 'vue';
 
-  interface FormData{
-    nickname: string;
-    cardNumber: string;
-    cardName: string;
-    expirationDate: string;
-  } 
 
+export default defineComponent({
+  setup() {
+    const formData: Ref<Card> = ref({
+      cardNumber:'',
+      cardName:'',
+      expirationDate:'',
+    })
+
+    const cards: Ref<Array<Card>> = ref([])
+
+    return{
+      formData,
+      fieldValidations: fieldValidations ,
+      validation: ref(null),
+      cards,
+    }      
+  },
   
-
-  export default defineComponent({
-    setup() {
-      const formData: Ref<FormData> = ref({
-        nickname:'',
-        cardNumber:'',
-        cardName:'',
-        expirationDate:'',
-      })
-
-      
-
-      const fieldsValidations = {
-        required: [(value: string) => (!!value && value.length > 0) || 'Campo é requirido'],
-        email: [(value: string) => (regex.email.test(value)) || 'Email inválido'],
-        cpf: [(value: string) => (regex.cpf.test(value)) || 'CPF inválido'],
-        maxLength: (length: number) => [(value: string) => (value.length <= length) || `O limite é de ${length} caracteres`],
-        number: [(value: number) => (Number(value)) || 'Só é permitido números']
-        
+  methods: {
+    saveFormData(validation: boolean){
+      if (validation) {
+        const paymentInfo = {
+          cards: [...this.cards, {...this.formData} ]
+        }
+        this.$store.commit(MutationsType.SET_FORM_PAYMENT_INFO, paymentInfo);
+        this.$store.dispatch(ActionTypes.UPDATE_PAYMENT_INFO);
       }
-
-      return{
-        formData,
-        fieldsValidations,
-        validation: ref(null),
-        tabTitles: ["Dados Bancários", "Chave Pix"],
-        tabValue: ref(1),
-        users: ref(data.slice(0, 8)),
-      }      
     },
-   
-    methods: {
-      saveFormData(validation: boolean){
-        console.log(this.validation);
+
+    deleteItem(cardNumber: string) {
+
+      this.cards = this.cards.filter(card => card.cardNumber !== cardNumber);
+
+      const paymentInfo = {
+        cards: this.cards
       }
+
+      if(this.cards.length === 0){
+        this.$store.dispatch(ActionTypes.DELETE_PAYMENT_INFO);
+      }else{
+        this.$store.commit(MutationsType.SET_FORM_PAYMENT_INFO, paymentInfo);
+        this.$store.dispatch(ActionTypes.UPDATE_PAYMENT_INFO);
+      }
+      
+    },
+
+    formatExpDate(event){
+      const code = event.keyCode;
+      const allowedKeys = [8];
+      if (allowedKeys.indexOf(code) !== -1) {
+          return;
+      }
+      const numericInput = this.formData.expirationDate.replace(/\D/g, '');
+      this.formData.expirationDate = `${numericInput.slice(0, 2)}/${numericInput.slice(2, 4)}`;
     }
-  });
+  },
+
+  computed: {
+    paymentInfo() {
+      return this.$store.state.user?.paymentInfo;
+    },
+  },
+
+  watch: {
+    paymentInfo(nValue) {
+      if (nValue) {
+        this.formData = nValue;
+        this.cards = nValue.cards
+      }
+    },
+  },
+
+});
 </script>
