@@ -42,11 +42,12 @@
               <div class="tw-w-1/2 tw-mx-1">
                 
                 <va-select
-                  label="Quantidade de pixels"
                   v-model="formData.pixelsQuantity"
-                  textBy="description"
+                  class="mb-6"
+                  label="Quantidade de pixels"
+                  :options="options"
                   track-by="id"
-                  :options="pixelsQuantity"
+
                 />
               </div>
             </div>
@@ -82,68 +83,79 @@
 </template>
 
 <script lang='ts'>
-  import { regex } from '@/utils/regex';
-  import { defineComponent, ref, Ref, PropType } from 'vue';
-  import { ActionType as Type } from '@/utils/enums';
-  import Sortition  from '@/types/Sortition';
-  import NFT, { FormData } from '@/types/NFT';
+import { defineComponent, ref, Ref, PropType } from 'vue';
+import { ActionType as Type } from '@/utils/enums';
+import { FormDataNFT } from '@/types/NFT';
+import { fieldValidations } from '@/utils/fieldValidations';
 
-  const PIXELS_QUANTITY = [
-    '800',
-    '1152',
-    '1568'
-  ]
 
-  export default defineComponent({
-    name: 'modal-create',
-    props: {
-      showModal: {
-        required: true,
-        type: Boolean,
-        default: false,
-      },
-      actionType:{
-        required: true,
-        type: String,
-        default: Type.CREATE
-      },
-      nft:{
-        required: false,
-        type: Object as PropType<FormData>,
-        default: null
-      }
+export default defineComponent({
+  name: 'modal-create',
+  props: {
+    showModal: {
+      required: true,
+      type: Boolean,
+      default: false,
     },
-    setup(){
-       const formData = ref({
-        name: '',
-        pixelsQuantity: 0,
-        themes: ''
-      } )
-
-      const fieldsValidations = {
-        required: [(value: string) => (!!value && value.length > 0) || 'Campo é requirido'],
-      }
-      return {
-        formData,
-        fieldsValidations,
-        validation: ref(null),
-        showModalToggle: ref(false),
-        Type: Type,
-        pixelsQuantity: PIXELS_QUANTITY
-      }
+    actionType:{
+      required: true,
+      type: String,
+      default: Type.CREATE
     },
-    watch:{
-      showModal(newValue, oldValue){
-        this.showModalToggle = true;
+    nft:{
+      required: false,
+      type: Object as PropType<FormDataNFT>,
+      default: null
+    }
+  },
+  setup(){
+    const formData: Ref<FormDataNFT> = ref({
+      name: '',
+      pixelsQuantity: 10,
+      themes: ''
+    })
+
+     const options = [
+      {
+        text: "800",
+        value: "10",
+        id: "1",
       },
-      nft(newValue, oldValue){
-        if(newValue) {this.formData = newValue;}
+      {
+        text: "1152",
+        value: "12",
+        id: "2",
       },
-     
+      {
+        text: "1568",
+        value: "14",
+        id: "3",
+      },
+    ];
+
+    
+    return {
+      formData,
+      fieldsValidations: fieldValidations,
+      validation: ref(null),
+      showModalToggle: ref(false),
+      Type: Type,
+      options,
+      value: ref(options[0]),
+    }
+  },
+  watch:{
+    showModal(){
+      this.showModalToggle = true;
+    },
+    nft(newValue){
+      if(newValue) {this.formData = newValue;}
     },
     
-    
-  })
+  },
+  
+  
+})
 
 </script>
 

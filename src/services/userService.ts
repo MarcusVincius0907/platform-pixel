@@ -1,4 +1,3 @@
-import { Auth0Plugin } from "@/auth";
 import ResponseDefault from "@/types/ResponseDefault";
 import User from "@/types/User";
 import BaseService from "./baseService";

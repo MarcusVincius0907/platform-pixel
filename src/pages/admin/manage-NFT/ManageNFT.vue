@@ -37,9 +37,10 @@
 import { ActionType } from '@/utils/enums';
 import { defineComponent, ref } from 'vue';
 import ModalForm from './ModalForm.vue'
-import NFT, { FormData } from  '@/types/NFT'
+import NFT from  '@/types/NFT'
 import  NFTMock from '@/data/NFT/NFT'
 import { arrayToString } from '@/utils/themesUtil'
+import { ActionTypes } from '@/store/modules/NFT/actions';
 
 
 export default defineComponent({
@@ -52,14 +53,19 @@ export default defineComponent({
       formData: ref(),
       actionType: ref(ActionType.CREATE),
       showModalForm: ref(false),
-      nfts:[
-        NFTMock, 
-        {...NFTMock, name: 'Inverno'},
-        {...NFTMock, name: 'Outono'},
-        {...NFTMock, name: 'Primavera'},
-      ] 
     }
   },
+
+  mounted(){
+    this.$store.dispatch(ActionTypes.GET_NFT_LIST);
+  },
+
+  computed:{
+    nfts(){
+      return this.$store.state.NFT.nftSummaryList;
+    }
+  },
+
   methods:{
     openModalCreate(){
       this.changeActionType(ActionType.CREATE);

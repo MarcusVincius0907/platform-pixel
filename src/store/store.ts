@@ -1,6 +1,7 @@
 import { mainAction } from "./actions";
+import NFTModule from "./modules/NFT/store";
 import PersonalInformationModule from "./modules/PersonalInfo/store";
-import { mainMutations, MutationsType } from "./mutations";
+import { mainMutations } from "./mutations";
 import { mainState, State } from "./state";
 
 export default class MainStore {
@@ -12,6 +13,7 @@ export default class MainStore {
 
     this.modules = {
       PersonalInfo: PersonalInformationModule,
+      NFT: NFTModule
     };
   }
 

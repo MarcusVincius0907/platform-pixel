@@ -2,6 +2,7 @@ import Notification from "@/types/Notification";
 import { PersonalInfoModuleState } from "./modules/PersonalInfo/state";
 import { User as Auth0User } from "@auth0/auth0-spa-js/dist/typings/global";
 import User from "@/types/User";
+import { NFTModuleState } from "./modules/NFT/state";
 
 export interface State {
   isSidebarMinimized: boolean;
@@ -13,6 +14,7 @@ export interface State {
   notification: Notification | null;
 
   PersonalInfo: PersonalInfoModuleState;
+  NFT: NFTModuleState;
 }
 
 export const mainState = {

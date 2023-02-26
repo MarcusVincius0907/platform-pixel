@@ -9,7 +9,8 @@ export default interface NFT{
   chunkSize: number;
 }
 
-export interface FormData{
+export interface FormDataNFT{
+  _id?: string;
   name: string;
   pixelsQuantity: number;
   themes: string;
@@ -31,4 +32,12 @@ export interface Pixel{
 export interface NFTMeasurements{
   NFTWidth: number;
   chunkWidth: number;
+}
+
+export interface NFTSummary{
+  _id?: number;
+  name: string;
+  themes: string;
+  idNFT?: string;
+  pixelQuantity: number;
 }
