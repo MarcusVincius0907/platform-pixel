@@ -73,7 +73,7 @@ export default defineComponent({
       this.formData = {}
     },
     openEditModal(nft: NFT){
-      this.formData = {name: nft.name, themes: arrayToString(nft.themes), pixelsQuantity:  nft.pixelsQuantity} ;
+      this.formData = {name: nft.name, themes: arrayToString(nft.themes), pixelQuantity:  nft.pixelQuantity} ;
       this.changeActionType(ActionType.EDIT);
       this.showModalForm = !this.showModalForm;
     },

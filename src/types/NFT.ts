@@ -4,7 +4,7 @@ export default interface NFT{
   _id?: number;
   name: string;
   themes: string[];
-  pixelsQuantity: number;
+  pixelQuantity: number;
   chunks?: Chunk[];
   chunkSize: number;
 }
@@ -12,7 +12,7 @@ export default interface NFT{
 export interface FormDataNFT{
   _id?: string;
   name: string;
-  pixelsQuantity: number;
+  pixelQuantity: number;
   themes: string;
 }
 

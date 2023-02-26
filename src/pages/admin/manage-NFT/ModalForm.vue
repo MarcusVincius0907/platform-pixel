@@ -23,7 +23,7 @@
          
 
           <va-form
-            ref="formAddress"
+            ref="form"
             @validation="validation = $event"
           >
             <div class="line tw-flex tw-w-full tw-mb-2">
@@ -42,7 +42,7 @@
               <div class="tw-w-1/2 tw-mx-1">
                 
                 <va-select
-                  v-model="formData.pixelsQuantity"
+                  v-model="option"
                   class="mb-6"
                   label="Quantidade de pixels"
                   :options="options"
@@ -74,7 +74,7 @@
         </div>
       </slot>
       <template #footer>
-        <va-button @click="clearPixelSelection(currentPixelSelected)">
+        <va-button @click="saveFormData($refs.form.validate())">
           Salvar
         </va-button>
       </template>
@@ -87,6 +87,8 @@ import { defineComponent, ref, Ref, PropType } from 'vue';
 import { ActionType as Type } from '@/utils/enums';
 import { FormDataNFT } from '@/types/NFT';
 import { fieldValidations } from '@/utils/fieldValidations';
+import { MutationsType } from '@/store/modules/NFT/mutations';
+import { ActionTypes } from '@/store/modules/NFT/actions';
 
 
 export default defineComponent({
@@ -111,7 +113,7 @@ export default defineComponent({
   setup(){
     const formData: Ref<FormDataNFT> = ref({
       name: '',
-      pixelsQuantity: 10,
+      pixelQuantity: 10,
       themes: ''
     })
 
@@ -141,9 +143,22 @@ export default defineComponent({
       showModalToggle: ref(false),
       Type: Type,
       options,
+      option: ref(options[0]),
       value: ref(options[0]),
     }
   },
+
+  methods:{
+    saveFormData(validation: boolean) {
+      if (validation) {
+        this.formData.pixelQuantity = Number(this.option.value)
+        this.$store.commit(MutationsType.SET_FORM_DATA_NFT, this.formData);
+        this.$store.dispatch(ActionTypes.CREATE_NFT);
+        this.showModalToggle = false;
+      }
+    },
+  },
+
   watch:{
     showModal(){
       this.showModalToggle = true;

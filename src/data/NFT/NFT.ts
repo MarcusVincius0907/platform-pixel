@@ -1,7 +1,7 @@
 export default {
   name: 'Verão',
   themes: ['01A78D','03826E','003930'],
-  pixelsQuantity: 1152,
+  pixelQuantity: 1152,
   chunkSize: 12,
   chunks: [
     {
