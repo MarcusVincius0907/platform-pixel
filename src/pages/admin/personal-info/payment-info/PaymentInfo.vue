@@ -112,6 +112,12 @@ export default defineComponent({
       cards,
     }      
   },
+
+  mounted(){
+    if(this.$store.state.user?.paymentInfo){
+      this.cards = this.$store.state.user?.paymentInfo.cards ?? []
+    }
+  },
   
   methods: {
     saveFormData(validation: boolean){

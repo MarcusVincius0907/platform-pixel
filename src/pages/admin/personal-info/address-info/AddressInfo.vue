@@ -105,11 +105,6 @@ import { ActionTypes } from "@/store/modules/PersonalInfo/actions";
 import { AddressInfo } from "@/types/User";
 import { defineComponent, Ref, ref } from "vue";
 import { fieldValidations } from "@/utils/fieldValidations";
-//import  formatCPF from '../../../../utils/formatCPF'
-
-interface Form {
-  validate: Function;
-}
 
 export default defineComponent({
   props: {
@@ -134,6 +129,11 @@ export default defineComponent({
       userService: ref<UserService>(),
       timeout: ref(0),
     };
+  },
+
+  mounted(){
+    if(this.$store.state.user?.addressInfo)
+      {this.formData = this.$store.state.user?.addressInfo}
   },
 
   computed: {
@@ -167,7 +167,6 @@ export default defineComponent({
 
   watch: {
     addressInfo(nValue: AddressInfo) {
-      console.log("form has changed", nValue);
       this.formData = nValue;
     },
 

@@ -81,7 +81,7 @@
 <script lang="ts">
 import { ActionTypes } from "@/store/modules/PersonalInfo/actions";
 import { MutationsType } from "@/store/modules/PersonalInfo/mutations";
-import { GeneralInfo } from "@/types/User";
+import User, { GeneralInfo } from "@/types/User";
 import { fieldValidations } from "@/utils/fieldValidations";
 import { defineComponent, Ref, ref } from "vue";
 
@@ -110,6 +110,11 @@ export default defineComponent({
     };
   },
 
+  mounted(){
+    if(this.$store.state.user)
+      {this.formData = this.assign(this.$store.state.user)}
+  },
+
   computed: {
     generalInfo() {
       return this.$store.state.user;
@@ -129,28 +134,31 @@ export default defineComponent({
     },
 
     validate() {
-      const formAddress = this.$refs.formAddress as any;
+      const formAddress = this.$refs.formGeneralInfo as any;
       return formAddress.validate();
     },
 
     formatDate(date: any) {
       return new Date(date);
     },
+
+    assign(user: User){
+      return {
+        email:user?.email ?? "",
+          name: user?.name ?? this.formData.name ?? "",
+          cpf: user?.cpf ?? this.formData.cpf ?? "",
+          cell: user?.cell ?? this.formData.cell ?? "",
+          birthDate: this.formatDate(
+            user?.birthDate ?? this.formData.birthDate ?? ""
+          ),
+      }
+    }
   },
 
   watch: {
     generalInfo: {
       handler(nValue) {
-        const newObj = {
-          email: nValue?.email ?? this.formData.email ?? "",
-          name: nValue?.name ?? this.formData.name ?? "",
-          cpf: nValue?.cpf ?? this.formData.cpf ?? "",
-          cell: nValue?.cell ?? this.formData.cell ?? "",
-          birthDate: this.formatDate(
-            nValue?.birthDate ?? this.formData.birthDate ?? ""
-          ),
-        };
-        this.formData = newObj;
+        this.formData = this.assign(nValue);
       },
 
       deep: true,

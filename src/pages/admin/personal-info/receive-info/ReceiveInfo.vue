@@ -181,6 +181,15 @@ export default defineComponent({
     };
   },
 
+  mounted(){
+    if(this.$store.state.user?.receiveInfo){
+      this.formData = this.$store.state.user?.receiveInfo;
+        this.receiveInfoList = [this.formatReceiveItem(this.$store.state.user?.receiveInfo)];
+        this.tabValue =
+          this.formData.type === ReceiveInfoType.BANK_TYPE ? 1 : 2;
+    }
+  },
+
   methods: {
     saveFormData(validation: boolean) {
       if (validation) {
