@@ -4,64 +4,45 @@ import Notification from "@/types/Notification";
 import { ResponseStatus } from "@/types/ResponseDefault";
 import { ActionContext } from "vuex";
 import { MutationsType } from "./mutations";
-import { NFTModuleState } from "./state";
+import { SortitionModuleState } from "./state";
 
 export enum ActionTypes {
-  GET_NFT_LIST = "GET_NFT_SUMMARY_LIST",
-  GET_NFT_SUMMARY_ID_LIST = "GET_NFT_SUMMARY_ID_LIST",
-  CREATE_NFT = "CREATE_NFT",
-  UPDATE_NFT = "UPDATE_NFT",
-  DELETE_NFT = "DELETE_NFT"
+  GET_SORTITION_LIST = "GET_SORTITION_SUMMARY_LIST",
+  CREATE_SORTITION = "CREATE_SORTITION",
+  UPDATE_SORTITION = "UPDATE_SORTITION",
+  DELETE_SORTITION = "DELETE_SORTITION"
 }
 
-export const NFTAction = {
-  async [ActionTypes.GET_NFT_LIST](
-    context: ActionContext<NFTModuleState, State>
+export const SortitionAction = {
+  async [ActionTypes.GET_SORTITION_LIST](
+    context: ActionContext<SortitionModuleState, State>
   ) {
     context.commit(MainMutationsType.SET_CUSTOM_LOADER, true);
 
-    const NFTService = await import("@/services/nftService");
+    const SortitionService = await import("@/services/sortitionService");
 
-    const nftService = new NFTService.default();
+    const sortitionService = new SortitionService.default();
 
-    const resp = await nftService.getAllNFTs();
+    const resp = await sortitionService.getAll();
 
     if (resp.status === ResponseStatus.OK) {
-      context.commit(MutationsType.SET_NFT_LIST, [...resp.payload]);
+      context.commit(MutationsType.SET_SORTITION_LIST, [...resp.payload]);
     }
 
     context.commit(MainMutationsType.SET_CUSTOM_LOADER, false);
   },
 
-  async [ActionTypes.GET_NFT_SUMMARY_ID_LIST](
-    context: ActionContext<NFTModuleState, State>
+  async [ActionTypes.CREATE_SORTITION](
+    context: ActionContext<SortitionModuleState, State>
   ) {
-    context.commit(MainMutationsType.SET_CUSTOM_LOADER, true);
-
-    const NFTService = await import("@/services/nftService");
-
-    const nftService = new NFTService.default();
-
-    const resp = await nftService.getNFTSummaryIdList();
-
-    if (resp.status === ResponseStatus.OK) {
-      context.commit(MutationsType.SET_NFT_ID_LIST, [...resp.payload]);
-    }
-
-    context.commit(MainMutationsType.SET_CUSTOM_LOADER, false);
-  },
-
-  async [ActionTypes.CREATE_NFT](
-    context: ActionContext<NFTModuleState, State>
-  ) {
-    if(context.state.formDataNFT){
+    if(context.state.formDataSortition){
       context.commit(MainMutationsType.SET_CUSTOM_LOADER, true);
   
-      const NFTService = await import("@/services/nftService");
+      const SortitionService = await import("@/services/sortitionService");
   
-      const nftService = new NFTService.default();
+      const sortitionService = new SortitionService.default();
   
-      const resp = await nftService.createNFT(context.state.formDataNFT);
+      const resp = await sortitionService.create(context.state.formDataSortition);
   
       if (resp.status === ResponseStatus.OK) {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
@@ -70,7 +51,7 @@ export const NFTAction = {
           color: "success",
         } as Notification);
 
-        context.dispatch(ActionTypes.GET_NFT_LIST);
+        context.dispatch(ActionTypes.GET_SORTITION_LIST);
       } else if(resp.status === ResponseStatus.INVALID_INFO){
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
@@ -89,17 +70,17 @@ export const NFTAction = {
     }
   },
 
-  async [ActionTypes.UPDATE_NFT](
-    context: ActionContext<NFTModuleState, State>
+  async [ActionTypes.UPDATE_SORTITION](
+    context: ActionContext<SortitionModuleState, State>
   ) {
-    if(context.state.formDataNFT){
+    if(context.state.formDataSortition){
       context.commit(MainMutationsType.SET_CUSTOM_LOADER, true);
   
-      const NFTService = await import("@/services/nftService");
+      const SortitionService = await import("@/services/sortitionService");
   
-      const nftService = new NFTService.default();
+      const sortitionService = new SortitionService.default();
   
-      const resp = await nftService.updateNFT(context.state.formDataNFT);
+      const resp = await sortitionService.update(context.state.formDataSortition);
   
       if (resp.status === ResponseStatus.OK) {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
@@ -108,7 +89,7 @@ export const NFTAction = {
           color: "success",
         } as Notification);
 
-        context.dispatch(ActionTypes.GET_NFT_LIST);
+        context.dispatch(ActionTypes.GET_SORTITION_LIST);
       } else if(resp.status === ResponseStatus.INVALID_INFO){
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
@@ -127,17 +108,17 @@ export const NFTAction = {
     }
   },
 
-  async [ActionTypes.DELETE_NFT](
-    context: ActionContext<NFTModuleState, State>
+  async [ActionTypes.DELETE_SORTITION](
+    context: ActionContext<SortitionModuleState, State>
   ) {
-    if(context.state.formDataNFT){
+    if(context.state.formDataSortition){
       context.commit(MainMutationsType.SET_CUSTOM_LOADER, true);
   
-      const NFTService = await import("@/services/nftService");
+      const SortitionService = await import("@/services/sortitionService");
   
-      const nftService = new NFTService.default();
+      const sortitionService = new SortitionService.default();
   
-      const resp = await nftService.deleteNFT(context.state.formDataNFT._id ?? "");
+      const resp = await sortitionService.delete(context.state.formDataSortition._id ?? "");
   
       if (resp.status === ResponseStatus.OK) {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
@@ -146,7 +127,7 @@ export const NFTAction = {
           color: "success",
         } as Notification);
 
-        context.dispatch(ActionTypes.GET_NFT_LIST);
+        context.dispatch(ActionTypes.GET_SORTITION_LIST);
       }else {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",

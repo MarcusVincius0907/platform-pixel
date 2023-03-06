@@ -88,7 +88,7 @@
 <script lang='ts'>
 import { defineComponent, ref, Ref, PropType } from 'vue';
 import { ActionType as Type } from '@/utils/enums';
-import { FormDataNFT } from '@/types/NFT';
+import { NFTSummary } from '@/types/NFT';
 import { fieldValidations } from '@/utils/fieldValidations';
 import { MutationsType } from '@/store/modules/NFT/mutations';
 import { ActionTypes } from '@/store/modules/NFT/actions';
@@ -109,12 +109,12 @@ export default defineComponent({
     },
     nft:{
       required: false,
-      type: Object as PropType<FormDataNFT>,
+      type: Object as PropType<NFTSummary>,
       default: null
     }
   },
   setup(){
-    const formData: Ref<FormDataNFT> = ref({
+    const formData: Ref<NFTSummary> = ref({
       name: '',
       pixelQuantity: 10,
       themes: ''

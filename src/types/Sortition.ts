@@ -1,10 +1,8 @@
 export default interface Sortition {
-  id?: number;
-  themes?: string;
+  _id?: string;
   name: string;
-  date: Date;
-  idNFT: string;
-  pixelsAvailable: number;
+  date: string;
+  idNFTSummary?: string;
   reward: string;
   status: boolean;
 }

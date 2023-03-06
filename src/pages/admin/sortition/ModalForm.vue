@@ -12,7 +12,7 @@
             <span v-else>Criar sorteio</span>
           </h2>
           <div class="" v-if="Type.EDIT === actionType">
-            <va-button color="danger">
+            <va-button color="danger" @click="deletar()">
               Excluir
             </va-button>
           </div>
@@ -39,14 +39,16 @@
                 </div>
               
               </div>
-              <div class="tw-w-1/2 tw-mx-1">
-                <va-input 
-                  v-model="formData.pixelsAvailable"
-                  type="text"
-                  label="Quantidade de pixels"
-                  :rules="fieldsValidations.required"
-                >
-                </va-input>
+              <div class=" tw-w-1/2 tw-mx-1 tw-mb-2">
+                
+                <va-select
+                  v-model="formData.idNFTSummary"
+                  class="mb-6"
+                  label="id NFT"
+                  :options="options"
+                  track-by="id"
+
+                />
               </div>
             </div>
             <div class="line tw-flex tw-w-full tw-mb-2">
@@ -68,26 +70,7 @@
                 </va-input>
               </div>
             </div>
-            <div class="line tw-flex tw-w-full tw-mb-2">
-              <div class=" tw-w-1/2 tw-mx-1">
-                <va-input 
-                  v-model="formData.themes"
-                  type="text"
-                  label="Tema"
-                  :rules="fieldsValidations.required"
-                >
-                </va-input>
-              </div>
-              <div class=" tw-w-1/2 tw-mx-1 tw-mb-2">
-                <va-input 
-                  v-model="formData.idNFT"
-                  type="text"
-                  label="id NFT"
-                  :rules="fieldsValidations.required"
-                >
-                </va-input>
-              </div>
-            </div>
+       
             <div class="line ">
               <div class=" tw-w-1/2 tw-mx-1">
                 <va-switch v-model="formData.status" true-inner-label="Aberto" false-inner-label="Fechado" class="mr-4" />
@@ -109,66 +92,90 @@
 </template>
 
 <script lang='ts'>
-  import { regex } from '@/utils/regex';
-  import { defineComponent, ref, Ref, PropType } from 'vue';
-  import { ActionType as Type } from '@/utils/enums';
-  import Sortition from '@/types/Sortition';
+import { defineComponent, ref, Ref, PropType } from 'vue';
+import { ActionType as Type } from '@/utils/enums';
+import Sortition from '@/types/Sortition';
+import { MutationsType } from '@/store/modules/Sortition/mutations';
+import { ActionTypes } from '@/store/modules/Sortition/actions';
 
-  type FormData = Sortition
 
-  export default defineComponent({
-    name: 'modal-create',
-    props: {
-      showModal: {
-        required: true,
-        type: Boolean,
-        default: false,
-      },
-      actionType:{
-        required: true,
-        type: String,
-        default: Type.CREATE
-      },
-      sortition:{
-        required: false,
-        type: Object as PropType<Sortition>,
-        default: null
+export default defineComponent({
+  name: 'modal-create',
+  props: {
+    showModal: {
+      required: true,
+      type: Boolean,
+      default: false,
+    },
+    actionType:{
+      required: true,
+      type: String,
+      default: Type.CREATE
+    },
+    sortition:{
+      required: false,
+      type: Object as PropType<Sortition>,
+      default: null
+    }
+  },
+  setup(){
+      const formData: Ref<Sortition> = ref({
+      name: '',
+      date: '',
+      idNFTSummary: '',
+      reward: '',
+      status: false,
+    } as Sortition)
+
+    const fieldsValidations = {
+      required: [(value: string) => (!!value && value.length > 0) || 'Campo é requirido'],
+    }
+    return {
+      formData,
+      fieldsValidations,
+      validation: ref(null),
+      showModalToggle: ref(false),
+      Type: Type,
+    }
+  },
+
+  methods:{
+    saveFormData(validation: boolean) {
+      if (validation) {
+        this.$store.commit(MutationsType.SET_FORM_DATA_SORTITION, this.formData);
+        if(this.actionType === this.Type.CREATE)
+          {this.$store.dispatch(ActionTypes.CREATE_SORTITION);}
+        else
+          {this.$store.dispatch(ActionTypes.UPDATE_SORTITION);}
+        this.showModalToggle = false;
       }
     },
-    setup(){
-       const formData: Ref<Sortition> = ref({
-        name: '',
-        pixelsAvailable: 0,
-        date: new Date(),
-        reward: '',
-        themes: '',
-        idNFT: '',
-        status: false,
-      } as Sortition)
 
-      const fieldsValidations = {
-        required: [(value: string) => (!!value && value.length > 0) || 'Campo é requirido'],
-      }
-      return {
-        formData,
-        fieldsValidations,
-        validation: ref(null),
-        showModalToggle: ref(false),
-        Type: Type
-      }
+    deletar(){
+      this.$store.commit(MutationsType.SET_FORM_DATA_SORTITION, this.formData);
+      this.$store.dispatch(ActionTypes.DELETE_SORTITION);
+      this.showModalToggle = false;
     },
-    watch:{
-      showModal(newValue, oldValue){
-        this.showModalToggle = true;
-      },
-      sortition(newValue, oldValue){
-        if(newValue) {this.formData = newValue;}
-      },
-     
+  },
+  
+  watch:{
+    showModal(newValue, oldValue){
+      this.showModalToggle = true;
+    },
+    sortition(newValue, oldValue){
+      if(newValue) {this.formData = newValue;}
     },
     
-    
-  })
+  },
+
+  computed:{
+    options(){
+      return this.$store.state.NFT.nftSummaryIdList.map(nftItem => ({ text: `${nftItem.name} - ${nftItem.id.substring(0,3)}...`, value: nftItem.id, id: nftItem.id, name: nftItem.name  } as any))
+    }
+  }
+  
+  
+})
 
 </script>
 

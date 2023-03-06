@@ -1,10 +1,12 @@
-import { FormDataNFT, NFTSummary } from "@/types/NFT";
+import { NFTIdList, NFTSummary } from "@/types/NFT";
 
 export interface NFTModuleState {
-  formDataNFT?: FormDataNFT;
+  formDataNFT?: NFTSummary;
   nftSummaryList: Array<NFTSummary>;
+  nftSummaryIdList: Array<NFTIdList>;
 }
 
 export const NFTState: NFTModuleState = {
-  nftSummaryList: []
+  nftSummaryList: [],
+  nftSummaryIdList: []
 };

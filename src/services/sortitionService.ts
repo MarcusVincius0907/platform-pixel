@@ -1,14 +1,14 @@
-import { NFTSummary } from "@/types/NFT";
 import ResponseDefault from "@/types/ResponseDefault";
+import Sortition from "@/types/Sortition";
 import BaseService from "./baseService";
 
-export default class NFTService {
+export default class SortitionService {
   private _baseService: BaseService = new BaseService();
 
-  async getAllNFTs(): Promise<ResponseDefault> {
+  async getAll(): Promise<ResponseDefault> {
     try {
       const req = await this._baseService.http.get<ResponseDefault>(
-        "/nft"
+        "/sortition"
       );
       return req.data;
     } catch (ex) {
@@ -16,22 +16,11 @@ export default class NFTService {
     }
   }
 
-  async getNFTSummaryIdList(): Promise<ResponseDefault> {
-    try {
-      const req = await this._baseService.http.get<ResponseDefault>(
-        "/nft/list/ids"
-      );
-      return req.data;
-    } catch (ex) {
-      return this._baseService.apiErrorTreatment(ex);
-    }
-  }
-
-  async createNFT(nft: NFTSummary): Promise<ResponseDefault> {
+  async create(sortition: Sortition): Promise<ResponseDefault> {
     try {
       const req = await this._baseService.http.post<ResponseDefault>(
-        "/nft/create",
-        nft
+        "/sortition/create",
+        sortition
       );
       return req.data;
     } catch (ex) {
@@ -39,11 +28,11 @@ export default class NFTService {
     }
   }
 
-  async updateNFT(nft: NFTSummary): Promise<ResponseDefault> {
+  async update(sortition: Sortition): Promise<ResponseDefault> {
     try {
       const req = await this._baseService.http.put<ResponseDefault>(
-        `/nft/${nft._id}`,
-        nft
+        `/sortition/${sortition._id}`,
+        sortition
       );
       return req.data;
     } catch (ex) {
@@ -51,10 +40,10 @@ export default class NFTService {
     }
   }
 
-  async deleteNFT(nftId: string): Promise<ResponseDefault> {
+  async delete(sortitionId: string): Promise<ResponseDefault> {
     try {
       const req = await this._baseService.http.delete<ResponseDefault>(
-        `/nft/${nftId}`
+        `/sortition/${sortitionId}`
       );
       return req.data;
     } catch (ex) {

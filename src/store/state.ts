@@ -3,6 +3,7 @@ import { PersonalInfoModuleState } from "./modules/PersonalInfo/state";
 import { User as Auth0User } from "@auth0/auth0-spa-js/dist/typings/global";
 import User from "@/types/User";
 import { NFTModuleState } from "./modules/NFT/state";
+import { SortitionModuleState } from "./modules/Sortition/state";
 
 export interface State {
   isSidebarMinimized: boolean;
@@ -15,6 +16,7 @@ export interface State {
 
   PersonalInfo: PersonalInfoModuleState;
   NFT: NFTModuleState;
+  sortition: SortitionModuleState;
 }
 
 export const mainState = {

@@ -21,7 +21,7 @@
         </div>
         <div class=" tw-grid tw-justify-center tw-grid-cols-1 tw-grid-rows-1 md:tw-grid-cols-2 md:tw-grid-rows-2 tw-gap-2">
 
-          <div v-for="(sorteio, index) in sorteios" :key="index" class="tw-max-w-sm tw-w-full tw-m-auto tw-cursor-pointer">
+          <div v-for="(sorteio, index) in sortitions" :key="index" class="tw-max-w-sm tw-w-full tw-m-auto tw-cursor-pointer">
             <va-card @click="openEditModal(sorteio)">
               <va-card-content>
                 <div class="">
@@ -55,11 +55,21 @@
 
 <script lang='ts'>
 import { ActionType } from '@/utils/enums';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, Ref } from 'vue';
 import ModalForm from './ModalForm.vue';
 import Sortition from '@/types/Sortition';
 import moment from 'moment';
+import { ActionTypes as NFTActionTypes } from '@/store/modules/NFT/actions';
 
+/* {
+          id:0,
+          name: 'Sorteio de verão',
+          date: new Date('2022-06-20'),
+          idNFT: (Math.random()).toString(),
+          pixelsAvailable: 1000,
+          reward: 'R$ 1000.00 + NFT',
+          status: true
+        }, */
 
 export default defineComponent({
   name: 'sortition',
@@ -72,52 +82,11 @@ export default defineComponent({
       formData: ref(),
       actionType: ref(ActionType.CREATE),
       showModalForm: ref(false),
-      sorteios: ref([
-        {
-          id:0,
-          name: 'Sorteio de verão',
-          date: new Date('2022-06-20'),
-          idNFT: (Math.random()).toString(),
-          pixelsAvailable: 1000,
-          reward: 'R$ 1000.00 + NFT',
-          status: true
-        },
-        
-        {
-          id:1,
-          name: 'Sorteio de verão',
-          date: new Date('2022-07-20'),
-          idNFT:  (Math.random()).toString(),
-          pixelsAvailable: 1000,
-          reward: 'R$ 1000.00 + NFT',
-          status: false
-        },
-        {
-          id:2,
-          name: 'Sorteio de verão',
-          date: new Date('2022-08-20'),
-          idNFT:  (Math.random()).toString(),
-          pixelsAvailable: 1000,
-          reward: 'R$ 1000.00 + NFT',
-          status: false
-        },
-        {
-          id:3,
-          name: 'Sorteio de verão',
-          date: new Date('2022-09-20'),
-          idNFT:  (Math.random()).toString(),
-          pixelsAvailable: 1000,
-          reward: 'R$ 1000.00 + NFT',
-          status: false
-        },
-        
-        
-      ]) 
+      sortitions: ref([]),
     }
   },
   mounted(){
-    console.log(this.sorteios);
-     
+    this.$store.dispatch(NFTActionTypes.GET_NFT_SUMMARY_ID_LIST)
   },
   methods:{
     openModalCreate(){
