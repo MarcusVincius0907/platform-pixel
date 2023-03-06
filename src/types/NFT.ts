@@ -3,7 +3,7 @@
 export default interface NFT{
   _id?: number;
   name: string;
-  themes: string[];
+  themes: string;
   pixelQuantity: number;
   chunks?: Chunk[];
   chunkSize: number;

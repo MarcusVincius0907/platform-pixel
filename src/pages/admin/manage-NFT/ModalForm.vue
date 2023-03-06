@@ -12,7 +12,7 @@
             <span v-else>Criar sorteio</span>
           </h2>
           <div class="" v-if="Type.EDIT === actionType">
-            <va-button color="danger">
+            <va-button color="danger" @click="deletarNFT()">
               Excluir
             </va-button>
           </div>
@@ -76,6 +76,9 @@
       <template #footer>
         <va-button @click="saveFormData($refs.form.validate())">
           Salvar
+        </va-button>
+        <va-button class=" tw-ml-2 " @click="showModalToggle = false" outline>
+          Cancelar
         </va-button>
       </template>
     </va-modal>
@@ -153,9 +156,18 @@ export default defineComponent({
       if (validation) {
         this.formData.pixelQuantity = Number(this.option.value)
         this.$store.commit(MutationsType.SET_FORM_DATA_NFT, this.formData);
-        this.$store.dispatch(ActionTypes.CREATE_NFT);
+        if(this.actionType === this.Type.CREATE)
+          {this.$store.dispatch(ActionTypes.CREATE_NFT);}
+        else
+          {this.$store.dispatch(ActionTypes.UPDATE_NFT);}
         this.showModalToggle = false;
       }
+    },
+
+    deletarNFT(){
+      this.$store.commit(MutationsType.SET_FORM_DATA_NFT, this.formData);
+      this.$store.dispatch(ActionTypes.DELETE_NFT);
+      this.showModalToggle = false;
     },
   },
 

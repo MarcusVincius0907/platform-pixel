@@ -27,7 +27,7 @@ export const NFTAction = {
 
     if (resp.status === ResponseStatus.OK) {
       const nftSummaryList = context.state.nftSummaryList;
-      context.commit(MutationsType.SET_NFT_LIST, [...nftSummaryList, ...resp.payload]);
+      context.commit(MutationsType.SET_NFT_LIST, [...resp.payload]);
     }
 
     context.commit(MainMutationsType.SET_CUSTOM_LOADER, false);
@@ -57,13 +57,13 @@ export const NFTAction = {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
           message: "Dados inválidos",
-          color: "error",
+          color: "danger",
         } as Notification);
       }else {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
           message: "Erro inesperado, tente novamente mais tarde.",
-          color: "error",
+          color: "danger",
         } as Notification);
       }
   
@@ -95,13 +95,13 @@ export const NFTAction = {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
           message: "Dados inválidos",
-          color: "error",
+          color: "danger",
         } as Notification);
       }else {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
           message: "Erro inesperado, tente novamente mais tarde.",
-          color: "error",
+          color: "danger",
         } as Notification);
       }
   
@@ -109,7 +109,7 @@ export const NFTAction = {
     }
   },
 
-  async [ActionTypes.UPDATE_NFT](
+  async [ActionTypes.DELETE_NFT](
     context: ActionContext<NFTModuleState, State>
   ) {
     if(context.state.formDataNFT){
@@ -133,7 +133,7 @@ export const NFTAction = {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
           message: "Erro inesperado, tente novamente mais tarde.",
-          color: "error",
+          color: "danger",
         } as Notification);
       }
   

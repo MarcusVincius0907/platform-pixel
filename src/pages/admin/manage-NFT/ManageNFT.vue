@@ -17,7 +17,7 @@
                   <div>NFT</div>
                   <div class=" tw-flex tw-justify-between tw-w-full tw-flex-wrap tw-m-auto tw-max-w-[200px]">
 
-                    <div v-for="(theme, index) in nft.themes" :key="index" >
+                    <div v-for="(theme, index) in stringToArray(nft.themes)" :key="index" >
                       <div :style="`background-color: #${theme};`" class="tw-h-8 tw-w-8 tw-m-1 tw-mt-2"></div>
                     </div>
                   </div>
@@ -38,8 +38,7 @@ import { ActionType } from '@/utils/enums';
 import { defineComponent, ref } from 'vue';
 import ModalForm from './ModalForm.vue'
 import NFT from  '@/types/NFT'
-import  NFTMock from '@/data/NFT/NFT'
-import { arrayToString } from '@/utils/themesUtil'
+import { stringToArray } from '@/utils/themesUtil'
 import { ActionTypes } from '@/store/modules/NFT/actions';
 
 
@@ -73,12 +72,15 @@ export default defineComponent({
       this.formData = {}
     },
     openEditModal(nft: NFT){
-      this.formData = {name: nft.name, themes: arrayToString(nft.themes), pixelQuantity:  nft.pixelQuantity} ;
+      this.formData = {_id: nft._id,name: nft.name, themes: nft.themes, pixelQuantity:  nft.pixelQuantity} ;
       this.changeActionType(ActionType.EDIT);
       this.showModalForm = !this.showModalForm;
     },
     changeActionType(type: ActionType){
       this.actionType = type;
+    },
+    stringToArray(value: string){
+      return stringToArray(value)
     }
   }
 })
