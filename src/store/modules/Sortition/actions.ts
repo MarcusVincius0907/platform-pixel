@@ -5,6 +5,7 @@ import { ResponseStatus } from "@/types/ResponseDefault";
 import { ActionContext } from "vuex";
 import { MutationsType } from "./mutations";
 import { SortitionModuleState } from "./state";
+import { ActionTypes as NFTActionType } from '../NFT/actions';
 
 export enum ActionTypes {
   GET_SORTITION_LIST = "GET_SORTITION_SUMMARY_LIST",
@@ -52,6 +53,7 @@ export const SortitionAction = {
         } as Notification);
 
         context.dispatch(ActionTypes.GET_SORTITION_LIST);
+        context.dispatch(NFTActionType.GET_NFT_SUMMARY_ID_LIST);
       } else if(resp.status === ResponseStatus.INVALID_INFO){
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
@@ -90,6 +92,7 @@ export const SortitionAction = {
         } as Notification);
 
         context.dispatch(ActionTypes.GET_SORTITION_LIST);
+        context.dispatch(NFTActionType.GET_NFT_SUMMARY_ID_LIST);
       } else if(resp.status === ResponseStatus.INVALID_INFO){
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
@@ -128,6 +131,7 @@ export const SortitionAction = {
         } as Notification);
 
         context.dispatch(ActionTypes.GET_SORTITION_LIST);
+        context.dispatch(NFTActionType.GET_NFT_SUMMARY_ID_LIST);
       }else {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",

@@ -21,27 +21,24 @@
         </div>
         <div class=" tw-grid tw-justify-center tw-grid-cols-1 tw-grid-rows-1 md:tw-grid-cols-2 md:tw-grid-rows-2 tw-gap-2">
 
-          <div v-for="(sorteio, index) in sortitions" :key="index" class="tw-max-w-sm tw-w-full tw-m-auto tw-cursor-pointer">
-            <va-card @click="openEditModal(sorteio)">
+          <div v-for="(sortition, index) in sortitions" :key="index" class="tw-max-w-sm tw-w-full tw-m-auto tw-cursor-pointer">
+            <va-card @click="openEditModal(sortition)">
               <va-card-content>
-                <div class="">
-                  <div class="   ">
-                    <h1 class=" tw-text-xl tw-mb-5 tw-font-bold tw-text-center"> {{moment(sorteio.date).format('DD/MM/yyyy')}} </h1>
-                    <div class="tw-flex tw-mb-3 tw-justify-center">
-                      <div class=" tw-w-1/2 tw-flex tw-flex-col tw-items-center">
-                        <div class=" tw-font-bold">Pixels</div>
-                        <div>{{sorteio.pixelsAvailable}}</div>
-                      </div>
-                      <div class="tw-w-1/2 tw-flex tw-flex-col tw-items-center">
-                        <div class=" tw-font-bold">Premiação</div>
-                        <div>{{sorteio.reward}}</div>
-                      </div>
-                    </div>
-                    <div class=" tw-flex tw-justify-center">
-                      <va-button v-if="sorteio.status">Aberto</va-button>
-                      <va-button v-else :disabled="true"> Fechado </va-button>
-                    </div>
+                <h1 class=" tw-text-xl tw-mb-5 tw-font-bold tw-text-center"> {{sortition.name}} </h1>
+                <h3 class=" tw-text-md tw-mb-5 tw-font-bold tw-text-center"> {{moment(sortition.date).format('DD/MM/yyyy')}}</h3>
+                <div class="tw-flex tw-mb-3 tw-justify-center">
+                  <div class=" tw-w-1/2 tw-flex tw-flex-col tw-items-center">
+                    <div class=" tw-font-bold">NFT id</div>
+                    <div>{{sortition.idNFTSummary.substring(0, 10)}}...</div>
                   </div>
+                  <div class="tw-w-1/2 tw-flex tw-flex-col tw-items-center">
+                    <div class=" tw-font-bold">Premiação</div>
+                    <div>{{sortition.reward}}</div>
+                  </div>
+                </div>
+                <div class=" tw-flex tw-justify-center">
+                  <va-button v-if="sortition.status">Aberto</va-button>
+                  <va-button v-else :disabled="true"> Fechado </va-button>
                 </div>
               </va-card-content>
             </va-card>
@@ -60,16 +57,8 @@ import ModalForm from './ModalForm.vue';
 import Sortition from '@/types/Sortition';
 import moment from 'moment';
 import { ActionTypes as NFTActionTypes } from '@/store/modules/NFT/actions';
+import { ActionTypes } from '@/store/modules/Sortition/actions';
 
-/* {
-          id:0,
-          name: 'Sorteio de verão',
-          date: new Date('2022-06-20'),
-          idNFT: (Math.random()).toString(),
-          pixelsAvailable: 1000,
-          reward: 'R$ 1000.00 + NFT',
-          status: true
-        }, */
 
 export default defineComponent({
   name: 'sortition',
@@ -82,11 +71,11 @@ export default defineComponent({
       formData: ref(),
       actionType: ref(ActionType.CREATE),
       showModalForm: ref(false),
-      sortitions: ref([]),
     }
   },
   mounted(){
     this.$store.dispatch(NFTActionTypes.GET_NFT_SUMMARY_ID_LIST)
+    this.$store.dispatch(ActionTypes.GET_SORTITION_LIST);
   },
   methods:{
     openModalCreate(){
@@ -95,14 +84,20 @@ export default defineComponent({
       this.formData = {};
     },
     openEditModal(sortition: Sortition){
-      this.formData = sortition;
+      this.formData = {...sortition, date: new Date(sortition.date)};
       this.changeActionType(ActionType.EDIT);
       this.showModalForm = !this.showModalForm;
     },
     changeActionType(type: ActionType){
       this.actionType = type;
     }
-  }
+  },
+
+  computed:{
+    sortitions(){
+      return this.$store.state.sortition.sortitionList
+    }
+  },
 })
 </script>
 

@@ -12,7 +12,7 @@
             <span v-else>Criar sorteio</span>
           </h2>
           <div class="" v-if="Type.EDIT === actionType">
-            <va-button color="danger" @click="deletar()">
+            <va-button color="danger" @click="deleteSortition()">
               Excluir
             </va-button>
           </div>
@@ -23,7 +23,7 @@
          
 
           <va-form
-            ref="formAddress"
+            ref="form"
             @validation="validation = $event"
           >
             <div class="line tw-flex tw-w-full tw-mb-2">
@@ -83,8 +83,11 @@
         </div>
       </slot>
       <template #footer>
-        <va-button @click="clearPixelSelection(currentPixelSelected)">
+        <va-button @click="saveFormData($refs.form.validate())">
           Salvar
+        </va-button>
+        <va-button class=" tw-ml-2 " @click="showModalToggle = false" outline>
+          Cancelar
         </va-button>
       </template>
     </va-modal>
@@ -97,6 +100,8 @@ import { ActionType as Type } from '@/utils/enums';
 import Sortition from '@/types/Sortition';
 import { MutationsType } from '@/store/modules/Sortition/mutations';
 import { ActionTypes } from '@/store/modules/Sortition/actions';
+import moment from 'moment';
+import { MutationsType as MainMutationsType} from '@/store/mutations';
 
 
 export default defineComponent({
@@ -141,17 +146,38 @@ export default defineComponent({
 
   methods:{
     saveFormData(validation: boolean) {
-      if (validation) {
-        this.$store.commit(MutationsType.SET_FORM_DATA_SORTITION, this.formData);
-        if(this.actionType === this.Type.CREATE)
-          {this.$store.dispatch(ActionTypes.CREATE_SORTITION);}
-        else
-          {this.$store.dispatch(ActionTypes.UPDATE_SORTITION);}
+      if (validation && this.formData.idNFTSummary) {
+
+        const formattedData: Sortition = {
+          ...(this.actionType === this.Type.EDIT && {_id: this.formData._id }),
+          name: this.formData.name,
+          status: this.formData.status,
+          reward: this.formData.reward,
+          date: moment(this.formData.date).format('yyyy-MM-DD'),
+          idNFTSummary: (this.formData.idNFTSummary as any).value
+        }
+
+        this.$store.commit(MutationsType.SET_FORM_DATA_SORTITION, formattedData);
+
+        if(this.actionType === this.Type.CREATE){
+          this.$store.dispatch(ActionTypes.CREATE_SORTITION);
+        }
+        else {
+          this.$store.dispatch(ActionTypes.UPDATE_SORTITION);
+        }
+
         this.showModalToggle = false;
+
+      }else{
+        this.$store.commit(MainMutationsType.SET_NOTIFICATION, {
+          title: "Erro",
+          message: "Dados inválidos",
+          color: "danger",
+        });
       }
     },
 
-    deletar(){
+    deleteSortition(){
       this.$store.commit(MutationsType.SET_FORM_DATA_SORTITION, this.formData);
       this.$store.dispatch(ActionTypes.DELETE_SORTITION);
       this.showModalToggle = false;
@@ -162,8 +188,17 @@ export default defineComponent({
     showModal(newValue, oldValue){
       this.showModalToggle = true;
     },
-    sortition(newValue, oldValue){
-      if(newValue) {this.formData = newValue;}
+    sortition(newValue){
+
+      if(newValue) {
+        this.formData = newValue;
+      }
+
+      if(newValue?.idNFTSummary){
+        const nftEl = this.options.find(el => (this.formData.idNFTSummary === el.value))
+        this.formData.idNFTSummary = nftEl
+      }
+
     },
     
   },
