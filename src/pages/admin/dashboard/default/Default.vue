@@ -48,32 +48,7 @@
       </div>
       <div class="section">
         <div class=" tw-grid tw-justify-center tw-grid-cols-1 tw-grid-rows-1 md:tw-grid-cols-2 md:tw-grid-rows-2 tw-gap-2">
-
-          <div v-for="(sorteio, index) in sorteios" :key="index" class="tw-max-w-sm tw-w-full tw-m-auto">
-            <va-card>
-              <va-card-content>
-                <div class="">
-                  <div class="   ">
-                    <h1 class=" tw-text-xl tw-mb-5 tw-font-bold tw-text-center"> {{sorteio.date}} </h1>
-                    <div class="tw-flex tw-mb-3 tw-justify-center">
-                      <div class=" tw-w-1/2 tw-flex tw-flex-col tw-items-center">
-                        <div class=" tw-font-bold">Pixels</div>
-                        <div>{{sorteio.pixelsAvailable}}</div>
-                      </div>
-                      <div class="tw-w-1/2 tw-flex tw-flex-col tw-items-center">
-                        <div class=" tw-font-bold">Premiação</div>
-                        <div>{{sorteio.reward}}</div>
-                      </div>
-                    </div>
-                    <div class=" tw-flex tw-justify-center">
-                      <va-button v-if="sorteio.status === 'aberto'">Aberto</va-button>
-                      <va-button v-else :disabled="true"> Fechado </va-button>
-                    </div>
-                  </div>
-                </div>
-              </va-card-content>
-            </va-card>
-          </div>
+          <SortitionList :sortitions="sortitions" />
         </div>
       </div>
     </div>
@@ -82,51 +57,25 @@
 
 <script>
 
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
+import SortitionList from '@/pages/admin/sortition/SortitionList.vue'
+import { ActionTypes } from '@/store/modules/Sortition/actions';
 
 export default defineComponent({
   name: 'default',
-  setup(){
-    return{
-      sorteios: [
-        {
-          id:0,
-          date: '24/06/2022',
-          idPixel: Math.random(),
-          pixelsAvailable: 1000,
-          reward: 'R$ 1000.00 + NFT',
-          status: 'aberto'
-        },
-        
-        {
-          id:1,
-          date: '24/07/2022',
-          idPixel: Math.random(),
-          pixelsAvailable: 1000,
-          reward: 'R$ 1000.00 + NFT',
-          status: 'fechado'
-        },
-        {
-          id:2,
-          date: '24/08/2022',
-          idPixel: Math.random(),
-          pixelsAvailable: 1000,
-          reward: 'R$ 1000.00 + NFT',
-          status: 'fechado'
-        },
-        {
-          id:3,
-          date: '24/08/2022',
-          idPixel: Math.random(),
-          pixelsAvailable: 1000,
-          reward: 'R$ 1000.00 + NFT',
-          status: 'fechado'
-        },
-        
-        
-      ]
-    }
+  components:{
+    SortitionList
   },
+
+  mounted(){
+    this.$store.dispatch(ActionTypes.GET_SORTITION_LIST);
+  },
+
+  computed:{
+    sortitions(){
+      return this.$store.state.sortition.sortitionList;
+    }
+  }
  
 })
 </script>

@@ -146,7 +146,7 @@ export default defineComponent({
 
   methods:{
     saveFormData(validation: boolean) {
-      if (validation && this.formData.idNFTSummary) {
+      if (validation) {
 
         const formattedData: Sortition = {
           ...(this.actionType === this.Type.EDIT && {_id: this.formData._id }),
@@ -154,7 +154,7 @@ export default defineComponent({
           status: this.formData.status,
           reward: this.formData.reward,
           date: moment(this.formData.date).format('yyyy-MM-DD'),
-          idNFTSummary: (this.formData.idNFTSummary as any).value
+          idNFTSummary: (this.formData.idNFTSummary as any)?.value ?? this.formData.idNFTSummary ?? ''
         }
 
         this.$store.commit(MutationsType.SET_FORM_DATA_SORTITION, formattedData);
@@ -194,10 +194,11 @@ export default defineComponent({
         this.formData = newValue;
       }
 
-      if(newValue?.idNFTSummary){
+      //TODO refactor this logic for showing the option selected
+     /*  if(newValue?.idNFTSummary){
         const nftEl = this.options.find(el => (this.formData.idNFTSummary === el.value))
         this.formData.idNFTSummary = nftEl
-      }
+      } */
 
     },
     

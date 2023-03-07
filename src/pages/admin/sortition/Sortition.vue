@@ -20,29 +20,7 @@
           <va-button class=" tw-w-full " size="large" @click="openModalCreate()">Criar novo sorteio</va-button>
         </div>
         <div class=" tw-grid tw-justify-center tw-grid-cols-1 tw-grid-rows-1 md:tw-grid-cols-2 md:tw-grid-rows-2 tw-gap-2">
-
-          <div v-for="(sortition, index) in sortitions" :key="index" class="tw-max-w-sm tw-w-full tw-m-auto tw-cursor-pointer">
-            <va-card @click="openEditModal(sortition)">
-              <va-card-content>
-                <h1 class=" tw-text-xl tw-mb-5 tw-font-bold tw-text-center"> {{sortition.name}} </h1>
-                <h3 class=" tw-text-md tw-mb-5 tw-font-bold tw-text-center"> {{moment(sortition.date).format('DD/MM/yyyy')}}</h3>
-                <div class="tw-flex tw-mb-3 tw-justify-center">
-                  <div class=" tw-w-1/2 tw-flex tw-flex-col tw-items-center">
-                    <div class=" tw-font-bold">NFT id</div>
-                    <div>{{sortition.idNFTSummary.substring(0, 10)}}...</div>
-                  </div>
-                  <div class="tw-w-1/2 tw-flex tw-flex-col tw-items-center">
-                    <div class=" tw-font-bold">Premiação</div>
-                    <div>{{sortition.reward}}</div>
-                  </div>
-                </div>
-                <div class=" tw-flex tw-justify-center">
-                  <va-button v-if="sortition.status">Aberto</va-button>
-                  <va-button v-else :disabled="true"> Fechado </va-button>
-                </div>
-              </va-card-content>
-            </va-card>
-          </div>
+          <SortitionList :sortitions="sortitions" :adminVisibilityAccess="true" @openEditModal="openEditModal"/>
         </div>
       </div>
     </div>
@@ -58,12 +36,14 @@ import Sortition from '@/types/Sortition';
 import moment from 'moment';
 import { ActionTypes as NFTActionTypes } from '@/store/modules/NFT/actions';
 import { ActionTypes } from '@/store/modules/Sortition/actions';
+import SortitionList from './SortitionList.vue';
 
 
 export default defineComponent({
   name: 'sortition',
   components:{
-    ModalForm
+    ModalForm,
+    SortitionList
   },
    setup(){
     return{
@@ -90,6 +70,9 @@ export default defineComponent({
     },
     changeActionType(type: ActionType){
       this.actionType = type;
+    },
+    goToNFT(nftId: string){
+      this.$router.push({ name: "NFT", query: { nftId } });
     }
   },
 
