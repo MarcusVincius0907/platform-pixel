@@ -38,4 +38,5 @@ export interface NFTSummary{
 export interface NFTIdList{
   id: string;
   name: string;
+  vinculated: boolean;
 }

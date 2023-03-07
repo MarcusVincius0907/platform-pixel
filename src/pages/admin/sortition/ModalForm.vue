@@ -194,11 +194,10 @@ export default defineComponent({
         this.formData = newValue;
       }
 
-      //TODO refactor this logic for showing the option selected
-     /*  if(newValue?.idNFTSummary){
+      if(newValue?.idNFTSummary){
         const nftEl = this.options.find(el => (this.formData.idNFTSummary === el.value))
         this.formData.idNFTSummary = nftEl
-      } */
+      }
 
     },
     
@@ -206,7 +205,10 @@ export default defineComponent({
 
   computed:{
     options(){
-      return this.$store.state.NFT.nftSummaryIdList.map(nftItem => ({ text: `${nftItem.name} - ${nftItem.id.substring(0,3)}...`, value: nftItem.id, id: nftItem.id, name: nftItem.name  } as any))
+      if(this.actionType === this.Type.EDIT)
+        {return this.$store.state.NFT.nftSummaryIdList.map(nftItem => ({ text: `${nftItem.name} - ${nftItem.id.substring(0,3)}...`, value: nftItem.id, id: nftItem.id, name: nftItem.name  } as any))}
+      else  
+        {return this.$store.state.NFT.nftSummaryIdList.map(nftItem => ({ text: `${nftItem.name} - ${nftItem.id.substring(0,3)}...`, vinculated: nftItem.vinculated, value: nftItem.id, id: nftItem.id, name: nftItem.name  } as any)).filter(nft => !nft.vinculated)}
     }
   }
   
