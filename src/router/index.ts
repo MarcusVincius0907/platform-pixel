@@ -15,8 +15,8 @@ const routes: Array<RouteRecordRaw> = [
     redirect: { name: 'dashboard' },
   },
   {
-    name: 'admin',
-    path: '/admin',
+    name: 'plaftform',
+    path: '/plaftform',
     component: AppLayout,
     children: [
       {
@@ -48,6 +48,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'logout',
         path: 'logout',
         component: () => import('@/pages/admin/logout/Logout.vue'),
+      },
+      {
+        name: 'checkout',
+        path: 'checkout',
+        component: () => import('@/pages/admin/checkout/Checkout.vue'),
       },
 
       {
