@@ -7,9 +7,7 @@ export default class NFTService {
 
   async getAllNFTs(): Promise<ResponseDefault> {
     try {
-      const req = await this._baseService.http.get<ResponseDefault>(
-        "/nft"
-      );
+      const req = await this._baseService.http.get<ResponseDefault>("/nft");
       return req.data;
     } catch (ex) {
       return this._baseService.apiErrorTreatment(ex);
@@ -20,6 +18,17 @@ export default class NFTService {
     try {
       const req = await this._baseService.http.get<ResponseDefault>(
         "/nft/list/ids"
+      );
+      return req.data;
+    } catch (ex) {
+      return this._baseService.apiErrorTreatment(ex);
+    }
+  }
+
+  async getNFTMeasurements(nftId: string): Promise<ResponseDefault> {
+    try {
+      const req = await this._baseService.http.get<ResponseDefault>(
+        `/nft/measure/${nftId}`
       );
       return req.data;
     } catch (ex) {
@@ -61,5 +70,4 @@ export default class NFTService {
       return this._baseService.apiErrorTreatment(ex);
     }
   }
-
 }

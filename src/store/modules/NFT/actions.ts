@@ -9,9 +9,10 @@ import { NFTModuleState } from "./state";
 export enum ActionTypes {
   GET_NFT_LIST = "GET_NFT_SUMMARY_LIST",
   GET_NFT_SUMMARY_ID_LIST = "GET_NFT_SUMMARY_ID_LIST",
+  GET_NFT_MEASUREMENT = "GET_NFT_MEASUREMENT",
   CREATE_NFT = "CREATE_NFT",
   UPDATE_NFT = "UPDATE_NFT",
-  DELETE_NFT = "DELETE_NFT"
+  DELETE_NFT = "DELETE_NFT",
 }
 
 export const NFTAction = {
@@ -51,18 +52,37 @@ export const NFTAction = {
     context.commit(MainMutationsType.SET_CUSTOM_LOADER, false);
   },
 
+  async [ActionTypes.GET_NFT_MEASUREMENT](
+    context: ActionContext<NFTModuleState, State>,
+    nftId: string
+  ) {
+    context.commit(MainMutationsType.SET_CUSTOM_LOADER, true);
+
+    const NFTService = await import("@/services/nftService");
+
+    const nftService = new NFTService.default();
+
+    const resp = await nftService.getNFTMeasurements(nftId);
+
+    if (resp.status === ResponseStatus.OK) {
+      context.commit(MutationsType.SET_NFT_MEASUREMENT, resp.payload);
+    }
+
+    context.commit(MainMutationsType.SET_CUSTOM_LOADER, false);
+  },
+
   async [ActionTypes.CREATE_NFT](
     context: ActionContext<NFTModuleState, State>
   ) {
-    if(context.state.formDataNFT){
+    if (context.state.formDataNFT) {
       context.commit(MainMutationsType.SET_CUSTOM_LOADER, true);
-  
+
       const NFTService = await import("@/services/nftService");
-  
+
       const nftService = new NFTService.default();
-  
+
       const resp = await nftService.createNFT(context.state.formDataNFT);
-  
+
       if (resp.status === ResponseStatus.OK) {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Sucesso",
@@ -71,20 +91,20 @@ export const NFTAction = {
         } as Notification);
 
         context.dispatch(ActionTypes.GET_NFT_LIST);
-      } else if(resp.status === ResponseStatus.INVALID_INFO){
+      } else if (resp.status === ResponseStatus.INVALID_INFO) {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
           message: "Dados inválidos",
           color: "danger",
         } as Notification);
-      }else {
+      } else {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
           message: "Erro inesperado, tente novamente mais tarde.",
           color: "danger",
         } as Notification);
       }
-  
+
       context.commit(MainMutationsType.SET_CUSTOM_LOADER, false);
     }
   },
@@ -92,15 +112,15 @@ export const NFTAction = {
   async [ActionTypes.UPDATE_NFT](
     context: ActionContext<NFTModuleState, State>
   ) {
-    if(context.state.formDataNFT){
+    if (context.state.formDataNFT) {
       context.commit(MainMutationsType.SET_CUSTOM_LOADER, true);
-  
+
       const NFTService = await import("@/services/nftService");
-  
+
       const nftService = new NFTService.default();
-  
+
       const resp = await nftService.updateNFT(context.state.formDataNFT);
-  
+
       if (resp.status === ResponseStatus.OK) {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Sucesso",
@@ -109,20 +129,20 @@ export const NFTAction = {
         } as Notification);
 
         context.dispatch(ActionTypes.GET_NFT_LIST);
-      } else if(resp.status === ResponseStatus.INVALID_INFO){
+      } else if (resp.status === ResponseStatus.INVALID_INFO) {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
           message: "Dados inválidos",
           color: "danger",
         } as Notification);
-      }else {
+      } else {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
           message: "Erro inesperado, tente novamente mais tarde.",
           color: "danger",
         } as Notification);
       }
-  
+
       context.commit(MainMutationsType.SET_CUSTOM_LOADER, false);
     }
   },
@@ -130,15 +150,17 @@ export const NFTAction = {
   async [ActionTypes.DELETE_NFT](
     context: ActionContext<NFTModuleState, State>
   ) {
-    if(context.state.formDataNFT){
+    if (context.state.formDataNFT) {
       context.commit(MainMutationsType.SET_CUSTOM_LOADER, true);
-  
+
       const NFTService = await import("@/services/nftService");
-  
+
       const nftService = new NFTService.default();
-  
-      const resp = await nftService.deleteNFT(context.state.formDataNFT._id ?? "");
-  
+
+      const resp = await nftService.deleteNFT(
+        context.state.formDataNFT._id ?? ""
+      );
+
       if (resp.status === ResponseStatus.OK) {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Sucesso",
@@ -147,17 +169,15 @@ export const NFTAction = {
         } as Notification);
 
         context.dispatch(ActionTypes.GET_NFT_LIST);
-      }else {
+      } else {
         context.commit(MainMutationsType.SET_NOTIFICATION, {
           title: "Erro",
           message: "Erro inesperado, tente novamente mais tarde.",
           color: "danger",
         } as Notification);
       }
-  
+
       context.commit(MainMutationsType.SET_CUSTOM_LOADER, false);
     }
   },
-
-  
 };

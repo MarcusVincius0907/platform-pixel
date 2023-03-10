@@ -1,69 +1,180 @@
 <template>
-  <div class="tw-w-full tw-h-full ">
-    <div class="tw-max-w-[720px] tw-mb-5">
+  <div v-if="sortition && nftMeasurement" class="tw-w-full tw-h-full">
+    <div :style="[customStyles.maxWidthNFT]" class="tw-mb-5">
       <va-card>
         <va-card-content>
-          <div class=" tw-text-xl">NFT referente ao sorteio de <strong>24/06/2022</strong></div>
+          <div class="tw-text-xl">
+            O sorteio ocorrerá
+            <strong>{{
+              moment(sortition.date).format("DD/MM/yyyy") + ", "
+            }}</strong>
+            você pode ganhar até
+            <strong> {{ "R$ " + sortition.reward }} </strong>
+          </div>
         </va-card-content>
       </va-card>
     </div>
-    <div class=" tw-flex tw-flex-col md:tw-flex-row">
-      <div class="tw-overflow-x-auto tw-max-w-[720px]">
-        <div class=" tw-min-w-[720px] tw-bg-gray-200 tw-m-auto tw-flex tw-flex-wrap tw-shadow-2xl ">
-
-          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
-            <div v-for="(s,i) in piece1" @click="openColorModal(s.id, 'piece1')" :key="i" :style="`background-color: ${s.color};`" class="square" ></div>
+    <div class="tw-flex tw-flex-col md:tw-flex-row">
+      <div
+        :style="{ maxWidth: nftMeasurement.NFTWidth + 'px' }"
+        class="tw-overflow-x-auto"
+      >
+        <div
+          :style="{ minWidth: nftMeasurement.NFTWidth + 'px' }"
+          class="tw-bg-gray-200 tw-m-auto tw-flex tw-flex-wrap tw-shadow-2xl"
+        >
+          <div
+            :style="{
+              width: nftMeasurement.chunkWidth + 'px',
+              height: nftMeasurement.chunkWidth + 'px',
+            }"
+            class="tw-flex tw-flex-wrap"
+          >
+            <div
+              v-for="(s, i) in piece1"
+              @click="openColorModal(s.id, 'piece1')"
+              :key="i"
+              :style="`background-color: ${s.color};`"
+              class="square"
+            ></div>
           </div>
-          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
-            <div v-for="(s,i) in piece2" @click="openColorModal(s.id, 'piece2')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
+          <div
+            :style="{
+              width: nftMeasurement.chunkWidth + 'px',
+              height: nftMeasurement.chunkWidth + 'px',
+            }"
+            class="tw-flex tw-flex-wrap"
+          >
+            <div
+              v-for="(s, i) in piece2"
+              @click="openColorModal(s.id, 'piece2')"
+              :key="i"
+              :style="`background-color: ${s.color};`"
+              class="square"
+            ></div>
           </div>
-          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
-            <div v-for="(s,i) in piece3" @click="openColorModal(s.id, 'piece3')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
+          <div
+            :style="{
+              width: nftMeasurement.chunkWidth + 'px',
+              height: nftMeasurement.chunkWidth + 'px',
+            }"
+            class="tw-flex tw-flex-wrap"
+          >
+            <div
+              v-for="(s, i) in piece3"
+              @click="openColorModal(s.id, 'piece3')"
+              :key="i"
+              :style="`background-color: ${s.color};`"
+              class="square"
+            ></div>
           </div>
-          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
-            <div v-for="(s,i) in piece4" @click="openColorModal(s.id, 'piece4')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
+          <div
+            :style="{
+              width: nftMeasurement.chunkWidth + 'px',
+              height: nftMeasurement.chunkWidth + 'px',
+            }"
+            class="tw-flex tw-flex-wrap"
+          >
+            <div
+              v-for="(s, i) in piece4"
+              @click="openColorModal(s.id, 'piece4')"
+              :key="i"
+              :style="`background-color: ${s.color};`"
+              class="square"
+            ></div>
           </div>
-          <div class="tw-w-[240px] tw-h-[240px] ">
+          <div
+            :style="{
+              width: nftMeasurement.chunkWidth + 'px',
+              height: nftMeasurement.chunkWidth + 'px',
+            }"
+            class=""
+          >
             <div class="tw-w-full tw-h-full tw-flex tw-p-5 image-pixel">
-
-              <img src="../../../../public/img/logo.png" alt="">
+              <img src="../../../../public/img/logo.png" alt="" />
             </div>
           </div>
-          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
-            <div v-for="(s,i) in piece5" @click="openColorModal(s.id, 'piece5')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
+          <div
+            :style="{
+              width: nftMeasurement.chunkWidth + 'px',
+              height: nftMeasurement.chunkWidth + 'px',
+            }"
+            class="tw-flex tw-flex-wrap"
+          >
+            <div
+              v-for="(s, i) in piece5"
+              @click="openColorModal(s.id, 'piece5')"
+              :key="i"
+              :style="`background-color: ${s.color};`"
+              class="square"
+            ></div>
           </div>
-          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
-            <div v-for="(s,i) in piece6" @click="openColorModal(s.id, 'piece6')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
+          <div
+            :style="{
+              width: nftMeasurement.chunkWidth + 'px',
+              height: nftMeasurement.chunkWidth + 'px',
+            }"
+            class="tw-flex tw-flex-wrap"
+          >
+            <div
+              v-for="(s, i) in piece6"
+              @click="openColorModal(s.id, 'piece6')"
+              :key="i"
+              :style="`background-color: ${s.color};`"
+              class="square"
+            ></div>
           </div>
-          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap">
-            <div v-for="(s,i) in piece7" @click="openColorModal(s.id, 'piece7')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
+          <div
+            :style="{
+              width: nftMeasurement.chunkWidth + 'px',
+              height: nftMeasurement.chunkWidth + 'px',
+            }"
+            class="tw-flex tw-flex-wrap"
+          >
+            <div
+              v-for="(s, i) in piece7"
+              @click="openColorModal(s.id, 'piece7')"
+              :key="i"
+              :style="`background-color: ${s.color};`"
+              class="square"
+            ></div>
           </div>
-          <div class="tw-flex tw-w-[240px] tw-h-[240px] tw-flex-wrap ">
-            <div v-for="(s,i) in piece8" @click="openColorModal(s.id, 'piece8')" :key="i" :style="`background-color: ${s.color};`" class="square" > </div>
+          <div
+            :style="{
+              width: nftMeasurement.chunkWidth + 'px',
+              height: nftMeasurement.chunkWidth + 'px',
+            }"
+            class="tw-flex tw-flex-wrap"
+          >
+            <div
+              v-for="(s, i) in piece8"
+              @click="openColorModal(s.id, 'piece8')"
+              :key="i"
+              :style="`background-color: ${s.color};`"
+              class="square"
+            ></div>
           </div>
-          
         </div>
       </div>
 
-      <div class="  md:tw-pl-5 tw-mt-5 md:tw-mt-0 md:tw-max-w-sm">
+      <div class="md:tw-pl-5 tw-mt-5 md:tw-mt-0 md:tw-max-w-sm">
         <PixelSumCard :pixels="pixels" :hideBuyButton="false" />
       </div>
-
     </div>
 
-    <va-modal
-      v-model="showModal"
-      hide-default-actions
-      overlay-opacity="0.2"
-    >
+    <va-modal v-model="showModal" hide-default-actions overlay-opacity="0.2">
       <template #header>
         <h2>Selecione a cor:</h2>
       </template>
       <slot>
         <div class="tw-flex tw-justify-between tw-mt-3">
-          <div class="tw-h-8 tw-w-8 tw-cursor-pointer hover:tw-opacity-80" @click="setPixelColor(item)"  v-for="(item,i) in colors" :key="i" :style="`background-color:${item}`" ></div>
-          
-          
+          <div
+            class="tw-h-8 tw-w-8 tw-cursor-pointer hover:tw-opacity-80"
+            @click="setPixelColor(item)"
+            v-for="(item, i) in colors"
+            :key="i"
+            :style="`background-color:${item}`"
+          ></div>
         </div>
       </slot>
       <template #footer>
@@ -72,35 +183,36 @@
         </va-button>
       </template>
     </va-modal>
-    
   </div>
+  <div v-else>Sem sorteios por agora...</div>
 </template>
 
-<script lang='ts'>
-import {ref} from  'vue'
-import PixelMock from '../../../data/pixel/index'
-import {PixelsKey} from '@/types/Pixel'
-import { defineComponent } from 'vue'
-import PixelSumCard from './PixelSumCard.vue'
+<script lang="ts">
+import { ref } from "vue";
+import PixelMock from "../../../data/pixel/index";
+import { PixelsKey } from "@/types/Pixel";
+import { defineComponent } from "vue";
+import PixelSumCard from "./PixelSumCard.vue";
+import { ActionTypes } from "@/store/modules/Sortition/actions";
+import { ActionTypes as NFTActionTypes } from "@/store/modules/NFT/actions";
+import moment from "moment";
 
 interface Pixel {
-  id: string; 
+  id: string;
   color: string;
   piece: string;
 }
 
-
 export default defineComponent({
-  name: 'pixel',
+  name: "pixel",
   components: {
-    PixelSumCard
+    PixelSumCard,
   },
-  
-  setup(){
-    
+
+  setup() {
     const pixelMock = new PixelMock();
 
-    return{
+    return {
       piece1: ref(pixelMock.piece1),
       piece2: ref(pixelMock.piece2),
       piece3: ref(pixelMock.piece3),
@@ -111,137 +223,185 @@ export default defineComponent({
       piece8: ref(pixelMock.piece8),
       colors: ref(pixelMock.colors),
       showModal: ref(false),
-      currentPixelSelected: ref({id:'', color:'', piece: ''} as Pixel),
-      pixels: ref([] as Array<Pixel>)
+      currentPixelSelected: ref({ id: "", color: "", piece: "" } as Pixel),
+      pixels: ref([] as Array<Pixel>),
+      moment: moment,
+      customStyles: ref({}),
+    };
+  },
 
+  mounted() {
+    if (this.$route.query?.sortitionId) {
+      this.$store.dispatch(
+        ActionTypes.GET_SORTITION_BY_ID,
+        this.$route.query?.sortitionId
+      );
+    } else {
+      this.$store.dispatch(ActionTypes.DEFINE_SELECTED_SORTITION_RANDOMLY);
     }
   },
-  methods: {
-    openColorModal(id: string, piece: string){
-      this.showModal = !this.showModal
-      this.currentPixelSelected.id = id
-      this.currentPixelSelected.piece = piece
 
+  methods: {
+    openColorModal(id: string, piece: string) {
+      this.showModal = !this.showModal;
+      this.currentPixelSelected.id = id;
+      this.currentPixelSelected.piece = piece;
     },
-    
-    setPixelColor(color: string){
+
+    setPixelColor(color: string) {
       this.currentPixelSelected.color = color;
-      this.changePieceColor(this.currentPixelSelected)
-      this.pixels.push({...this.currentPixelSelected})
+      this.changePieceColor(this.currentPixelSelected);
+      this.pixels.push({ ...this.currentPixelSelected });
       console.log(this.pixels);
-      
+
       this.showModal = false;
     },
 
-    clearPixelSelection(pixel: Pixel){
-      this.pixels = this.pixels.filter((el: Pixel) => { return el.id != pixel.id})
-      this.currentPixelSelected.color = 'white'
-      this.changePieceColor(this.currentPixelSelected)
+    clearPixelSelection(pixel: Pixel) {
+      this.pixels = this.pixels.filter((el: Pixel) => {
+        return el.id != pixel.id;
+      });
+      this.currentPixelSelected.color = "white";
+      this.changePieceColor(this.currentPixelSelected);
     },
 
-    changePieceColor(pixel: Pixel){
-      
-      switch(pixel.piece){
-        case PixelsKey.piece1: 
+    changePieceColor(pixel: Pixel) {
+      switch (pixel.piece) {
+        case PixelsKey.piece1:
           this[PixelsKey.piece1].forEach((el, i, arr) => {
-            
-            if(el.id == pixel.id){
+            if (el.id == pixel.id) {
               arr[i].color = pixel.color;
             }
           });
           break;
-        
-        case PixelsKey.piece2: 
+
+        case PixelsKey.piece2:
           this[PixelsKey.piece2].forEach((el, i, arr) => {
-            if(el.id == pixel.id){
+            if (el.id == pixel.id) {
               arr[i].color = pixel.color;
             }
           });
           break;
 
-        case PixelsKey.piece3: 
+        case PixelsKey.piece3:
           this[PixelsKey.piece3].forEach((el, i, arr) => {
-            if(el.id == pixel.id){
+            if (el.id == pixel.id) {
               arr[i].color = pixel.color;
             }
           });
           break;
-          
-        case PixelsKey.piece4: 
+
+        case PixelsKey.piece4:
           this[PixelsKey.piece4].forEach((el, i, arr) => {
-            if(el.id == pixel.id){
+            if (el.id == pixel.id) {
               arr[i].color = pixel.color;
             }
           });
           break;
 
-        case PixelsKey.piece5: 
+        case PixelsKey.piece5:
           this[PixelsKey.piece5].forEach((el, i, arr) => {
-            if(el.id == pixel.id){
+            if (el.id == pixel.id) {
               arr[i].color = pixel.color;
             }
           });
           break;
 
-        case PixelsKey.piece6: 
+        case PixelsKey.piece6:
           this[PixelsKey.piece6].forEach((el, i, arr) => {
-            if(el.id == pixel.id){
+            if (el.id == pixel.id) {
               arr[i].color = pixel.color;
             }
           });
           break;
 
-        case PixelsKey.piece7: 
+        case PixelsKey.piece7:
           this[PixelsKey.piece7].forEach((el, i, arr) => {
-            if(el.id == pixel.id){
+            if (el.id == pixel.id) {
               arr[i].color = pixel.color;
             }
           });
           break;
 
-        case PixelsKey.piece8: 
+        case PixelsKey.piece8:
           this[PixelsKey.piece8].forEach((el, i, arr) => {
-            if(el.id == pixel.id){
+            if (el.id == pixel.id) {
               arr[i].color = pixel.color;
             }
           });
           break;
-        
-        default: 
-          console.log('could not set color');
-          
 
+        default:
+          console.log("could not set color");
       }
-    }
+    },
 
     //mostrar na tela a cor e ao salvar a compra, enviar as cores ao back
-    
   },
-})
+
+  computed: {
+    sortition() {
+      return this.$store.state.sortition?.selectedSortition;
+    },
+
+    nftMeasurement() {
+      return this.$store.state.NFT?.nftMeasurement;
+    },
+  },
+
+  watch: {
+    sortition(nValue) {
+      if (nValue) {
+        this.$store.dispatch(
+          NFTActionTypes.GET_NFT_MEASUREMENT,
+          nValue.idNFTSummary
+        );
+      }
+    },
+    nftMeasurement(nValue) {
+      if (nValue) {
+        this.customStyles = {
+          maxWidthNFT: {
+            maxWidth: `${nValue.NFTWidth}px;`,
+          },
+          minWidthNFT: {
+            minWidth: `${nValue.NFTWidth}px;`,
+          },
+          widthNFT: {
+            width: `${nValue.chunkWidth}px;`,
+          },
+          heightNFT: {
+            height: `${nValue.chunkWidth}px;`,
+          },
+        };
+      }
+    },
+  },
+});
 </script>
 
 <style lang="scss">
-.square{
+.square {
   width: 20px;
   height: 20px;
   /* background: gray; */
   border: 1px solid gray;
-  cursor:pointer;
+  cursor: pointer;
   position: relative;
-  &:hover{
+  &:hover {
     opacity: 0.8;
   }
 }
 
-.image-pixel{
+.image-pixel {
   border: 8px solid #01a78d;
 }
 
-.custom-shadow{
+.custom-shadow {
   box-shadow: 1px 1px 41px #707070;
 }
 
-.modal-color{
+.modal-color {
   position: absolute;
   background-color: white;
   padding: 20px;
@@ -252,14 +412,14 @@ export default defineComponent({
 }
 
 input[type="color"] {
-	-webkit-appearance: none;
-	border: none;
+  -webkit-appearance: none;
+  border: none;
   border: 1px solid white;
 }
 input[type="color"]::-webkit-color-swatch-wrapper {
-	padding: 0;
+  padding: 0;
 }
 input[type="color"]::-webkit-color-swatch {
-	border: none;
+  border: none;
 }
 </style>

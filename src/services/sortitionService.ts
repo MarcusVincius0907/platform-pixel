@@ -16,6 +16,17 @@ export default class SortitionService {
     }
   }
 
+  async getById(id: string): Promise<ResponseDefault> {
+    try {
+      const req = await this._baseService.http.get<ResponseDefault>(
+        `/sortition/${id}`
+      );
+      return req.data;
+    } catch (ex) {
+      return this._baseService.apiErrorTreatment(ex);
+    }
+  }
+
   async create(sortition: Sortition): Promise<ResponseDefault> {
     try {
       const req = await this._baseService.http.post<ResponseDefault>(
@@ -50,5 +61,4 @@ export default class SortitionService {
       return this._baseService.apiErrorTreatment(ex);
     }
   }
-
 }

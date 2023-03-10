@@ -15,8 +15,8 @@ const routes: Array<RouteRecordRaw> = [
     redirect: { name: 'dashboard' },
   },
   {
-    name: 'plaftform',
-    path: '/plaftform',
+    name: 'platform',
+    path: '/platform',
     component: AppLayout,
     children: [
       {
