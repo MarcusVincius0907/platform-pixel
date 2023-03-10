@@ -25,10 +25,13 @@ export default class NFTService {
     }
   }
 
-  async getNFTMeasurements(nftId: string): Promise<ResponseDefault> {
+  async getNFTMeasurements(
+    nftId: string,
+    pixelSize: string
+  ): Promise<ResponseDefault> {
     try {
       const req = await this._baseService.http.get<ResponseDefault>(
-        `/nft/measure/${nftId}`
+        `/nft/measure/${nftId}/${pixelSize}`
       );
       return req.data;
     } catch (ex) {

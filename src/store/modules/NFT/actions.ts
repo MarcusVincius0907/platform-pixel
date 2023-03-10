@@ -1,5 +1,6 @@
 import { MutationsType as MainMutationsType } from "@/store/mutations";
 import { State } from "@/store/state";
+import { NFTParam } from "@/types/NFT";
 import Notification from "@/types/Notification";
 import { ResponseStatus } from "@/types/ResponseDefault";
 import { ActionContext } from "vuex";
@@ -54,7 +55,7 @@ export const NFTAction = {
 
   async [ActionTypes.GET_NFT_MEASUREMENT](
     context: ActionContext<NFTModuleState, State>,
-    nftId: string
+    value: NFTParam
   ) {
     context.commit(MainMutationsType.SET_CUSTOM_LOADER, true);
 
@@ -62,7 +63,10 @@ export const NFTAction = {
 
     const nftService = new NFTService.default();
 
-    const resp = await nftService.getNFTMeasurements(nftId);
+    const resp = await nftService.getNFTMeasurements(
+      value.nftId,
+      value.pixelSize
+    );
 
     if (resp.status === ResponseStatus.OK) {
       context.commit(MutationsType.SET_NFT_MEASUREMENT, resp.payload);

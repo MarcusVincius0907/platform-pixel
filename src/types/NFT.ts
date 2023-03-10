@@ -1,22 +1,20 @@
-export default interface NFT {
-  _id?: number;
-  name: string;
-  themes: string;
-  pixelQuantity: number;
+export interface NFT {
+  _id?: string;
   chunks?: Chunk[];
   chunkSize: number;
 }
 
 export interface Chunk {
-  _id?: number;
+  _id?: string;
   position: number;
   pixels: Pixel[];
 }
 
 export interface Pixel {
-  _id?: number;
+  _id?: string;
   uuid: string;
   color: string;
+  position: number;
   isAvailible: boolean;
 }
 
@@ -37,6 +35,15 @@ export interface NFTIdList {
 export interface NFTMeasurements {
   NFTWidth: number;
   chunkWidth: number;
-  chunk: number;
-  pixelQuantity: number;
+  nft: NFT;
+}
+
+export interface NFTParam {
+  nftId: string;
+  pixelSize: string;
+}
+
+export interface PixelCordinates {
+  chunkPosition: number;
+  pixelPosition: number;
 }

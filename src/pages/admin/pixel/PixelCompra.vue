@@ -24,6 +24,8 @@
           class="tw-bg-gray-200 tw-m-auto tw-flex tw-flex-wrap tw-shadow-2xl"
         >
           <div
+            v-for="(chunk, i) in nftMeasurement.nft.chunks"
+            :key="i"
             :style="{
               width: nftMeasurement.chunkWidth + 'px',
               height: nftMeasurement.chunkWidth + 'px',
@@ -31,128 +33,26 @@
             class="tw-flex tw-flex-wrap"
           >
             <div
-              v-for="(s, i) in piece1"
-              @click="openColorModal(s.id, 'piece1')"
-              :key="i"
-              :style="`background-color: ${s.color};`"
-              class="square"
-            ></div>
-          </div>
-          <div
-            :style="{
-              width: nftMeasurement.chunkWidth + 'px',
-              height: nftMeasurement.chunkWidth + 'px',
-            }"
-            class="tw-flex tw-flex-wrap"
-          >
-            <div
-              v-for="(s, i) in piece2"
-              @click="openColorModal(s.id, 'piece2')"
-              :key="i"
-              :style="`background-color: ${s.color};`"
-              class="square"
-            ></div>
-          </div>
-          <div
-            :style="{
-              width: nftMeasurement.chunkWidth + 'px',
-              height: nftMeasurement.chunkWidth + 'px',
-            }"
-            class="tw-flex tw-flex-wrap"
-          >
-            <div
-              v-for="(s, i) in piece3"
-              @click="openColorModal(s.id, 'piece3')"
-              :key="i"
-              :style="`background-color: ${s.color};`"
-              class="square"
-            ></div>
-          </div>
-          <div
-            :style="{
-              width: nftMeasurement.chunkWidth + 'px',
-              height: nftMeasurement.chunkWidth + 'px',
-            }"
-            class="tw-flex tw-flex-wrap"
-          >
-            <div
-              v-for="(s, i) in piece4"
-              @click="openColorModal(s.id, 'piece4')"
-              :key="i"
-              :style="`background-color: ${s.color};`"
-              class="square"
-            ></div>
-          </div>
-          <div
-            :style="{
-              width: nftMeasurement.chunkWidth + 'px',
-              height: nftMeasurement.chunkWidth + 'px',
-            }"
-            class=""
-          >
-            <div class="tw-w-full tw-h-full tw-flex tw-p-5 image-pixel">
-              <img src="../../../../public/img/logo.png" alt="" />
+              v-if="chunk.position == -1"
+              :style="{
+                width: nftMeasurement.chunkWidth + 'px',
+                height: nftMeasurement.chunkWidth + 'px',
+              }"
+              class=""
+            >
+              <div class="tw-w-full tw-h-full tw-flex tw-p-5 image-pixel">
+                <img src="../../../../public/img/logo.png" alt="" />
+              </div>
             </div>
-          </div>
-          <div
-            :style="{
-              width: nftMeasurement.chunkWidth + 'px',
-              height: nftMeasurement.chunkWidth + 'px',
-            }"
-            class="tw-flex tw-flex-wrap"
-          >
-            <div
-              v-for="(s, i) in piece5"
-              @click="openColorModal(s.id, 'piece5')"
-              :key="i"
-              :style="`background-color: ${s.color};`"
-              class="square"
-            ></div>
-          </div>
-          <div
-            :style="{
-              width: nftMeasurement.chunkWidth + 'px',
-              height: nftMeasurement.chunkWidth + 'px',
-            }"
-            class="tw-flex tw-flex-wrap"
-          >
-            <div
-              v-for="(s, i) in piece6"
-              @click="openColorModal(s.id, 'piece6')"
-              :key="i"
-              :style="`background-color: ${s.color};`"
-              class="square"
-            ></div>
-          </div>
-          <div
-            :style="{
-              width: nftMeasurement.chunkWidth + 'px',
-              height: nftMeasurement.chunkWidth + 'px',
-            }"
-            class="tw-flex tw-flex-wrap"
-          >
-            <div
-              v-for="(s, i) in piece7"
-              @click="openColorModal(s.id, 'piece7')"
-              :key="i"
-              :style="`background-color: ${s.color};`"
-              class="square"
-            ></div>
-          </div>
-          <div
-            :style="{
-              width: nftMeasurement.chunkWidth + 'px',
-              height: nftMeasurement.chunkWidth + 'px',
-            }"
-            class="tw-flex tw-flex-wrap"
-          >
-            <div
-              v-for="(s, i) in piece8"
-              @click="openColorModal(s.id, 'piece8')"
-              :key="i"
-              :style="`background-color: ${s.color};`"
-              class="square"
-            ></div>
+            <div v-else class="tw-flex tw-flex-wrap">
+              <div
+                v-for="(pixel, i) in chunk.pixels"
+                @click="openColorModal(chunk.position, pixel.position)"
+                :key="i"
+                :style="`background-color: ${pixel.color};`"
+                class="square"
+              ></div>
+            </div>
           </div>
         </div>
       </div>
@@ -189,19 +89,14 @@
 
 <script lang="ts">
 import { ref } from "vue";
-import PixelMock from "../../../data/pixel/index";
-import { PixelsKey } from "@/types/Pixel";
 import { defineComponent } from "vue";
 import PixelSumCard from "./PixelSumCard.vue";
 import { ActionTypes } from "@/store/modules/Sortition/actions";
 import { ActionTypes as NFTActionTypes } from "@/store/modules/NFT/actions";
 import moment from "moment";
+import { Pixel, PixelCordinates } from "@/types/NFT";
 
-interface Pixel {
-  id: string;
-  color: string;
-  piece: string;
-}
+const PIXEL_SIZE = 20;
 
 export default defineComponent({
   name: "pixel",
@@ -210,23 +105,14 @@ export default defineComponent({
   },
 
   setup() {
-    const pixelMock = new PixelMock();
-
     return {
-      piece1: ref(pixelMock.piece1),
-      piece2: ref(pixelMock.piece2),
-      piece3: ref(pixelMock.piece3),
-      piece4: ref(pixelMock.piece4),
-      piece5: ref(pixelMock.piece5),
-      piece6: ref(pixelMock.piece6),
-      piece7: ref(pixelMock.piece7),
-      piece8: ref(pixelMock.piece8),
-      colors: ref(pixelMock.colors),
       showModal: ref(false),
-      currentPixelSelected: ref({ id: "", color: "", piece: "" } as Pixel),
-      pixels: ref([] as Array<Pixel>),
+      pixelSelected: ref({
+        chunkPosition: 0,
+        pixelPosition: 0,
+      } as PixelCordinates),
+      pixelsSelectedForBuy: ref([] as Array<Pixel>),
       moment: moment,
-      customStyles: ref({}),
     };
   },
 
@@ -242,101 +128,38 @@ export default defineComponent({
   },
 
   methods: {
-    openColorModal(id: string, piece: string) {
+    openColorModal(chunkPosition: number, pixelPosition: number) {
       this.showModal = !this.showModal;
-      this.currentPixelSelected.id = id;
-      this.currentPixelSelected.piece = piece;
+      this.pixelSelected = { chunkPosition, pixelPosition };
     },
 
     setPixelColor(color: string) {
-      this.currentPixelSelected.color = color;
-      this.changePieceColor(this.currentPixelSelected);
-      this.pixels.push({ ...this.currentPixelSelected });
-      console.log(this.pixels);
-
+      const pixel = this.changePieceColor(this.pixelSelected, color);
+      this.pixelsSelectedForBuy.push(pixel);
       this.showModal = false;
     },
 
     clearPixelSelection(pixel: Pixel) {
-      this.pixels = this.pixels.filter((el: Pixel) => {
-        return el.id != pixel.id;
+      //TODO continue here
+      /* this.pixelsSelectedForBuy = this.pixelsSelectedForBuy.filter((el: Pixel) => {
+        return el._id != pixel._id;
       });
       this.currentPixelSelected.color = "white";
-      this.changePieceColor(this.currentPixelSelected);
+      this.changePieceColor(this.currentPixelSelected); */
     },
 
-    changePieceColor(pixel: Pixel) {
-      switch (pixel.piece) {
-        case PixelsKey.piece1:
-          this[PixelsKey.piece1].forEach((el, i, arr) => {
-            if (el.id == pixel.id) {
-              arr[i].color = pixel.color;
-            }
+    changePieceColor(pixelC: PixelCordinates, color: string) {
+      let pixelFound;
+      this.nftMeasurement?.nft.chunks?.forEach((chunk) => {
+        if (chunk.position === pixelC.chunkPosition) {
+          chunk.pixels.forEach((pixel, i, arr) => {
+            arr[i].color = color;
+            pixelFound = arr[i];
           });
-          break;
-
-        case PixelsKey.piece2:
-          this[PixelsKey.piece2].forEach((el, i, arr) => {
-            if (el.id == pixel.id) {
-              arr[i].color = pixel.color;
-            }
-          });
-          break;
-
-        case PixelsKey.piece3:
-          this[PixelsKey.piece3].forEach((el, i, arr) => {
-            if (el.id == pixel.id) {
-              arr[i].color = pixel.color;
-            }
-          });
-          break;
-
-        case PixelsKey.piece4:
-          this[PixelsKey.piece4].forEach((el, i, arr) => {
-            if (el.id == pixel.id) {
-              arr[i].color = pixel.color;
-            }
-          });
-          break;
-
-        case PixelsKey.piece5:
-          this[PixelsKey.piece5].forEach((el, i, arr) => {
-            if (el.id == pixel.id) {
-              arr[i].color = pixel.color;
-            }
-          });
-          break;
-
-        case PixelsKey.piece6:
-          this[PixelsKey.piece6].forEach((el, i, arr) => {
-            if (el.id == pixel.id) {
-              arr[i].color = pixel.color;
-            }
-          });
-          break;
-
-        case PixelsKey.piece7:
-          this[PixelsKey.piece7].forEach((el, i, arr) => {
-            if (el.id == pixel.id) {
-              arr[i].color = pixel.color;
-            }
-          });
-          break;
-
-        case PixelsKey.piece8:
-          this[PixelsKey.piece8].forEach((el, i, arr) => {
-            if (el.id == pixel.id) {
-              arr[i].color = pixel.color;
-            }
-          });
-          break;
-
-        default:
-          console.log("could not set color");
-      }
+        }
+      });
+      return pixelFound;
     },
-
-    //mostrar na tela a cor e ao salvar a compra, enviar as cores ao back
   },
 
   computed: {
@@ -352,28 +175,10 @@ export default defineComponent({
   watch: {
     sortition(nValue) {
       if (nValue) {
-        this.$store.dispatch(
-          NFTActionTypes.GET_NFT_MEASUREMENT,
-          nValue.idNFTSummary
-        );
-      }
-    },
-    nftMeasurement(nValue) {
-      if (nValue) {
-        this.customStyles = {
-          maxWidthNFT: {
-            maxWidth: `${nValue.NFTWidth}px;`,
-          },
-          minWidthNFT: {
-            minWidth: `${nValue.NFTWidth}px;`,
-          },
-          widthNFT: {
-            width: `${nValue.chunkWidth}px;`,
-          },
-          heightNFT: {
-            height: `${nValue.chunkWidth}px;`,
-          },
-        };
+        this.$store.dispatch(NFTActionTypes.GET_NFT_MEASUREMENT, {
+          nftId: nValue.idNFTSummary,
+          pixelSize: PIXEL_SIZE,
+        });
       }
     },
   },
