@@ -35,6 +35,7 @@ export interface NFTIdList {
 export interface NFTMeasurements {
   NFTWidth: number;
   chunkWidth: number;
+  themes: string;
   nft: NFT;
 }
 
@@ -44,6 +45,7 @@ export interface NFTParam {
 }
 
 export interface PixelCordinates {
+  uuid: string;
   chunkPosition: number;
   pixelPosition: number;
 }

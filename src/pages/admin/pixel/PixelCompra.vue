@@ -1,6 +1,7 @@
 <template>
+  <!-- TODO: separete into components (modal, pixel) -->
   <div v-if="sortition && nftMeasurement" class="tw-w-full tw-h-full">
-    <div :style="[customStyles.maxWidthNFT]" class="tw-mb-5">
+    <div class="tw-mb-5">
       <va-card>
         <va-card-content>
           <div class="tw-text-xl">
@@ -47,9 +48,11 @@
             <div v-else class="tw-flex tw-flex-wrap">
               <div
                 v-for="(pixel, i) in chunk.pixels"
-                @click="openColorModal(chunk.position, pixel.position)"
+                @click="
+                  openColorModal(chunk.position, pixel.position, pixel.uuid)
+                "
                 :key="i"
-                :style="`background-color: ${pixel.color};`"
+                :style="`background-color: ${pixel.color}; width: ${pixelSize}px; height: ${pixelSize}px;`"
                 class="square"
               ></div>
             </div>
@@ -58,7 +61,7 @@
       </div>
 
       <div class="md:tw-pl-5 tw-mt-5 md:tw-mt-0 md:tw-max-w-sm">
-        <PixelSumCard :pixels="pixels" :hideBuyButton="false" />
+        <PixelSumCard :pixels="pixelsSelectedForBuy" :hideBuyButton="false" />
       </div>
     </div>
 
@@ -67,20 +70,27 @@
         <h2>Selecione a cor:</h2>
       </template>
       <slot>
-        <div class="tw-flex tw-justify-between tw-mt-3">
+        <div
+          v-if="themes().length > 0"
+          class="tw-flex tw-justify-between tw-mt-3"
+        >
           <div
             class="tw-h-8 tw-w-8 tw-cursor-pointer hover:tw-opacity-80"
-            @click="setPixelColor(item)"
-            v-for="(item, i) in colors"
+            @click="setPixelColor(`#${item}`)"
+            v-for="(item, i) in themes()"
             :key="i"
-            :style="`background-color:${item}`"
+            :style="`background-color: #${item}`"
           ></div>
         </div>
+        <div v-else>Não foram encontradas as cores...</div>
       </slot>
       <template #footer>
-        <va-button @click="clearPixelSelection(currentPixelSelected)">
-          Limpar
-        </va-button>
+        <div class="tw-flex tw-flex-col">
+          <va-button @click="clearPixelSelection()"> Limpar </va-button>
+          <va-button class="tw-mt-2" flat size="small" @click="clearAll()">
+            Limpar todos
+          </va-button>
+        </div>
       </template>
     </va-modal>
   </div>
@@ -95,6 +105,7 @@ import { ActionTypes } from "@/store/modules/Sortition/actions";
 import { ActionTypes as NFTActionTypes } from "@/store/modules/NFT/actions";
 import moment from "moment";
 import { Pixel, PixelCordinates } from "@/types/NFT";
+import { stringToArray } from "@/utils/themesUtil";
 
 const PIXEL_SIZE = 20;
 
@@ -110,9 +121,11 @@ export default defineComponent({
       pixelSelected: ref({
         chunkPosition: 0,
         pixelPosition: 0,
+        uuid: "",
       } as PixelCordinates),
       pixelsSelectedForBuy: ref([] as Array<Pixel>),
       moment: moment,
+      pixelSize: PIXEL_SIZE,
     };
   },
 
@@ -128,9 +141,9 @@ export default defineComponent({
   },
 
   methods: {
-    openColorModal(chunkPosition: number, pixelPosition: number) {
+    openColorModal(chunkPosition: number, pixelPosition: number, uuid: string) {
       this.showModal = !this.showModal;
-      this.pixelSelected = { chunkPosition, pixelPosition };
+      this.pixelSelected = { chunkPosition, pixelPosition, uuid };
     },
 
     setPixelColor(color: string) {
@@ -139,26 +152,51 @@ export default defineComponent({
       this.showModal = false;
     },
 
-    clearPixelSelection(pixel: Pixel) {
-      //TODO continue here
-      /* this.pixelsSelectedForBuy = this.pixelsSelectedForBuy.filter((el: Pixel) => {
-        return el._id != pixel._id;
+    clearPixelSelection() {
+      this.pixelsSelectedForBuy.forEach((pixel, i, arr) => {
+        if (pixel.uuid === this.pixelSelected.uuid) {
+          arr[i].color = "white";
+        }
       });
-      this.currentPixelSelected.color = "white";
-      this.changePieceColor(this.currentPixelSelected); */
+
+      this.pixelsSelectedForBuy = this.pixelsSelectedForBuy.filter(
+        (pixel) => pixel.uuid !== this.pixelSelected.uuid
+      );
+
+      this.showModal = false;
+    },
+
+    clearAll() {
+      this.pixelsSelectedForBuy.forEach((pixel, i, arr) => {
+        arr[i].color = "white";
+      });
+
+      this.pixelsSelectedForBuy = [];
+
+      this.showModal = false;
     },
 
     changePieceColor(pixelC: PixelCordinates, color: string) {
-      let pixelFound;
+      let pixelFound: any;
       this.nftMeasurement?.nft.chunks?.forEach((chunk) => {
         if (chunk.position === pixelC.chunkPosition) {
           chunk.pixels.forEach((pixel, i, arr) => {
-            arr[i].color = color;
-            pixelFound = arr[i];
+            if (pixel.position === pixelC.pixelPosition) {
+              arr[i].color = color;
+              pixelFound = arr[i];
+            }
           });
         }
       });
+      console.log(this.nftMeasurement?.nft.chunks);
+
       return pixelFound;
+    },
+
+    themes() {
+      if (this.nftMeasurement) {return stringToArray(this.nftMeasurement.themes);}
+
+      return [];
     },
   },
 
@@ -187,14 +225,11 @@ export default defineComponent({
 
 <style lang="scss">
 .square {
-  width: 20px;
-  height: 20px;
-  /* background: gray; */
-  border: 1px solid gray;
+  border: 0.3px solid #ededed;
   cursor: pointer;
   position: relative;
   &:hover {
-    opacity: 0.8;
+    opacity: 0.1;
   }
 }
 
