@@ -1,4 +1,5 @@
 import { mainAction } from "./actions";
+import CartModule from "./modules/Cart/store";
 import NFTModule from "./modules/NFT/store";
 import PersonalInformationModule from "./modules/PersonalInfo/store";
 import SortitionModule from "./modules/Sortition/store";
@@ -13,9 +14,10 @@ export default class MainStore {
     this.actions = mainAction;
 
     this.modules = {
-      PersonalInfo: PersonalInformationModule,
-      NFT: NFTModule,
-      sortition: SortitionModule
+      PersonalInfoModule: PersonalInformationModule,
+      NFTModule: NFTModule,
+      SortitionModule: SortitionModule,
+      CartModule: CartModule,
     };
   }
 

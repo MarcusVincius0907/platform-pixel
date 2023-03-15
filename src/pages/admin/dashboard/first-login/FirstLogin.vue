@@ -53,8 +53,8 @@ export default defineComponent({
 
   methods: {
     createUser() {
-      const generalInfo = this.$store.state.PersonalInfo.formGeneralInfo;
-      const addressInfo = this.$store.state.PersonalInfo.formAddressInfo;
+      const generalInfo = this.$store.state.PersonalInfoModule.formGeneralInfo;
+      const addressInfo = this.$store.state.PersonalInfoModule.formAddressInfo;
       const isAddressInfoValid = (
         this.$refs?.addressInfoRef as any
       )?.validate();

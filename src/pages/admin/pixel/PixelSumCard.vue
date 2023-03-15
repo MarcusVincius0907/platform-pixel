@@ -57,7 +57,7 @@
         </div>
 
         <div class="tw-flex tw-justify-center tw-mt-4">
-          <va-button v-if="!hideBuyButton" size="large">
+          <va-button v-if="!hideBuyButton" @click="onBuyPixel()" size="large">
             Comprar agora
           </va-button>
         </div>
@@ -79,18 +79,28 @@
 </template>
 
 <script lang="ts">
+import { ActionTypes } from "@/store/modules/Cart/actions";
 import { defineComponent } from "vue";
+import { Pixel } from "@/types/NFT";
 
 export default defineComponent({
   name: "pixel-sum-card",
   props: {
     pixels: {
-      type: Array,
+      type: Array<Pixel>,
       required: true,
     },
     hideBuyButton: {
       type: Boolean,
       default: true,
+    },
+  },
+
+  methods: {
+    onBuyPixel() {
+      this.$store.dispatch(ActionTypes.UPDATE_CART, this.pixels);
+      this.$router.push({ name: "checkout" });
+      //TODO continue with checkout
     },
   },
 });

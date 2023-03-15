@@ -1,6 +1,6 @@
 export interface NFT {
   _id?: string;
-  chunks?: Chunk[];
+  chunks: Chunk[];
   chunkSize: number;
 }
 
@@ -15,6 +15,7 @@ export interface Pixel {
   uuid: string;
   color: string;
   position: number;
+  chunkPosition: number;
   isAvailible: boolean;
 }
 
