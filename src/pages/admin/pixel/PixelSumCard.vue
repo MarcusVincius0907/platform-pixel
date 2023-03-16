@@ -90,6 +90,7 @@ export default defineComponent({
       type: Array<Pixel>,
       required: true,
     },
+    sortitionId: String,
     hideBuyButton: {
       type: Boolean,
       default: true,
@@ -98,9 +99,7 @@ export default defineComponent({
 
   methods: {
     onBuyPixel() {
-      this.$store.dispatch(ActionTypes.UPDATE_CART, this.pixels);
-      this.$router.push({ name: "checkout" });
-      //TODO continue with checkout
+      this.$emit("onBuyPixel");
     },
   },
 });

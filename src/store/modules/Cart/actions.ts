@@ -1,11 +1,8 @@
-import { MutationsType as MainMutationsType } from "@/store/mutations";
 import { State } from "@/store/state";
-import Notification from "@/types/Notification";
 import { ResponseStatus } from "@/types/ResponseDefault";
 import { ActionContext } from "vuex";
 import { MutationsType } from "./mutations";
 import { CartModuleState } from "./state";
-import { ActionTypes as NFTActionType } from "../NFT/actions";
 import { Cart } from "@/types/Cart";
 import { Pixel } from "@/types/NFT";
 
@@ -17,30 +14,35 @@ export enum ActionTypes {
 }
 
 export const CartAction = {
-  async [ActionTypes.GET_CART](context: ActionContext<CartModuleState, State>) {
+  async [ActionTypes.GET_CART](
+    context: ActionContext<CartModuleState, State>,
+    sortitionId: string
+  ) {
     const CartService = await import("@/services/cartService");
 
     const cartService = new CartService.default();
 
     const userId = context.rootState.user?._id;
 
-    const resp = await cartService.getByUserId(userId ?? "");
+    const resp = await cartService.getByUserId(userId ?? "", sortitionId);
 
     if (resp.status === ResponseStatus.OK) {
       context.commit(MutationsType.SET_CART, resp.payload);
     } else if (resp.status === ResponseStatus.NOT_FOUND) {
-      context.dispatch(ActionTypes.CREATE_CART);
+      context.dispatch(ActionTypes.CREATE_CART, sortitionId);
     }
   },
 
   async [ActionTypes.CREATE_CART](
-    context: ActionContext<CartModuleState, State>
+    context: ActionContext<CartModuleState, State>,
+    sortitionId: string
   ) {
     const CartService = await import("@/services/cartService");
 
     const cartService = new CartService.default();
 
     const newCart: Cart = {
+      sortitionId,
       pixels: [] as Array<Pixel>,
       userId: context.rootState.user?._id ?? "",
     };
@@ -64,8 +66,9 @@ export const CartAction = {
 
     const newCart: Cart = {
       ...context.state.cart,
-      pixels,
+      sortitionId: context.state.cart?.sortitionId ?? "",
       userId: context.rootState.user?._id ?? "",
+      pixels,
     };
 
     const resp = await cartService.update(newCart);

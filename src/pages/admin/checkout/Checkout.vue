@@ -7,9 +7,12 @@
         </va-card-content>
       </va-card>
     </div>
-    <div class="tw-flex tw-flex-col md:tw-flex-row tw-max-w-[885px] tw-w-full">
+    <div
+      v-if="cart"
+      class="tw-flex tw-flex-col md:tw-flex-row tw-max-w-[885px] tw-w-full"
+    >
       <div class="tw-mt-5 md:tw-mt-0 md:tw-max-w-sm">
-        <PixelSumCard :pixels="pixels" />
+        <PixelSumCard :pixels="cart.pixels" />
       </div>
 
       <div class="md:tw-pl-5 tw-mt-5 md:tw-mt-0 tw-max-w-[500px] tw-w-full">
@@ -178,6 +181,7 @@
 </template>
 
 <script lang="ts">
+import { ActionTypes } from "@/store/modules/Cart/actions";
 import { fieldValidations } from "@/utils/fieldValidations";
 import { formatExpDate } from "@/utils/formatExpDate";
 import { defineComponent, ref } from "vue";
@@ -196,14 +200,6 @@ export default defineComponent({
       cvv: "",
     });
     return {
-      pixels: [
-        { id: "30340", color: "#5CA9FF", piece: "piece5" },
-        { id: "28450", color: "#0D2A4A", piece: "piece5" },
-        { id: "14086", color: "#154479", piece: "piece5" },
-        { id: "92294", color: "#0D2A4A", piece: "piece8" },
-        { id: "40745", color: "#5CA9FF", piece: "piece8" },
-        { id: "14611", color: "#5CA9FF", piece: "piece7" },
-      ],
       tabTitles: ["Cartão de Crédito", "Pix", "Boleto"],
       tabValue: ref(1),
       formData,
@@ -215,6 +211,32 @@ export default defineComponent({
     onKeyup(event) {
       this.formData.expirationDate =
         formatExpDate(event, this.formData.expirationDate) ?? "";
+    },
+  },
+
+  computed: {
+    cart() {
+      return this.$store.state.CartModule.cart;
+    },
+
+    user() {
+      return this.$store.state.user;
+    },
+  },
+
+  watch: {
+    user(nValue) {
+      if (nValue && nValue._id) {
+        debugger;
+        this.$store.state.SortitionModule.selectedSortition;
+        //TODO continue here
+        this.$store.dispatch(
+          ActionTypes.GET_CART,
+          this.$store.state.SortitionModule.selectedSortition ??
+            this.$route.query?.sortitionId ??
+            ""
+        );
+      }
     },
   },
 });

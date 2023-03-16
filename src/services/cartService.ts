@@ -5,10 +5,13 @@ import BaseService from "./baseService";
 export default class CartService {
   private _baseService: BaseService = new BaseService();
 
-  async getByUserId(userId: string): Promise<ResponseDefault> {
+  async getByUserId(
+    userId: string,
+    sortitionId: string
+  ): Promise<ResponseDefault> {
     try {
       const req = await this._baseService.http.get<ResponseDefault>(
-        `/cart/user/${userId}`
+        `/cart/user/${userId}/${sortitionId}`
       );
       return req.data;
     } catch (ex) {

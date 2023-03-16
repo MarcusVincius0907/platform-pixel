@@ -61,7 +61,11 @@
       </div>
 
       <div class="md:tw-pl-5 tw-mt-5 md:tw-mt-0 md:tw-max-w-sm">
-        <PixelSumCard :pixels="pixelsSelectedForBuy" :hideBuyButton="false" />
+        <PixelSumCard
+          :pixels="pixelsSelectedForBuy"
+          :hideBuyButton="false"
+          @onBuyPixel="onBuyPixel()"
+        />
       </div>
     </div>
 
@@ -216,6 +220,15 @@ export default defineComponent({
         this.pixelsSelectedForBuy = pixelsSelected;
       }
     },
+
+    onBuyPixel() {
+      this.$store.dispatch(
+        CartActionTypes.UPDATE_CART,
+        this.pixelsSelectedForBuy
+      );
+      const sortitionId = this.sortition?._id;
+      this.$router.push({ name: "checkout", query: { sortitionId } });
+    },
   },
 
   computed: {
@@ -250,8 +263,8 @@ export default defineComponent({
     },
 
     user(nValue) {
-      if (nValue?._id) {
-        this.$store.dispatch(CartActionTypes.GET_CART);
+      if (nValue?._id && this.sortition) {
+        this.$store.dispatch(CartActionTypes.GET_CART, this.sortition?._id);
       }
     },
 
