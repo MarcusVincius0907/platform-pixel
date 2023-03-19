@@ -140,6 +140,10 @@ export default defineComponent({
     } else {
       this.$store.dispatch(ActionTypes.DEFINE_SELECTED_SORTITION_RANDOMLY);
     }
+
+    if (this.cart) {
+      this.updatePixelsFromCartToNFT(this.cart);
+    }
   },
 
   methods: {
@@ -203,19 +207,20 @@ export default defineComponent({
     },
 
     updatePixelsFromCartToNFT(cart: Cart) {
+      //TODO on coming back from checkout it does not show pixel in graph
       const pixelsSelected = [] as Array<Pixel>;
-      cart.pixels.forEach((cartPixel) => {
-        console.log(!!this.nftMeasurement);
-
-        const pixelRef =
-          this.nftMeasurement?.nft.chunks[cartPixel.chunkPosition].pixels[
-            cartPixel.position
-          ];
-        if (pixelRef) {
-          pixelRef.color = cartPixel.color;
-          pixelsSelected.push(pixelRef);
-        }
-      });
+      if (cart?.pixels.length > 0) {
+        cart.pixels.forEach((cartPixel) => {
+          const pixelRef =
+            this.nftMeasurement?.nft.chunks[cartPixel.chunkPosition].pixels[
+              cartPixel.position
+            ];
+          if (pixelRef) {
+            pixelRef.color = cartPixel.color;
+            pixelsSelected.push(pixelRef);
+          }
+        });
+      }
       if (pixelsSelected.length > 0) {
         this.pixelsSelectedForBuy = pixelsSelected;
       }
@@ -250,6 +255,10 @@ export default defineComponent({
         ? this.$store.state.CartModule.cart
         : undefined;
     },
+
+    needToGetCart() {
+      return !this.cart && this.sortition && this.user?._id;
+    },
   },
 
   watch: {
@@ -262,15 +271,11 @@ export default defineComponent({
       }
     },
 
-    user(nValue) {
-      if (nValue?._id && this.sortition) {
-        this.$store.dispatch(CartActionTypes.GET_CART, this.sortition?._id);
-      }
-    },
-
-    cart(nValue) {
+    needToGetCart(nValue) {
       if (nValue) {
-        this.updatePixelsFromCartToNFT(nValue);
+        this.$store.dispatch(CartActionTypes.GET_CART, this.sortition?._id);
+      } else if (this.cart) {
+        this.updatePixelsFromCartToNFT(this.cart);
       }
     },
   },

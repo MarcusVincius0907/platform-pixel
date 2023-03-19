@@ -74,7 +74,10 @@ export const CartAction = {
     const resp = await cartService.update(newCart);
 
     if (resp.status === ResponseStatus.OK) {
-      context.dispatch(ActionTypes.GET_CART);
+      context.dispatch(
+        ActionTypes.GET_CART,
+        context.state.cart?.sortitionId ?? ""
+      );
     } else {
       console.error("Cart error", resp);
     }

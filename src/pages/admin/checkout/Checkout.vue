@@ -182,6 +182,7 @@
 
 <script lang="ts">
 import { ActionTypes } from "@/store/modules/Cart/actions";
+import { ActionTypes as SortitionActionTypes } from "@/store/modules/Sortition/actions";
 import { fieldValidations } from "@/utils/fieldValidations";
 import { formatExpDate } from "@/utils/formatExpDate";
 import { defineComponent, ref } from "vue";
@@ -222,19 +223,24 @@ export default defineComponent({
     user() {
       return this.$store.state.user;
     },
+
+    needToGetCart() {
+      return (
+        !this.cart &&
+        this.user?._id &&
+        (this.$store.state.SortitionModule.selectedSortition ||
+          this.$route.query?.sortitionId)
+      );
+    },
   },
 
   watch: {
-    user(nValue) {
-      if (nValue && nValue._id) {
-        debugger;
-        this.$store.state.SortitionModule.selectedSortition;
-        //TODO continue here
+    needToGetCart(nValue) {
+      if (nValue) {
         this.$store.dispatch(
           ActionTypes.GET_CART,
-          this.$store.state.SortitionModule.selectedSortition ??
-            this.$route.query?.sortitionId ??
-            ""
+          this.$store.state.SortitionModule.selectedSortition ||
+            this.$route.query?.sortitionId
         );
       }
     },

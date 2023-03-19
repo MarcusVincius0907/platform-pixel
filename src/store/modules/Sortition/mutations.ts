@@ -19,13 +19,13 @@ export const SortitionMutations = {
     state: SortitionModuleState,
     value: Array<Sortition>
   ) {
-    state.sortitionList = value;
+    state.sortitionList = [...value];
   },
 
   [MutationsType.SET_SELECTED_SORTITION](
     state: SortitionModuleState,
     value: Sortition
   ) {
-    state.selectedSortition = value;
+    state.selectedSortition = { ...value };
   },
 };
