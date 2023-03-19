@@ -108,6 +108,7 @@ import PixelSumCard from "./PixelSumCard.vue";
 import { ActionTypes } from "@/store/modules/Sortition/actions";
 import { ActionTypes as NFTActionTypes } from "@/store/modules/NFT/actions";
 import { ActionTypes as CartActionTypes } from "@/store/modules/Cart/actions";
+import { MutationsType as MainMutationsType } from "@/store/mutations";
 import moment from "moment";
 import { Pixel, PixelCordinates } from "@/types/NFT";
 import { stringToArray } from "@/utils/themesUtil";
@@ -140,16 +141,20 @@ export default defineComponent({
     } else {
       this.$store.dispatch(ActionTypes.DEFINE_SELECTED_SORTITION_RANDOMLY);
     }
-
-    if (this.cart) {
-      this.updatePixelsFromCartToNFT(this.cart);
-    }
   },
 
   methods: {
     openColorModal(pixel: Pixel) {
-      this.showModal = !this.showModal;
-      this.pixelSelected = pixel;
+      if (pixel.isAvailible) {
+        this.showModal = !this.showModal;
+        this.pixelSelected = pixel;
+      } else {
+        this.$store.commit(MainMutationsType.SET_NOTIFICATION, {
+          title: "Ateção",
+          message: "Este pixel já foi comprado!",
+          color: "warning",
+        });
+      }
     },
 
     setPixelColor(color: string) {
@@ -207,9 +212,8 @@ export default defineComponent({
     },
 
     updatePixelsFromCartToNFT(cart: Cart) {
-      //TODO on coming back from checkout it does not show pixel in graph
       const pixelsSelected = [] as Array<Pixel>;
-      if (cart?.pixels.length > 0) {
+      if (cart?.pixels?.length > 0) {
         cart.pixels.forEach((cartPixel) => {
           const pixelRef =
             this.nftMeasurement?.nft.chunks[cartPixel.chunkPosition].pixels[
@@ -255,10 +259,6 @@ export default defineComponent({
         ? this.$store.state.CartModule.cart
         : undefined;
     },
-
-    needToGetCart() {
-      return !this.cart && this.sortition && this.user?._id;
-    },
   },
 
   watch: {
@@ -268,15 +268,24 @@ export default defineComponent({
           nftId: nValue.idNFTSummary,
           pixelSize: PIXEL_SIZE,
         });
+
+        this.$store.dispatch(CartActionTypes.GET_CART, nValue._id);
       }
     },
 
-    needToGetCart(nValue) {
+    cart(nValue) {
       if (nValue) {
-        this.$store.dispatch(CartActionTypes.GET_CART, this.sortition?._id);
-      } else if (this.cart) {
-        this.updatePixelsFromCartToNFT(this.cart);
+        this.updatePixelsFromCartToNFT(nValue);
       }
+    },
+
+    nftMeasurement: {
+      handler() {
+        if (this.cart) {
+          this.updatePixelsFromCartToNFT(this.cart);
+        }
+      },
+      deep: true,
     },
   },
 });
