@@ -212,7 +212,7 @@ export default defineComponent({
     },
 
     updatePixelsFromCartToNFT(cart: Cart) {
-      const pixelsSelected = [] as Array<Pixel>;
+      const pixelsSelected = [...this.pixelsSelectedForBuy] as Array<Pixel>;
       if (cart?.pixels?.length > 0) {
         cart.pixels.forEach((cartPixel) => {
           const pixelRef =
@@ -221,7 +221,8 @@ export default defineComponent({
             ];
           if (pixelRef) {
             pixelRef.color = cartPixel.color;
-            pixelsSelected.push(pixelRef);
+            if (!pixelsSelected.find((pixel) => pixel._id === pixelRef._id))
+              {pixelsSelected.push(pixelRef);}
           }
         });
       }
@@ -273,19 +274,19 @@ export default defineComponent({
       }
     },
 
-    cart(nValue) {
-      if (nValue) {
-        this.updatePixelsFromCartToNFT(nValue);
-      }
-    },
-
-    nftMeasurement: {
+    /* nftMeasurement: {
       handler() {
         if (this.cart) {
           this.updatePixelsFromCartToNFT(this.cart);
         }
       },
       deep: true,
+    }, */
+
+    nftMeasurement(nValue) {
+      if (nValue) {
+        if (this.cart) {this.updatePixelsFromCartToNFT(this.cart);}
+      }
     },
   },
 });

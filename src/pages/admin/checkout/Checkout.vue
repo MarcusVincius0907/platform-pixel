@@ -21,7 +21,11 @@
             <div class="tw-bg-white">
               <va-tabs grow v-model="tabValue" style="width: 100%">
                 <template #tabs>
-                  <va-tab v-for="title in tabTitles.slice(0, 3)" :key="title">
+                  <va-tab
+                    @click="onTabChange()"
+                    v-for="title in tabTitles.slice(0, 3)"
+                    :key="title"
+                  >
                     {{ title }}
                   </va-tab>
                 </template>
@@ -74,7 +78,9 @@
                     </div>
 
                     <div class="tw-flex tw-justify-center">
-                      <va-button class="mr-2 mb-2"> Finalizar compra</va-button>
+                      <va-button @click="finalizeQuote()" class="mr-2 mb-2">
+                        Finalizar compra</va-button
+                      >
                     </div>
                   </va-form>
                 </div>
@@ -109,12 +115,14 @@
                     </div>
                   </div>
                   <div class="tw-flex tw-justify-center">
-                    <va-button class="mr-2 mb-2"> Finalizar compra</va-button>
+                    <va-button @click="finalizeQuote()" class="mr-2 mb-2">
+                      Finalizar compra</va-button
+                    >
                   </div>
                 </div>
               </div>
               <!-- payment slip tab -->
-              <div class="row" v-if="tabValue === 3">
+              <div @click="onTabChange(3)" class="row" v-if="tabValue === 3">
                 <div class="flex xs12">
                   <div>
                     <div class="tw-flex tw-items-center tw-mb-3">
@@ -168,7 +176,9 @@
                     </div>
                   </div>
                   <div class="tw-flex tw-justify-center">
-                    <va-button class="mr-2 mb-2"> Finalizar compra</va-button>
+                    <va-button @click="finalizeQuote()" class="mr-2 mb-2">
+                      Finalizar compra</va-button
+                    >
                   </div>
                 </div>
               </div>
@@ -177,16 +187,43 @@
         </va-card>
       </div>
     </div>
+    <va-modal
+      v-model="showMessageModal"
+      hide-default-actions
+      overlay-opacity="0.2"
+    >
+      <template #header>
+        <div class="tw-flex tw-justify-between">
+          <h2 class="tw-font-bold tw-text-xl">
+            <span>Muito bem!</span>
+          </h2>
+        </div>
+      </template>
+      <slot>
+        <div class="tw-w-full tw-max-w-2xl tw-mt-4">
+          {{ responseMessage }}
+          <br />
+          <br />
+          Você pode conferir seus pixels clicando no botão abaixo:
+        </div>
+      </slot>
+      <template #footer>
+        <va-button @click="goToMyOrders()"> Ir para meus pedidos </va-button>
+      </template>
+    </va-modal>
   </div>
 </template>
 
 <script lang="ts">
 import { ActionTypes } from "@/store/modules/Cart/actions";
-import { ActionTypes as SortitionActionTypes } from "@/store/modules/Sortition/actions";
 import { fieldValidations } from "@/utils/fieldValidations";
 import { formatExpDate } from "@/utils/formatExpDate";
 import { defineComponent, ref } from "vue";
 import PixelSumCard from "../pixel/PixelSumCard.vue";
+import { PaymentMethods } from "@/types/Payment";
+import { MutationsType } from "@/store/modules/Checkout/mutations";
+import { ActionTypes as CheckoutActionTypes } from "@/store/modules/Checkout/actions";
+import { CheckoutResponse } from "@/types/Checkout";
 
 export default defineComponent({
   name: "checkout",
@@ -205,13 +242,34 @@ export default defineComponent({
       tabValue: ref(1),
       formData,
       fieldsValidations: fieldValidations,
+      paymentMethod: ref(PaymentMethods.CREDIT_CARD),
+      responseMessage: ref(""),
+      showMessageModal: ref(false),
     };
   },
 
   methods: {
+    finalizeQuote() {
+      this.$store.commit(MutationsType.SET_CHECKOUT_REQUEST, {
+        paymentMethod: this.paymentMethod,
+      });
+      this.$store.dispatch(CheckoutActionTypes.MAKE_CHECKOUT_REQUEST);
+    },
+
+    onTabChange() {
+      if (this.tabValue === 0) {this.paymentMethod = PaymentMethods.CREDIT_CARD;}
+      else if (this.tabValue === 1) {this.paymentMethod = PaymentMethods.PIX;}
+      else if (this.tabValue === 2)
+        {this.paymentMethod = PaymentMethods.PAYMENT_SLIP;}
+    },
+
     onKeyup(event) {
       this.formData.expirationDate =
         formatExpDate(event, this.formData.expirationDate) ?? "";
+    },
+
+    goToMyOrders() {
+      //TODO continue here
     },
   },
 
@@ -232,6 +290,10 @@ export default defineComponent({
           this.$route.query?.sortitionId)
       );
     },
+
+    checkoutResponse() {
+      return this.$store.state.CheckoutModule.checkoutResponse;
+    },
   },
 
   watch: {
@@ -242,6 +304,34 @@ export default defineComponent({
           this.$store.state.SortitionModule.selectedSortition ||
             this.$route.query?.sortitionId
         );
+      }
+    },
+
+    checkoutResponse(nValue: CheckoutResponse) {
+      if (nValue) {
+        this.responseMessage =
+          "Obrigado por participar, você adquiriu os pixels: ";
+        let pixelsStr = "";
+        nValue.availablePixels.forEach((cr, i, arr) => {
+          if (i + 1 == arr.length) {pixelsStr += cr.uuid.substring(0, 5);}
+          else {pixelsStr += `${cr.uuid.substring(0, 5)}, `;}
+        });
+
+        this.responseMessage += pixelsStr;
+
+        pixelsStr = "";
+
+        if (nValue.unavailablePixels.length > 0) {
+          this.responseMessage =
+            "\n Mas inflezmente estes não estavam disponívies:  ";
+          nValue.unavailablePixels.forEach((cr, i, arr) => {
+            if (i + 1 == arr.length) {pixelsStr += cr.uuid.substring(0, 5);}
+            else {pixelsStr += `${cr.uuid.substring(0, 5)}, `;}
+          });
+          this.responseMessage += pixelsStr;
+        }
+
+        this.showMessageModal = true;
       }
     },
   },

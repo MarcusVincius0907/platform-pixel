@@ -5,6 +5,7 @@ import User from "@/types/User";
 import { NFTModuleState } from "./modules/NFT/state";
 import { SortitionModuleState } from "./modules/Sortition/state";
 import { CartModuleState } from "./modules/Cart/state";
+import { CheckoutModuleState } from "./modules/Checkout/state";
 
 export interface State {
   isSidebarMinimized: boolean;
@@ -19,6 +20,7 @@ export interface State {
   NFTModule: NFTModuleState;
   SortitionModule: SortitionModuleState;
   CartModule: CartModuleState;
+  CheckoutModule: CheckoutModuleState;
 }
 
 export const mainState = {

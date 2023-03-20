@@ -1,5 +1,6 @@
 import { mainAction } from "./actions";
 import CartModule from "./modules/Cart/store";
+import CheckoutModule from "./modules/Checkout/store";
 import NFTModule from "./modules/NFT/store";
 import PersonalInformationModule from "./modules/PersonalInfo/store";
 import SortitionModule from "./modules/Sortition/store";
@@ -18,6 +19,7 @@ export default class MainStore {
       NFTModule: NFTModule,
       SortitionModule: SortitionModule,
       CartModule: CartModule,
+      CheckoutModule: CheckoutModule,
     };
   }
 
