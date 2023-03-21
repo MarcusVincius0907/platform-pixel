@@ -4,7 +4,10 @@ export default interface User extends GeneralInfo {
   paymentInfo: PaymentInfo | null;
   receiveInfo: ReceiveInfo | null;
   addressInfo: AddressInfo | null;
+  accessType?: AccessType;
 }
+
+export type AccessType = "admin" | "common";
 
 export interface PaymentInfo {
   cards: Array<Card>;

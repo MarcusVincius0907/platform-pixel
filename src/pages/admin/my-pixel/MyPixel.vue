@@ -16,10 +16,15 @@
       </div>
 
       <div class="section">
-        <div
-          class="tw-grid tw-justify-center tw-grid-cols-1 tw-grid-rows-1 md:tw-grid-cols-2 md:tw-grid-rows-2 tw-gap-2"
-        >
-          <MyPixelList :myPixelList="myPixelList" />
+        <MyPixelList
+          v-if="myPixelList && myPixelList.length > 0"
+          :myPixelList="myPixelList"
+        />
+        <div v-else>
+          <div>Você não tem nenhum pixel ainda, clique aqui para comprar:</div>
+          <va-button @click="goToBuyPixel()" class="tw-mt-3"
+          >Compre pixels</va-button
+          >
         </div>
       </div>
     </div>
@@ -38,8 +43,15 @@ export default defineComponent({
   },
 
   mounted() {
-    if (this.$store.state.user?._id)
-      {this.$store.dispatch(ActionTypes.GET_MY_PIXEL_LIST);}
+    if (this.$store.state.user?._id) {
+      this.$store.dispatch(ActionTypes.GET_MY_PIXEL_LIST);
+    }
+  },
+
+  methods: {
+    goToBuyPixel() {
+      this.$router.push({ name: "pixel" });
+    },
   },
 
   computed: {

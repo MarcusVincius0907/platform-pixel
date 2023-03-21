@@ -1,51 +1,55 @@
 <template>
   <va-sidebar
     :width="width"
-    :minimized="minimized" 
+    :minimized="minimized"
     :minimizedWidth="minimizedWidth"
   >
     <menu-minimized v-if="minimized" :items="items" />
     <menu-accordion v-else :items="items" />
-  </va-sidebar>    
+  </va-sidebar>
 </template>
 
 <script>
-import { useGlobalConfig } from 'vuestic-ui';
-import MenuAccordion from './menu/MenuAccordion.vue';
-import MenuMinimized from './menu/MenuMinimized.vue';
-import NavigationRoutes from './NavigationRoutes';
-
+import { useGlobalConfig } from "vuestic-ui";
+import MenuAccordion from "./menu/MenuAccordion.vue";
+import MenuMinimized from "./menu/MenuMinimized.vue";
+import NavigationRoutes from "./NavigationRoutes";
 
 export default {
   name: "app-sidebar",
   components: {
     MenuAccordion,
     MenuMinimized,
-    
   },
   props: {
-    width: { type: String, default: '16rem' },
+    width: { type: String, default: "16rem" },
     color: { type: String, default: "secondary" },
     minimized: { type: Boolean, required: true },
     minimizedWidth: {
       type: Boolean,
       required: false,
-      default: undefined
+      default: undefined,
     },
   },
-  data() {
-    return {
-      items: NavigationRoutes.routes,
-    };
-  },
+
   computed: {
     computedClass() {
       return {
-        "app-sidebar--minimized": this.minimized
+        "app-sidebar--minimized": this.minimized,
       };
     },
     colors() {
-      return useGlobalConfig().getGlobalConfig().colors
+      return useGlobalConfig().getGlobalConfig().colors;
+    },
+    user() {
+      return this.$store.state.user;
+    },
+    items() {
+      let routes = NavigationRoutes.routes;
+      if (this.user && this.user.accessType === "common") {
+        routes = routes.filter((route) => route.admin !== true);
+      }
+      return routes;
     },
   },
 };
