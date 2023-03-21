@@ -6,6 +6,7 @@ import { NFTModuleState } from "./modules/NFT/state";
 import { SortitionModuleState } from "./modules/Sortition/state";
 import { CartModuleState } from "./modules/Cart/state";
 import { CheckoutModuleState } from "./modules/Checkout/state";
+import { MyPixelModuleState } from "./modules/MyPixel/state";
 
 export interface State {
   isSidebarMinimized: boolean;
@@ -21,6 +22,7 @@ export interface State {
   SortitionModule: SortitionModuleState;
   CartModule: CartModuleState;
   CheckoutModule: CheckoutModuleState;
+  MyPixelModule: MyPixelModuleState;
 }
 
 export const mainState = {

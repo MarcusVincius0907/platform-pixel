@@ -1,45 +1,52 @@
 export default {
   root: {
-    name: '/',
-    displayName: 'navigationRoutes.home',
+    name: "/",
+    displayName: "navigationRoutes.home",
   },
   routes: [
     {
-      name: 'dashboard',
-      displayName: 'menu.dashboard',
+      name: "dashboard",
+      displayName: "menu.dashboard",
       meta: {
-        icon: 'vuestic-iconset-dashboard',
+        icon: "vuestic-iconset-dashboard",
       },
     },
     {
-      name: 'pixel',
-      displayName: 'Comprar Pixel',
+      name: "pixel",
+      displayName: "Comprar Pixel",
       meta: {
-        icon: 'fa-solid fa-money-bill-wave',
+        icon: "fa-solid fa-money-bill-wave",
       },
     },
     {
-      name: 'personal-info',
-      displayName: 'Informações Pessoais',
+      name: "my-pixel",
+      displayName: "Meus Pixels",
       meta: {
-        icon: 'fa-solid fa-user',
+        icon: "fa-solid fa-bag-shopping",
       },
     },
     {
-      name: 'sortition',
-      displayName: 'Sorteios',
+      name: "personal-info",
+      displayName: "Informações Pessoais",
       meta: {
-        icon: 'fa-duotone fa-chart-bar',
+        icon: "fa-solid fa-user",
       },
     },
     {
-      name: 'NFT',
-      displayName: 'NFTs',
+      name: "sortition",
+      displayName: "Sorteios",
       meta: {
-        icon: 'fa-solid fa-cubes',
+        icon: "fa-duotone fa-chart-bar",
       },
     },
-   /*  {
+    {
+      name: "NFT",
+      displayName: "NFTs",
+      meta: {
+        icon: "fa-solid fa-cubes",
+      },
+    },
+    /*  {
       name: 'logout',
       displayName: 'Logout',
       meta: {
@@ -256,4 +263,4 @@ export default {
       ],
     }, */
   ],
-}
+};

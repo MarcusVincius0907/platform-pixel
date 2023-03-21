@@ -221,8 +221,9 @@ export default defineComponent({
             ];
           if (pixelRef) {
             pixelRef.color = cartPixel.color;
-            if (!pixelsSelected.find((pixel) => pixel._id === pixelRef._id))
-              {pixelsSelected.push(pixelRef);}
+            if (!pixelsSelected.find((pixel) => pixel._id === pixelRef._id)) {
+              pixelsSelected.push(pixelRef);
+            }
           }
         });
       }
@@ -285,7 +286,9 @@ export default defineComponent({
 
     nftMeasurement(nValue) {
       if (nValue) {
-        if (this.cart) {this.updatePixelsFromCartToNFT(this.cart);}
+        if (this.cart) {
+          this.updatePixelsFromCartToNFT(this.cart);
+        }
       }
     },
   },

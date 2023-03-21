@@ -257,10 +257,13 @@ export default defineComponent({
     },
 
     onTabChange() {
-      if (this.tabValue === 0) {this.paymentMethod = PaymentMethods.CREDIT_CARD;}
-      else if (this.tabValue === 1) {this.paymentMethod = PaymentMethods.PIX;}
-      else if (this.tabValue === 2)
-        {this.paymentMethod = PaymentMethods.PAYMENT_SLIP;}
+      if (this.tabValue === 0) {
+        this.paymentMethod = PaymentMethods.CREDIT_CARD;
+      } else if (this.tabValue === 1) {
+        this.paymentMethod = PaymentMethods.PIX;
+      } else if (this.tabValue === 2) {
+        this.paymentMethod = PaymentMethods.PAYMENT_SLIP;
+      }
     },
 
     onKeyup(event) {
@@ -269,7 +272,7 @@ export default defineComponent({
     },
 
     goToMyOrders() {
-      //TODO continue here
+      this.$router.push({ name: "my-pixel" });
     },
   },
 
@@ -313,8 +316,11 @@ export default defineComponent({
           "Obrigado por participar, você adquiriu os pixels: ";
         let pixelsStr = "";
         nValue.availablePixels.forEach((cr, i, arr) => {
-          if (i + 1 == arr.length) {pixelsStr += cr.uuid.substring(0, 5);}
-          else {pixelsStr += `${cr.uuid.substring(0, 5)}, `;}
+          if (i + 1 == arr.length) {
+            pixelsStr += cr.uuid.substring(0, 5);
+          } else {
+            pixelsStr += `${cr.uuid.substring(0, 5)}, `;
+          }
         });
 
         this.responseMessage += pixelsStr;
@@ -325,8 +331,11 @@ export default defineComponent({
           this.responseMessage =
             "\n Mas inflezmente estes não estavam disponívies:  ";
           nValue.unavailablePixels.forEach((cr, i, arr) => {
-            if (i + 1 == arr.length) {pixelsStr += cr.uuid.substring(0, 5);}
-            else {pixelsStr += `${cr.uuid.substring(0, 5)}, `;}
+            if (i + 1 == arr.length) {
+              pixelsStr += cr.uuid.substring(0, 5);
+            } else {
+              pixelsStr += `${cr.uuid.substring(0, 5)}, `;
+            }
           });
           this.responseMessage += pixelsStr;
         }

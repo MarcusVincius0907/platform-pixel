@@ -24,7 +24,7 @@ export const CartAction = {
 
     const userId = context.rootState.user?._id;
 
-    const resp = await cartService.getByUserId(userId ?? "", sortitionId);
+    const resp = await cartService.getByUserId(userId ?? "", sortitionId ?? "");
 
     if (resp.status === ResponseStatus.OK) {
       context.commit(MutationsType.SET_CART, resp.payload);
@@ -50,7 +50,7 @@ export const CartAction = {
     const resp = await cartService.create(newCart);
 
     if (resp.status === ResponseStatus.OK) {
-      context.dispatch(ActionTypes.GET_CART);
+      context.dispatch(ActionTypes.GET_CART, sortitionId);
     } else {
       console.error("Cart error", resp);
     }
