@@ -1,16 +1,11 @@
 import { Auth0Plugin, setupAuth } from '../auth'
 import authConfig from '../../auth_config.json'
-import router from '../router';
+import router from '../router'
 import app from '../main'
 
 function callbackRedirect(appState: any) {
-    router.push(
-        appState && appState.targetUrl
-        ? appState.targetUrl
-        : '/dashboard'
-    );
+  router.push(appState && appState.targetUrl ? appState.targetUrl : '/dashboard')
 }
-
 
 // SETUP AUTH URL
 authConfig.redirect_uri = `http://localhost:8080/callback`
@@ -22,17 +17,15 @@ authConfig.redirect_uri = `http://localhost:8080/callback`
 //   case 'production': authConfig.redirect_uri = 'https://rem-frontend.vercel.app/callback'; break;
 // }
 
-let useAuth: Auth0Plugin;
+let useAuth: Auth0Plugin
 
-export function initAuth(){
-    
-    return new Promise((res, rej) => {
-        setupAuth(authConfig, callbackRedirect).then((auth: any) => {
-            useAuth = auth.useAuth
-            res(auth.appObj)
-        })
+export function initAuth() {
+  return new Promise((res, rej) => {
+    setupAuth(authConfig, callbackRedirect).then((auth: any) => {
+      useAuth = auth.useAuth
+      res(auth.appObj)
     })
+  })
 }
 
-export { useAuth };
-
+export { useAuth }

@@ -1,9 +1,9 @@
-import { MyPixelItem } from "@/types/MyPixel";
+import { MyPixelItem } from '@/types/MyPixel'
 
 export interface MyPixelModuleState {
-  myPixelList: Array<MyPixelItem>;
+  myPixelList: Array<MyPixelItem>
 }
 
 export const MyPixelState: MyPixelModuleState = {
   myPixelList: [],
-};
+}

@@ -1,13 +1,13 @@
-export default class ResponseDefault{
-  constructor(status: ResponseStatus, message: string, payload: any = null){
-    this.status = status;
-    this.message = message;
-    this.payload = payload;
+export default class ResponseDefault {
+  constructor(status: ResponseStatus, message: string, payload: any = null) {
+    this.status = status
+    this.message = message
+    this.payload = payload
   }
 
-  status: ResponseStatus;
-  message: string;
-  payload?: any;
+  status: ResponseStatus
+  message: string
+  payload?: any
 }
 
 export enum ResponseStatus {

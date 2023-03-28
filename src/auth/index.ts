@@ -1,39 +1,35 @@
-import createAuth0Client, { 
-  Auth0Client, 
-  Auth0ClientOptions, 
-  GetIdTokenClaimsOptions, 
-  GetTokenSilentlyOptions, 
-  GetTokenWithPopupOptions, 
-  IdToken, 
-  LogoutOptions, 
-  PopupLoginOptions, 
-  RedirectLoginOptions, 
-  User } 
-from '@auth0/auth0-spa-js'
+import createAuth0Client, {
+  Auth0Client,
+  Auth0ClientOptions,
+  GetIdTokenClaimsOptions,
+  GetTokenSilentlyOptions,
+  GetTokenWithPopupOptions,
+  IdToken,
+  LogoutOptions,
+  PopupLoginOptions,
+  RedirectLoginOptions,
+  User,
+} from '@auth0/auth0-spa-js'
 
-import { computed, 
-  ComputedRef, 
-  reactive, 
-  watchEffect } 
-from 'vue'
+import { computed, ComputedRef, reactive, watchEffect } from 'vue'
 
 let client: Auth0Client
 
 interface Auth0State {
-  loading: boolean;
-  isAuthenticated: boolean;
-  user?: User;
-  popupOpen: boolean;
-  error: any;
+  loading: boolean
+  isAuthenticated: boolean
+  user?: User
+  popupOpen: boolean
+  error: any
 }
 
-const state = reactive(({
+const state = reactive({
   loading: true,
   isAuthenticated: false,
   user: undefined,
   popupOpen: false,
   error: null,
-} as Auth0State))
+} as Auth0State)
 
 async function loginWithPopup() {
   state.popupOpen = true
@@ -85,16 +81,16 @@ function logout(o?: LogoutOptions) {
 }
 
 export interface Auth0Plugin {
-  isAuthenticated: ComputedRef<boolean>;
-  loading: ComputedRef<boolean>;
-  user: ComputedRef<User | undefined> | User;
+  isAuthenticated: ComputedRef<boolean>
+  loading: ComputedRef<boolean>
+  user: ComputedRef<User | undefined> | User
   //getIdTokenClaims: (o?: GetIdTokenClaimsOptions) => Promise<IdToken>,
-  getTokenSilently: (o?: GetTokenSilentlyOptions) => Promise<any>;
-  getTokenWithPopup: (o?: GetTokenWithPopupOptions) => Promise<string>;
-  handleRedirectCallback: () => Promise<void>;
-  loginWithRedirect: (o?: RedirectLoginOptions) => Promise<void>;
-  loginWithPopup: () => Promise<void>;
-  logout: (o?: LogoutOptions) => void;
+  getTokenSilently: (o?: GetTokenSilentlyOptions) => Promise<any>
+  getTokenWithPopup: (o?: GetTokenWithPopupOptions) => Promise<string>
+  handleRedirectCallback: () => Promise<void>
+  loginWithRedirect: (o?: RedirectLoginOptions) => Promise<void>
+  loginWithPopup: () => Promise<void>
+  logout: (o?: LogoutOptions) => void
 }
 
 const authPlugin: Auth0Plugin = {
@@ -143,43 +139,34 @@ export const setupAuth = async (options: any, callbackRedirect: any) => {
 
   try {
     // If the user is returning to the app after authentication
-    
 
-    if (
-      window.location.search.includes('code=') &&
-      window.location.search.includes('state=')
-    ) {
+    if (window.location.search.includes('code=') && window.location.search.includes('state=')) {
       // handle the redirect and retrieve tokens
       const { appState } = await client.handleRedirectCallback()
 
       // Notify subscribers that the redirect callback has happened, passing the appState
       // (useful for retrieving any pre-authentication state)
 
-
-
       //TODO: appState SEMPRE RETORNA "/"
       //COMO ESTAVA
       //callbackRedirect(appState)
-      callbackRedirect({targetUrl: '/callback'})
-
-
-
+      callbackRedirect({ targetUrl: '/callback' })
     }
   } catch (e) {
     state.error = e
   } finally {
     // Initialize our internal authentication state
     state.isAuthenticated = await client.isAuthenticated()
-    state.user = (await client.getUser() as User)
+    state.user = (await client.getUser()) as User
     state.loading = false
   }
 
   return {
-    appObj:{
+    appObj: {
       install: (app: any) => {
         app.config.globalProperties.$auth = authPlugin
       },
     },
-    useAuth: authPlugin
+    useAuth: authPlugin,
   }
 }

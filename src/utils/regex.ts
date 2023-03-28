@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 const regex = {
-  email:  /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
+  email: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
   cpf: /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/,
 }
 
-export {regex}
+export { regex }

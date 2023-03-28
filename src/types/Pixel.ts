@@ -1,7 +1,7 @@
 export default interface Pixel {
-  id: string;
-  color: string;
-  piece: string;
+  id: string
+  color: string
+  piece: string
 }
 
 export enum PixelsKey {

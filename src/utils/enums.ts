@@ -1,4 +1,4 @@
 export enum ActionType {
   CREATE = 'CREATE',
-  EDIT = 'EDIT'
+  EDIT = 'EDIT',
 }

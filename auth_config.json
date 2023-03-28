@@ -2,6 +2,6 @@
   "domain": "dev-2glokavh.us.auth0.com",
   "client_id": "VkqDq0Pp9XetTJ2ImuK293s5xIysGCpy",
   "redirect_uri": "http://localhost:8080/callback",
-  "audience":"https://dev-2glokavh.us.auth0.com/api/v2/",
-  "scope":"query:send"
+  "audience": "https://dev-2glokavh.us.auth0.com/api/v2/",
+  "scope": "query:send"
 }

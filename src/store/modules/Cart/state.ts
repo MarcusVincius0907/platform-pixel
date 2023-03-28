@@ -1,9 +1,9 @@
-import { Cart } from "@/types/Cart";
+import { Cart } from '@/types/Cart'
 
 export interface CartModuleState {
-  cart?: Cart;
+  cart?: Cart
 }
 
 export const CartState: CartModuleState = {
   cart: undefined,
-};
+}
