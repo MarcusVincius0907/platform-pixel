@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.va-modal--mobile-fullscreen{
-  left:0px !important;
+.va-modal--mobile-fullscreen {
+  left: 0px !important;
+}
+
+.va-sidebar__menu {
+  background: white;
 }

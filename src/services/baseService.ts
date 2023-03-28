@@ -1,39 +1,35 @@
-import axios, { AxiosInstance } from "axios"
-import ResponseDefault from "@/types/ResponseDefault"
-import createAuth0Client from '@auth0/auth0-spa-js';
+import axios, { AxiosInstance } from 'axios'
+import ResponseDefault from '@/types/ResponseDefault'
+import createAuth0Client from '@auth0/auth0-spa-js'
 import authConfig from '../../auth_config.json'
-import { useAuth as auth } from "@/auth/config";
+import { useAuth as auth } from '@/auth/config'
 
 export default class BaseService {
+  public http: AxiosInstance
 
-    public http: AxiosInstance;
+  constructor() {
+    this.http = axios.create({
+      baseURL: import.meta.env.VITE_APP_API_URL_DEV,
+    })
 
-    constructor() { 
-
-      this.http = axios.create({
-          baseURL: process.env.VUE_APP_API_URL_DEV
-      })  
-
-      this.http.interceptors.request.use(async (config) => {
-        const token = await auth.getTokenSilently();
+    this.http.interceptors.request.use(
+      async (config) => {
+        const token = await auth.getTokenSilently()
         config.headers['authorization'] = `Bearer ${token}`
-        return config;
-      }, (error) => {
-        return Promise.reject(error);
-      });
-        
-    }
+        return config
+      },
+      (error) => {
+        return Promise.reject(error)
+      },
+    )
+  }
 
-    public apiErrorTreatment(exception: any): ResponseDefault {
-      console.log(exception);
-      if(exception?.response?.data) {
-        return exception.response.data as ResponseDefault
-      } else {
-        return new ResponseDefault(
-          exception.response?.status,
-          exception.message,
-          exception.payload,
-        )
-      }
+  public apiErrorTreatment(exception: any): ResponseDefault {
+    console.log(exception)
+    if (exception?.response?.data) {
+      return exception.response.data as ResponseDefault
+    } else {
+      return new ResponseDefault(exception.response?.status, exception.message, exception.payload)
     }
+  }
 }

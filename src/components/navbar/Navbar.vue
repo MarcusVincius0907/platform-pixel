@@ -36,95 +36,96 @@
         </span>
       </template> -->
       <template #right>
-        <app-navbar-actions
-          class="app-navbar__actions md5 lg4"
-          :user-name="userName"
-        />
+        <app-navbar-actions class="app-navbar__actions md5 lg4" :user-name="userName" />
       </template>
     </va-navbar>
   </div>
 </template>
 
 <script>
-import { useColors } from "vuestic-ui";
-import { useStore } from "vuex";
-import { computed } from "vue";
-import VuesticLogo from "@/components/vuestic-logo";
-import VaIconMenuCollapsed from "@/components/icons/VaIconMenuCollapsed";
-import AppNavbarActions from "./components/AppNavbarActions";
-import { MutationsType } from "@/store/mutations";
+  import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import { useStore } from 'vuex'
+  import { useColors } from 'vuestic-ui'
+  import VuesticLogo from '../VuesticLogo.vue'
+  import VaIconMenuCollapsed from '../icons/VaIconMenuCollapsed.vue'
+  import AppNavbarActions from './components/AppNavbarActions.vue'
+  import { MutationsType } from '../../store/mutations'
 
-export default {
-  components: { VuesticLogo, AppNavbarActions, VaIconMenuCollapsed },
-  setup() {
-    const { getColors } = useColors();
-    const colors = computed(() => getColors());
-    const store = useStore();
+  export default {
+    components: { VuesticLogo, AppNavbarActions, VaIconMenuCollapsed },
+    setup() {
+      const { getColors } = useColors()
+      const colors = computed(() => getColors())
+      const store = useStore()
 
-    const isSidebarMinimized = computed({
-      get: () => store.state.isSidebarMinimized,
-      set: (value) =>
-        store.commit(MutationsType.UPDATE_SIDEBAR_COLLPASED_STATE, value),
-    });
+      const isSidebarMinimized = computed({
+        get: () => store.state.isSidebarMinimized,
+        set: (value) => store.commit(MutationsType.UPDATE_SIDEBAR_COLLPASED_STATE, value),
+      })
 
-    const userName = computed(() => store.state?.auth0User?.name.split(" ")[0]);
-    return {
-      colors,
-      isSidebarMinimized,
-      userName,
-    };
-  },
-};
+      const { t } = useI18n()
+
+      const userName = computed(() => store.state?.auth0User?.name.split(' ')[0])
+      return {
+        colors,
+        isSidebarMinimized,
+        userName,
+        t,
+      }
+    },
+  }
 </script>
 
 <style lang="scss" scoped>
-.va-navbar {
-  box-shadow: var(--va-box-shadow);
-  z-index: 2;
-  &__center {
-    @media screen and (max-width: 1200px) {
-      .app-navbar__github-button {
-        display: none;
-      }
-    }
+  .va-navbar {
+    box-shadow: var(--va-box-shadow);
+    z-index: 2;
+
     @media screen and (max-width: 950px) {
-      .app-navbar__text {
-        display: none;
+      .left {
+        width: 100%;
+      }
+
+      .app-navbar__actions {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
       }
     }
   }
 
-  @media screen and (max-width: 950px) {
-    .left {
-      width: 100%;
+  .left {
+    display: flex;
+    align-items: center;
+
+    & > * {
+      margin-right: 1.5rem;
     }
-    .app-navbar__actions {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
+
+    & > *:last-child {
+      margin-right: 0;
     }
   }
-}
 
-.left {
-  display: flex;
-  align-items: center;
-  & > * {
-    margin-right: 1.5rem;
+  .x-flip {
+    transform: scaleX(-100%);
   }
-  & > *:last-child {
-    margin-right: 0;
-  }
-}
 
-.x-flip {
-  transform: scaleX(-100%);
-}
+  .app-navbar-center {
+    display: flex;
+    align-items: center;
 
-.app-navbar__text > * {
-  margin-right: 0.5rem;
-  &:last-child {
-    margin-right: 0;
+    @media screen and (max-width: 1200px) {
+      &__github-button {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 950px) {
+      &__text {
+        display: none;
+      }
+    }
   }
-}
 </style>

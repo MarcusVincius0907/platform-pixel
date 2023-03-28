@@ -1,0 +1,12 @@
+@import 'vuestic-sass/index';
+@import 'icon-fonts/index';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+html,
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+:root {
+  --va-font-family: 'Montserrat', sans-serif !important;
+}

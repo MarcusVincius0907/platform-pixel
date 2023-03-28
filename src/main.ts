@@ -1,57 +1,48 @@
-import { VuesticPlugin } from "vuestic-ui";
-import { createApp } from "vue";
-import { createGtm } from "vue-gtm";
-import { createI18n } from "vue-i18n";
-import App from "./App.vue";
-import "./registerServiceWorker";
-import router from "./router";
-import store from "./store";
-import vuesticGlobalConfig from "./services/vuestic-ui/global-config";
-import { Auth0Plugin } from "./auth";
-import { initAuth } from "./auth/config";
-import { Store } from "vuex";
-import { State } from "./store/state";
+import { createApp } from 'vue'
+import i18n from './i18n'
+import { createVuestic } from 'vuestic-ui'
+import { createGtm } from '@gtm-support/vue-gtm'
 
-const i18nConfig = {
-  locale: "en",
-  fallbackLocale: "en",
-  messages: {
-    en: require("@/i18n/en.json"),
-    ch: require("@/i18n/cn.json"),
-    es: require("@/i18n/es.json"),
-    ir: require("@/i18n/ir.json"),
-    br: require("@/i18n/br.json"),
-  },
-};
+import store from './store'
+import router from './router'
+import vuesticGlobalConfig from './services/vuestic-ui/global-config'
+import App from './App.vue'
 
-const app = createApp(App);
-//app.use(store, key) -> useStore not work if we use it
-app.use(store);
-app.use(router);
-if (process.env.VUE_APP_GTM_ENABLED === "true") {
-  const gtmConfig = {
-    id: process.env.VUE_APP_GTM_KEY,
-    debug: false,
-    vueRouter: router,
-  };
-  app.use(createGtm(gtmConfig));
+import { Auth0Plugin } from './auth'
+import { initAuth } from './auth/config'
+import { Store } from 'vuex'
+import { State } from './store/state'
+
+const app = createApp(App)
+
+app.use(store)
+app.use(router)
+app.use(i18n)
+app.use(createVuestic({ config: vuesticGlobalConfig }))
+
+if (import.meta.env.VITE_APP_GTM_ENABLED) {
+  app.use(
+    createGtm({
+      id: import.meta.env.VITE_APP_GTM_KEY,
+      debug: false,
+      vueRouter: router,
+    }),
+  )
 }
-app.use(createI18n(i18nConfig));
-app.use(VuesticPlugin, vuesticGlobalConfig);
 
-declare module "@vue/runtime-core" {
+declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    $auth: Auth0Plugin;
-    $store: Store<State>;
-    $vaToast: any;
+    $auth: Auth0Plugin
+    $store: Store<State>
+    $vaToast: any
   }
 }
 
-app.provide("auth", app.config.globalProperties.$auth);
+app.provide('auth', app.config.globalProperties.$auth)
 
 initAuth().then((res: any) => {
-  app.use(res);
-  app.mount("#app");
-});
+  app.use(res)
+  app.mount('#app')
+})
 
-export default app;
+export default app
