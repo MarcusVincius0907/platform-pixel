@@ -7,6 +7,7 @@
           <va-button class="px-4 py-4" icon="md_close" preset="plain" color="dark" @click="onCloseSidebarButtonClick" />
         </div>
         <Sidebar
+          v-if="userId"
           :width="sidebarWidth"
           :minimized="isSidebarMinimized"
           :minimized-width="sidebarMinimizedWidth"
@@ -24,13 +25,13 @@
 
 <script>
   import { useStore } from 'vuex'
-  import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+  import { computed, onBeforeUnmount, onMounted, ref, defineComponent } from 'vue'
   import { onBeforeRouteUpdate } from 'vue-router'
   import Sidebar from '../components/sidebar/Sidebar.vue'
   import Navbar from '@/components/navbar/Navbar.vue'
   import { MutationsType } from '@/store/mutations'
 
-  export default {
+  export default defineComponent({
     name: 'app-layout',
 
     components: {
@@ -92,7 +93,13 @@
         onCloseSidebarButtonClick,
       }
     },
-  }
+
+    computed: {
+      userId() {
+        return this.$store.state.user?._id
+      },
+    },
+  })
 </script>
 
 <style lang="scss">
