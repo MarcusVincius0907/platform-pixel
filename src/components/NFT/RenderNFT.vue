@@ -119,6 +119,7 @@
         const pixel = this.changePieceColor(this.pixelSelected, color)
         this.pixelsSelectedForBuy.push(pixel)
         this.showModal = false
+        this.$emit('pixelsSelectedForBuy', this.pixelsSelectedForBuy)
       },
 
       clearPixelSelection() {

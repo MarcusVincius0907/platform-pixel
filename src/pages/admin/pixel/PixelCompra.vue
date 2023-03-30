@@ -14,7 +14,13 @@
       </va-card>
     </div>
     <div class="tw-flex tw-flex-col md:tw-flex-row">
-      <RenderNFT ref="childComponentRef" :nftMeasurement="nftMeasurement" :edittable="true" :pixelSize="pixelSize" />
+      <RenderNFT
+        ref="childComponentRef"
+        :nftMeasurement="nftMeasurement"
+        :edittable="true"
+        :pixelSize="pixelSize"
+        @pixelsSelectedForBuy="updatePixelsSelectedForBuy"
+      />
 
       <div class="md:tw-pl-5 tw-mt-5 md:tw-mt-0 md:tw-max-w-sm">
         <PixelSumCard :pixels="pixelsSelectedForBuy" :hideBuyButton="false" @onBuyPixel="onBuyPixel()" />
@@ -67,6 +73,9 @@
         this.$store.dispatch(CartActionTypes.UPDATE_CART, this.pixelsSelectedForBuy)
         const sortitionId = this.sortition?._id
         this.$router.push({ name: 'checkout', query: { sortitionId } })
+      },
+      updatePixelsSelectedForBuy($event: any) {
+        this.pixelsSelectedForBuy = $event
       },
     },
 

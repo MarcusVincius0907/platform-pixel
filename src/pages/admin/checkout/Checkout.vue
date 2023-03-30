@@ -24,7 +24,7 @@
                 </template>
               </va-tabs>
               <!-- credit card tab -->
-              <div class="row" v-if="tabValue === 1">
+              <div class="row" v-if="tabValue === 0">
                 <div class="flex xs12">
                   <va-form ref="formAddress" @validation="validation = $event">
                     <div class="mb-2">
@@ -71,7 +71,7 @@
                 </div>
               </div>
               <!-- pix tab -->
-              <div class="row" v-if="tabValue === 2">
+              <div class="row" v-if="tabValue === 1">
                 <div class="flex xs12">
                   <div class="">
                     <div class="tw-max-w-[250px] tw-m-auto tw-mb-5">
@@ -100,7 +100,7 @@
                 </div>
               </div>
               <!-- payment slip tab -->
-              <div @click="onTabChange(3)" class="row" v-if="tabValue === 3">
+              <div @click="onTabChange(3)" class="row" v-if="tabValue === 2">
                 <div class="flex xs12">
                   <div>
                     <div class="tw-flex tw-items-center tw-mb-3">
@@ -194,7 +194,7 @@
       })
       return {
         tabTitles: ['Cartão de Crédito', 'Pix', 'Boleto'],
-        tabValue: ref(1),
+        tabValue: ref(0),
         formData,
         fieldsValidations: fieldValidations,
         paymentMethod: ref(PaymentMethods.CREDIT_CARD),
