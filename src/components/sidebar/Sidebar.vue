@@ -5,30 +5,70 @@
   </va-sidebar>
 </template>
 
-<script setup lang="ts">
-  import { ref } from 'vue'
+<script lang="ts">
+  import { defineComponent, ref, withDefaults, defineProps } from 'vue'
   import NavigationRoutes from './NavigationRoutes'
   import MenuAccordion from './menu/MenuAccordion.vue'
   import MenuMinimized from './menu/MenuMinimized.vue'
 
-  withDefaults(
-    defineProps<{
-      width?: string
-      color?: string
-      animated?: boolean
-      minimized?: boolean
-      minimizedWidth?: string
-    }>(),
-    {
-      width: '16rem',
-      color: 'secondary',
-      animated: true,
-      minimized: true,
-      minimizedWidth: undefined,
+  export default defineComponent({
+    components: {
+      MenuAccordion,
+      MenuMinimized,
     },
-  )
 
-  const items = ref(NavigationRoutes.routes)
+    setup() {
+      withDefaults(
+        defineProps<{
+          width?: string
+          color?: string
+          animated?: boolean
+          minimized?: boolean
+          minimizedWidth?: string
+        }>(),
+        {
+          width: '16rem',
+          color: 'secondary',
+          animated: true,
+          minimized: true,
+          minimizedWidth: undefined,
+        },
+      )
+
+      const items = ref([] as any[])
+
+      return {
+        items,
+      }
+    },
+
+    mounted() {
+      if (this.user) {
+        this.updateItems(this.user)
+      }
+    },
+
+    methods: {
+      updateItems(accessType: string) {
+        if (accessType === 'common') this.items = NavigationRoutes.routes.filter((route) => route.admin === false)
+        else this.items = NavigationRoutes.routes
+      },
+    },
+
+    computed: {
+      user() {
+        return this.$store.state.user?.accessType
+      },
+    },
+
+    watch: {
+      user(nValue) {
+        if (nValue) {
+          this.updateItems(nValue)
+        }
+      },
+    },
+  })
 </script>
 
 <style lang="scss">
