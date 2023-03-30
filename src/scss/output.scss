@@ -905,3 +905,13 @@ video {
     padding-left: 1.25rem;
   }
 }
+
+.square {
+  border: 0.3px solid #ededed;
+  cursor: pointer;
+  position: relative;
+}
+
+.square :hover {
+  opacity: 0.1;
+}
