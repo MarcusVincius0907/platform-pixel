@@ -10,12 +10,14 @@ function callbackRedirect(appState: any) {
 // SETUP AUTH URL
 authConfig.redirect_uri = `http://localhost:8080/callback`
 
-// switch(import.meta.env.MODE)
-// {
-//   case 'development': default: authConfig.redirect_uri = 'http://localhost:3000/callback'; break;
-//   case 'staging': case 'production': authConfig.redirect_uri = 'https://rem-frontend-dev.vercel.app/callback'; break;
-//   case 'production': authConfig.redirect_uri = 'https://rem-frontend.vercel.app/callback'; break;
-// }
+switch (import.meta.env.MODE) {
+  case 'development':
+    authConfig.redirect_uri = 'http://localhost:8080/callback'
+    break
+  case 'production':
+    authConfig.redirect_uri = 'http://54.85.91.157:8080/callback'
+    break
+}
 
 let useAuth: Auth0Plugin
 

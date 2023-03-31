@@ -9,7 +9,7 @@ export default class BaseService {
 
   constructor() {
     this.http = axios.create({
-      baseURL: import.meta.env.VITE_APP_API_URL_DEV,
+      baseURL: import.meta.env.VITE_APP_API_URL,
     })
 
     this.http.interceptors.request.use(
