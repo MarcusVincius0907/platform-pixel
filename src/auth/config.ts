@@ -15,7 +15,7 @@ switch (import.meta.env.MODE) {
     authConfig.redirect_uri = 'http://localhost:8080/callback'
     break
   case 'production':
-    authConfig.redirect_uri = 'http://54.85.91.157:8080/callback'
+    authConfig.redirect_uri = 'https://pixel-app.marcusleitedev.com/callback'
     break
 }
 
