@@ -1,35 +1,39 @@
 const fs = require('fs')
 const path = require('path')
+const fse = require('fs-extra')
 
 const ignoreList = ['assets', 'icons', 'index.html']
 const directoryPath = './dist'
-const serverDistPath = '../server/dist'
+const serverDistPath = './server/dist'
 
-function main() {
+function deleteFolderRecursive(directoryPathParam, verifyContent = true) {
   try {
-    const deleteFolderRecursive = function (directoryPath) {
-      if (fs.existsSync(directoryPath)) {
-        fs.readdirSync(directoryPath).forEach((file) => {
-          const curPath = path.join(directoryPath, file)
-          if (!ignoreList.includes(file)) {
-            if (fs.lstatSync(curPath).isDirectory()) {
-              // Recursively delete any subdirectories
-              deleteFolderRecursive(curPath)
-            } else {
-              // Delete the file
-              fs.unlinkSync(curPath)
-            }
+    if (fs.existsSync(directoryPathParam)) {
+      fs.readdirSync(directoryPathParam).forEach((file) => {
+        const curPath = path.join(directoryPathParam, file)
+        let nignoreList = verifyContent ? ignoreList : []
+        if (!nignoreList.includes(file)) {
+          if (fs.lstatSync(curPath).isDirectory()) {
+            // Recursively delete any subdirectories
+            deleteFolderRecursive(curPath)
+          } else {
+            // Delete the file
+            fs.unlinkSync(curPath)
           }
-        })
-        // After deleting all contents, delete the directory itself
-        fs.rmdirSync(directoryPath)
-      }
+        }
+      })
+      // After deleting all contents, delete the directory itself
+      fs.rmdirSync(directoryPathParam)
     }
+  } catch (e) {
+    console.log('Error in deleteFolderRecursive', e)
+  }
+}
 
+async function main() {
+  try {
     // Delete all contents of the directory except for the ignore list
     deleteFolderRecursive(directoryPath)
-    // Recreate the directory without any files or subdirectories
-    fs.mkdirSync(directoryPath)
   } catch (e) {
     console.log('ERROR in first step deleting folders and files from dist --> ', e.toString().substring(0, 10) + '...')
   }
@@ -38,8 +42,7 @@ function main() {
     // Create assets/icons directory and move icons folder into it
     const sourcePath = './dist/icons'
     const targetPath = './dist/assets/icons'
-    fs.mkdirSync(targetPath, { recursive: true })
-    fs.renameSync(sourcePath, path.join(targetPath, 'icons'))
+    fs.renameSync(sourcePath, targetPath)
 
     // Update references to /icons in index.html to /assets/icons
     const indexPath = './dist/index.html'
@@ -60,13 +63,12 @@ function main() {
       // Delete the existing server/dist folder and its contents
       deleteFolderRecursive(serverDistPath)
     }
-    fs.mkdirSync(serverDistPath, { recursive: true })
-    fs.renameSync(directoryPath, path.join(serverDistPath, 'dist'))
-    // Delete the original dist folder
-    deleteFolderRecursive(directoryPath)
+    fs.renameSync(directoryPath, serverDistPath)
   } catch (e) {
     console.log('ERROR in third step moving dist to server --> ', e.toString().substring(0, 10) + '...')
   }
+
+  fse.removeSync(directoryPath)
 
   console.log('End of process')
 }

@@ -6,12 +6,14 @@
     "prepare": "husky install",
     "dev": "vite --mode development",
     "build": "vite build --mode production",
+    "build:cb": "vite build --mode production && node build-script.js",
     "build:ci": "vite build",
     "prelint": "npm run format",
     "lint": "eslint --fix './src/**/*.{ts,js,vue}'",
     "format": "prettier --write .",
     "preview": "vite preview",
-    "tw": "npx tailwindcss -i ./src/input.css -o ./src/scss/output.scss --watch"
+    "tw": "npx tailwindcss -i ./src/input.css -o ./src/scss/output.scss --watch",
+    "custom-build": "node build-script.js"
   },
   "lint-staged": {
     "./src/**/*.{ts,js,vue}": [
@@ -30,6 +32,7 @@
     "express": "^4.18.2",
     "flag-icons": "^6.6.4",
     "font-awesome": "^4.7.0",
+    "fs-extra": "^11.1.1",
     "ionicons": "^4.6.3",
     "leaflet": "^1.8.0",
     "leaflet-map": "^0.2.1",
