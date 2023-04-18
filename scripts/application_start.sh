@@ -15,4 +15,4 @@ npm install --prefix /home/ec2-user/pixel/platform-pixel/server
 npm run build:cb
 
 #start our node app
-pm2 restart pixel-platform
+/usr/local/bin/pm2 restart pixel-platform
