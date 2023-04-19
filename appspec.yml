@@ -4,6 +4,10 @@ files:
   - source: /
     destination: /home/ec2-user/pixel/platform-pixel
 hooks:
+  ApplicationStop:
+    - location: scripts/clone_repo.sh
+      timeout: 300
+      runas: ec2-user
   BeforeInstall:
     - location: scripts/install.sh
       timeout: 1000
