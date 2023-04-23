@@ -7,7 +7,7 @@ sudo chmod -R 777 /home/ec2-user/pixel/platform-pixel
 cd /home/ec2-user/pixel/platform-pixel
 
 #install node modules
-npm install
+/usr/local/bin/yarn install
 
 #build app
 npm run build:cb
