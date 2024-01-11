@@ -33,6 +33,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
           script: |
-            cd /home/projects/my-portfolio
+            cd /home/projects/pixel/platform-pixel
             git pull origin main
             pm2 restart pixel-platform
