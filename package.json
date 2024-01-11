@@ -14,7 +14,7 @@
     "preview": "vite preview",
     "tw": "npx tailwindcss -i ./src/input.css -o ./src/scss/output.scss --watch",
     "custom-build": "node build-script.js",
-    "serve": "node ./server/server.js"
+    "start": "node server.js"
   },
   "lint-staged": {
     "./src/**/*.{ts,js,vue}": [
